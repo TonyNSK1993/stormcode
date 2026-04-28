@@ -1,7 +1,7 @@
 {
   "name": "ag-dev-platform",
   "version": "1.0.0",
-  "description": "Личный кабинет для клиентов",
+  "description": "Личный кабинет для клиентов AG.dev",
   "main": "app.js",
   "scripts": {
     "start": "node app.js",
