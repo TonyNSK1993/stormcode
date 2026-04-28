@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Мой кабинет | AG.dev</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <style>
+        body { background: #020617; }
+        .glass-card { background: rgba(15, 23, 42, 0.7); backdrop-filter: blur(12px); border: 1px solid rgba(99, 102, 241, 0.3); border-radius: 1.5rem; }
+        .status-badge { @apply px-2 py-1 rounded-full text-xs; }
+    </style>
+</head>
+<body class="text-slate-200 font-sans">
+    <div class="max-w-6xl mx-auto px-4 py-8">
+        <div class="flex justify-between items-center mb-8">
+            <h1 class="text-3xl font-bold"><i class="fas fa-user-circle text-indigo-400 mr-2"></i> Мой кабинет</h1>
+            <div class="flex gap-4 items-center">
+                <div class="glass-card px-4 py-2 rounded-full text-sm"><i class="fas fa-clock mr-2 text-emerald-400"></i> Осталось часов: <span id="hoursLeft" class="font-bold text-emerald-400">0</span></div>
+                <button onclick="logout()" class="bg-red-600/80 hover:bg-red-600 px-4 py-2 rounded-full text-sm"><i class="fas fa-sign-out-alt mr-1"></i> Выйти</button>
+            </div>
+        </div>
+
+        <!-- Статистика -->
+        <div class="grid md:grid-cols-4 gap-4 mb-8">
+            <div class="glass-card p-4 text-center"><div class="text-2xl font-bold text-indigo-400" id="statTotal">0</div><div class="text-xs">Всего задач</div></div>
+            <div class="glass-card p-4 text-center"><div class="text-2xl font-bold text-yellow-400" id="statPending">0</div><div class="text-xs">На оценке</div></div>
+            <div class="glass-card p-4 text-center"><div class="text-2xl font-bold text-blue-400" id="statWaiting">0</div><div class="text-xs">Ждут согласования</div></div>
+            <div class="glass-card p-4 text-center"><div class="text-2xl font-bold text-emerald-400" id="statProgress">0</div><div class="text-xs">В работе</div></div>
+        </div>
+
+        <!-- Проекты -->
+        <div class="glass-card p-6 mb-8">
+            <div class="flex justify-between items-center mb-4"><h2 class="text-xl font-bold"><i class="fas fa-folder-open mr-2 text-indigo-400"></i> Мои проекты</h2><button onclick="showNewProjectModal()" class="bg-indigo-600 px-3 py-1 rounded-lg text-sm"><i class="fas fa-plus mr-1"></i> Новый проект</button></div>
+            <div id="projectsList" class="space-y-3"></div>
+        </div>
+
+        <!-- Задачи -->
+        <div class="glass-card p-6">
+            <div class="flex justify-between items-center mb-4"><h2 class="text-xl font-bold"><i class="fas fa-tasks mr-2 text-indigo-400"></i> Задачи</h2><button onclick="showNewTaskModal()" class="bg-indigo-600 px-3 py-1 rounded-lg text-sm"><i class="fas fa-plus mr-1"></i> Новая задача</button></div>
+            <div id="tasksList" class="space-y-3"></div>
+        </div>
+
+        <!-- Чат -->
+        <div class="glass-card p-6 mt-8">
+            <h2 class="text-xl font-bold mb-4"><i class="fas fa-comments mr-2 text-indigo-400"></i> Чат с разработчиком</h2>
+            <div id="chatMessages" class="h-64 overflow-y-auto mb-4 space-y-2 p-2 bg-slate-900/50 rounded-xl"></div>
+            <div class="flex gap-2"><input type="text" id="chatInput" placeholder="Напишите сообщение..." class="flex-1 bg-slate-800 border border-slate-700 rounded-xl px-4 py-2"><button onclick="sendMessage()" class="bg-indigo-600 px-4 py-2 rounded-xl"><i class="fas fa-paper-plane"></i></button></div>
+        </div>
+
+        <!-- Попап: купить часы -->
+        <div id="buyHoursModal" class="fixed inset-0 bg-black/70 flex items-center justify-center hidden z-50">
+            <div class="glass-card p-6 w-96"><h3 class="text-xl font-bold mb-4">Купить пакет часов</h3><p class="text-slate-400 mb-4">1 час = 1 100 ₽</p><input type="number" id="hoursToBuy" placeholder="Количество часов" class="w-full bg-slate-800 border border-slate-700 rounded-lg px-4 py-2 mb-4"><div class="flex gap-3"><button onclick="buyHours()" class="flex-1 bg-emerald-600 py-2 rounded-lg">Оплатить</button><button onclick="closeModal('buyHoursModal')" class="flex-1 bg-slate-700 py-2 rounded-lg">Отмена</button></div></div>
+        </div>
+    </div>
+
+    <script>
+        let currentUser = null;
+        let myTasks = [];
+        let myProjects = [];
+        let chatMessages = [];
+        let selectedProjectId = null;
+
+        async function api(url, options = {}) { const res = await fetch(url, { headers: { 'Content-Type': 'application/json' }, ...options }); return res.json(); }
+
+        async function loadData() {
+            if (!currentUser) return;
+            myProjects = await api(`/api/projects?clientId=${currentUser.id}`);
+            myTasks = await api(`/api/tasks?clientId=${currentUser.id}`);
+            const stats = await api(`/api/client-stats/${currentUser.id}`);
+            
+            document.getElementById('hoursLeft').innerText = stats.hours_left;
+            document.getElementById('statTotal').innerText = stats.total_tasks;
+            document.getElementById('statPending').innerText = stats.pending_estimate;
+            document.getElementById('statWaiting').innerText = myTasks.filter(t => t.status === 'waiting_approval').length;
+            document.getElementById('statProgress').innerText = stats.in_progress_tasks;
+            
+            renderProjects();
+            renderTasks();
+            
+            chatMessages = await api(`/api/messages?userId=${currentUser.id}`);
+            renderChat();
+        }
+
+        function renderProjects() {
+            const container = document.getElementById('projectsList');
+            if (myProjects.length === 0) { container.innerHTML = '<div class="text-slate-500 text-center py-4">Нет проектов</div>'; return; }
+            container.innerHTML = myProjects.map(p => `<div class="bg-slate-800/50 p-3 rounded-xl flex justify-between items-center"><div><i class="fas fa-folder text-indigo-400 mr-2"></i><span class="font-medium">${p.name}</span><p class="text-xs text-slate-500 mt-1">${p.description}</p></div><button onclick="selectProject('${p.id}')" class="text-indigo-400 text-sm"><i class="fas fa-arrow-right"></i></button></div>`).join('');
+        }
+
+        function renderTasks() {
+            const container = document.getElementById('tasksList');
+            if (myTasks.length === 0) { container.innerHTML = '<div class="text-slate-500 text-center py-4">Нет задач</div>'; return; }
+            container.innerHTML = myTasks.map(task => {
+                const statusMap = { pending_estimate: { text: '⏳ На оценке', color: 'bg-yellow-600/30' }, waiting_approval: { text: '📋 Требуется согласование', color: 'bg-blue-600/30' }, in_progress: { text: '⚙️ В работе', color: 'bg-emerald-600/30' }, completed: { text: '✅ Завершено', color: 'bg-slate-600/30' } };
+                return `<div class="bg-slate-800/50 p-4 rounded-xl"><div class="flex justify-between items-start"><div><h3 class="font-bold">${task.title}</h3><p class="text-sm text-slate-400 mt-1">${task.description}</p></div><span class="px-2 py-1 rounded-full text-xs ${statusMap[task.status]?.color}">${statusMap[task.status]?.text}</span></div><div class="flex flex-wrap gap-3 mt-3 text-sm"><span><i class="fas fa-hourglass-half"></i> Оценка: ${task.estimated_hours || '—'} ч</span><span><i class="fas fa-check-circle text-emerald-400"></i> Согласовано: ${task.approved_hours || '—'} ч</span><span><i class="fas fa-clock"></i> Потрачено: ${task.spent_hours || 0} ч</span></div>${renderTaskApproval(task)}</div>`;
+            }).join('');
+        }
+
+        function renderTaskApproval(task) {
+            if (task.status === 'waiting_approval') {
+                return `<div class="mt-3 flex gap-2"><button onclick="approveTask('${task.id}', true)" class="bg-emerald-600 px-3 py-1 rounded-lg text-sm">✅ Согласовать (${task.estimated_hours} ч)</button><button onclick="approveTask('${task.id}', false)" class="bg-red-600/70 px-3 py-1 rounded-lg text-sm">❌ Отклонить</button></div>`;
+            }
+            return '';
+        }
+
+        window.approveTask = async (taskId, approved) => {
+            if (approved) {
+                await api(`/api/tasks/${taskId}`, { method: 'PUT', body: JSON.stringify({ approved_hours: myTasks.find(t => t.id === taskId).estimated_hours, status: 'in_progress' }) });
+            } else {
+                await api(`/api/tasks/${taskId}`, { method: 'PUT', body: JSON.stringify({ status: 'pending_estimate', estimated_hours: null }) });
+            }
+            loadData();
+        };
+
+        window.selectProject = (id) => { selectedProjectId = id; alert(`Выбран проект: ${myProjects.find(p => p.id === id)?.name}`); };
+        
+        window.showNewProjectModal = () => { const name = prompt('Название проекта'); if(name) { const desc = prompt('Описание'); api('/api/projects', { method: 'POST', body: JSON.stringify({ clientId: currentUser.id, name, description: desc }) }).then(() => loadData()); } };
+        
+        window.showNewTaskModal = () => { const title = prompt('Название задачи'); if(title) { const desc = prompt('Описание'); const projectId = selectedProjectId || (myProjects[0]?.id); if(!projectId) { alert('Сначала создайте проект'); return; } api('/api/tasks', { method: 'POST', body: JSON.stringify({ projectId, clientId: currentUser.id, title, description: desc, createdBy: currentUser.id }) }).then(() => loadData()); } };
+        
+        window.buyHours = async () => { const hours = parseInt(document.getElementById('hoursToBuy').value); if(hours && hours > 0) { await api('/api/buy-hours', { method: 'POST', body: JSON.stringify({ clientId: currentUser.id, hours }) }); closeModal('buyHoursModal'); loadData(); } };
+        
+        async function sendMessage() { const text = document.getElementById('chatInput').value; if(!text.trim()) return; const projectId
