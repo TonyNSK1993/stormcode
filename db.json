@@ -1,0 +1,113 @@
+{
+  "users": {
+    "admin": {
+      "id": "admin",
+      "name": "Антон Галямов",
+      "role": "admin",
+      "email": "innet.24@internet.ru",
+      "password": "admin123"
+    },
+    "client1": {
+      "id": "client1",
+      "name": "ООО Ромашка",
+      "role": "client",
+      "email": "client@example.com",
+      "password": "client123",
+      "hours_package": 40,
+      "hours_used": 12.5
+    },
+    "client2": {
+      "id": "client2",
+      "name": "ИП ТехноПрогресс",
+      "role": "client",
+      "email": "tech@example.com",
+      "password": "tech123",
+      "hours_package": 100,
+      "hours_used": 23
+    }
+  },
+  "projects": [
+    {
+      "id": "proj1",
+      "clientId": "client1",
+      "name": "CRM для отдела продаж",
+      "description": "Автоматизация воронки, интеграция с телефонией, настройка бизнес-процессов",
+      "status": "active",
+      "createdAt": "2026-04-01"
+    },
+    {
+      "id": "proj2",
+      "clientId": "client2",
+      "name": "Корпоративный портал",
+      "description": "Разработка портала на Битрикс24, КЭДО, сквозная аналитика",
+      "status": "active",
+      "createdAt": "2026-04-05"
+    }
+  ],
+  "tasks": [
+    {
+      "id": "task1",
+      "projectId": "proj1",
+      "clientId": "client1",
+      "title": "Настроить бизнес-процессы в Битрикс24",
+      "description": "Создать роботов для автоматического распределения лидов по менеджерам",
+      "status": "pending_estimate",
+      "estimated_hours": null,
+      "approved_hours": null,
+      "spent_hours": 0,
+      "createdBy": "client1",
+      "createdAt": "2026-04-10T10:00:00Z",
+      "updatedAt": "2026-04-10T10:00:00Z"
+    },
+    {
+      "id": "task2",
+      "projectId": "proj2",
+      "clientId": "client2",
+      "title": "Интеграция с 1С",
+      "description": "Настроить обмен данными между порталом и 1С:Предприятие",
+      "status": "waiting_approval",
+      "estimated_hours": 16,
+      "approved_hours": null,
+      "spent_hours": 0,
+      "createdBy": "admin",
+      "createdAt": "2026-04-12T14:30:00Z",
+      "updatedAt": "2026-04-12T16:00:00Z"
+    }
+  ],
+  "messages": [
+    {
+      "id": "msg1",
+      "projectId": "proj1",
+      "from": "client1",
+      "to": "admin",
+      "text": "Здравствуйте! Когда можно начать работы по CRM?",
+      "timestamp": "2026-04-10T11:30:00Z",
+      "read": false
+    },
+    {
+      "id": "msg2",
+      "projectId": "proj1",
+      "from": "admin",
+      "to": "client1",
+      "text": "Добрый день! Начну с оценки задачи сегодня, отвечу в течение дня.",
+      "timestamp": "2026-04-10T12:15:00Z",
+      "read": true
+    }
+  ],
+  "transactions": [
+    {
+      "id": "tr1",
+      "clientId": "client1",
+      "amount": 40,
+      "type": "buy_package",
+      "date": "2026-04-01T10:00:00Z"
+    },
+    {
+      "id": "tr2",
+      "clientId": "client2",
+      "amount": 100,
+      "type": "buy_package",
+      "date": "2026-04-05T09:30:00Z"
+    }
+  ]
+}
