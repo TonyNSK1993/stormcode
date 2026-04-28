@@ -122,4 +122,23 @@
         
         window.buyHours = async () => { const hours = parseInt(document.getElementById('hoursToBuy').value); if(hours && hours > 0) { await api('/api/buy-hours', { method: 'POST', body: JSON.stringify({ clientId: currentUser.id, hours }) }); closeModal('buyHoursModal'); loadData(); } };
         
-        async function sendMessage() { const text = document.getElementById('chatInput').value; if(!text.trim()) return; const projectId
+        async function sendMessage() { const text = document.getElementById('chatInput').value; if(!text.trim()) return; const projectId = selectedProjectId || (myProjects[0]?.id); if(!projectId) { alert('Выберите проект для чата'); return; } await api('/api/messages', { method: 'POST', body: JSON.stringify({ projectId, from: currentUser.id, to: 'admin', text }) }); document.getElementById('chatInput').value = ''; loadData(); }
+        
+        function renderChat() { const container = document.getElementById('chatMessages'); const filtered = chatMessages.filter(m => m.to === currentUser.id || m.from === currentUser.id); container.innerHTML = filtered.map(m => `<div class="${m.from === currentUser.id ? 'text-right' : 'text-left'}"><div class="inline-block px-3 py-2 rounded-xl ${m.from === currentUser.id ? 'bg-indigo-600' : 'bg-slate-700'}"><p class="text-sm">${m.text}</p><p class="text-xs opacity-50">${new Date(m.timestamp).toLocaleTimeString()}</p></div></div>`).join(''); container.scrollTop = container.scrollHeight; }
+        
+        function closeModal(id) { document.getElementById(id).classList.add('hidden'); }
+        function showBuyHoursModal() { document.getElementById('buyHoursModal').classList.remove('hidden'); }
+        window.logout = () => { localStorage.removeItem('user'); window.location.href = 'index.html'; };
+        
+        (async () => {
+            const saved = localStorage.getItem('user');
+            if (!saved) { window.location.href = 'index.html'; return; }
+            currentUser = JSON.parse(saved);
+            if (currentUser.role !== 'client') { window.location.href = 'admin.html'; return; }
+            document.querySelector('.flex.justify-between.items-center .glass-card').innerHTML += `<button onclick="showBuyHoursModal()" class="ml-2 bg-emerald-600 px-3 py-1 rounded-full text-xs"><i class="fas fa-shopping-cart mr-1"></i> Купить часы</button>`;
+            await loadData();
+            setInterval(loadData, 15000);
+        })();
+    </script>
+</body>
+</html>
