@@ -1,0 +1,395 @@
+<!DOCTYPE html>
+<html lang="ru" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+    <title>Антон Галямов | Product Director & AI Architect — автоматизация, ИИ, CRM</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300;14..32,400;14..32,600;14..32,700;14..32,800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        brand: { dark: '#020617', light: '#F8FAFC', accent: '#6366F1', accentHover: '#4F46E5', success: '#10B981', warning: '#F59E0B' }
+                    },
+                    fontFamily: { sans: ['Inter', 'system-ui', 'sans-serif'] },
+                    animation: { 'float': 'float 8s ease-in-out infinite' }
+                }
+            }
+        }
+    </script>
+    <style>
+        body { background: #020617; }
+        .glass-card { background: rgba(15, 23, 42, 0.55); backdrop-filter: blur(12px); border: 1px solid rgba(99, 102, 241, 0.3); border-radius: 2rem; transition: all 0.3s; }
+        .glass-card:hover { border-color: #6366F1; box-shadow: 0 0 30px rgba(99,102,241,0.2); transform: translateY(-4px); }
+        .hero-gradient { background: radial-gradient(circle at 50% 30%, rgba(99,102,241,0.2), transparent 70%); }
+        .gradient-text { background: linear-gradient(90deg, #818CF8, #34D399, #6366F1); background-size: 200% auto; -webkit-background-clip: text; background-clip: text; color: transparent; }
+        .stat-number { font-size: 2.5rem; font-weight: 800; background: linear-gradient(135deg, #FFFFFF, #A5B4FC); -webkit-background-clip: text; background-clip: text; color: transparent; }
+        .fade-up { opacity: 0; transform: translateY(30px); transition: all 0.8s ease-out; }
+        .fade-up.visible { opacity: 1; transform: translateY(0); }
+        @keyframes float { 0% { transform: translateY(0px); } 50% { transform: translateY(-12px); } 100% { transform: translateY(0px); } }
+        .case-badge { background: linear-gradient(135deg, rgba(99,102,241,0.2), rgba(16,185,129,0.1)); backdrop-filter: blur(4px); }
+        .tech-tag { background: rgba(99, 102, 241, 0.15); border: 1px solid rgba(99, 102, 241, 0.3); transition: all 0.2s; }
+        .tech-tag:hover { background: rgba(99, 102, 241, 0.3); border-color: #6366F1; transform: translateY(-2px); }
+        .checkbox-custom { accent-color: #6366F1; width: 1.2rem; height: 1.2rem; }
+        .result-highlight { background: linear-gradient(135deg, rgba(99,102,241,0.2), rgba(16,185,129,0.1)); border-radius: 1.5rem; }
+    </style>
+</head>
+<body class="text-slate-200 font-sans antialiased selection:bg-indigo-500/60">
+
+    <!-- Динамический фон -->
+    <div class="fixed inset-0 -z-10 opacity-20 pointer-events-none">
+        <div class="absolute inset-0 bg-[radial-gradient(#6366f1_1px,transparent_1px)] [background-size:32px_32px]"></div>
+        <div class="hero-gradient absolute inset-0"></div>
+    </div>
+
+    <!-- Header -->
+    <header class="fixed w-full z-50 bg-brand-dark/80 backdrop-blur-xl border-b border-slate-800/60">
+        <div class="max-w-6xl mx-auto px-6 py-4 flex justify-between items-center">
+            <div class="text-2xl font-bold tracking-tighter"><span class="gradient-text">AG<span class="text-indigo-400">_</span>dev</span></div>
+            <nav class="hidden md:flex gap-8 text-sm font-medium">
+                <a href="#about" class="hover:text-indigo-400 transition"><i class="fas fa-user mr-1"></i> о_мне</a>
+                <a href="#expertise" class="hover:text-indigo-400 transition"><i class="fas fa-cubes mr-1"></i> экспертиза</a>
+                <a href="#cases" class="hover:text-indigo-400 transition"><i class="fas fa-folder-open mr-1"></i> кейсы</a>
+                <a href="#process" class="hover:text-indigo-400 transition"><i class="fas fa-sync-alt mr-1"></i> процесс</a>
+                <a href="#calculator" class="text-indigo-400 hover:text-emerald-400 transition"><i class="fas fa-calculator mr-1"></i> экономия</a>
+                <a href="#contacts" class="hover:text-indigo-400 transition"><i class="fas fa-paper-plane mr-1"></i> контакты</a>
+            </nav>
+            <a href="#contacts" class="bg-indigo-600 hover:bg-indigo-500 text-white px-5 py-2.5 rounded-full text-sm font-semibold transition-all shadow-lg shadow-indigo-600/40 hover:scale-105"><i class="fab fa-telegram mr-1"></i> Связаться</a>
+        </div>
+    </header>
+
+    <!-- ===== HERO ===== -->
+    <section class="relative pt-36 pb-16 overflow-hidden">
+        <div class="max-w-6xl mx-auto px-6 flex flex-col lg:flex-row gap-12 items-center">
+            <div class="flex-1 text-center lg:text-left">
+                <div class="inline-flex items-center gap-3 bg-slate-900/80 backdrop-blur-sm border border-indigo-500/40 rounded-full px-5 py-1.5 text-sm mb-6">
+                    <span class="relative flex h-3 w-3"><span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span><span class="relative inline-flex rounded-full h-3 w-3 bg-emerald-500"></span></span> 
+                    <span><i class="fas fa-globe mr-1"></i> Open for remote · product & AI</span>
+                </div>
+                <h1 class="text-5xl lg:text-7xl font-extrabold leading-tight tracking-tight mb-6">Антон Галямов<br><span class="gradient-text">Product Director &<br>AI Architect</span></h1>
+                <p class="text-lg text-slate-400 max-w-xl mx-auto lg:mx-0 mb-8">14+ лет в разработке, ИИ и управлении продуктами. Строю цифровые экосистемы, которые масштабируют бизнес.</p>
+                <div class="flex flex-wrap gap-4 justify-center lg:justify-start">
+                    <a href="#calculator" class="inline-flex items-center gap-2 bg-indigo-600 hover:bg-indigo-500 px-7 py-3.5 rounded-full font-semibold transition-all shadow-xl shadow-indigo-600/50"><i class="fas fa-chart-line"></i> Рассчитать экономию</a>
+                    <a href="#cases" class="glass-card px-7 py-3.5 rounded-full font-semibold border border-indigo-500/40 hover:bg-indigo-950/40"><i class="fas fa-play-circle mr-1"></i> Смотреть кейсы</a>
+                </div>
+            </div>
+            <div class="flex-1 flex justify-center relative">
+                <div class="relative w-80 h-80 lg:w-[400px] lg:h-[400px] rounded-full overflow-hidden border-2 border-indigo-500/50 shadow-2xl shadow-indigo-500/30 animate-float bg-gradient-to-br from-indigo-900 to-purple-900">
+                    <img class="dev-photo w-full h-full object-cover object-top" 
+                         src="https://img.hhcdn.ru/photo/761428149.jpeg?t=1777474324&amp;h=vFW-66iAGI7GRPoWk6MIGw" 
+                         alt="Антон Галямов"
+                         referrerpolicy="no-referrer"
+                         onerror="this.src='https://ui-avatars.com/api/?background=6366F1&color=fff&bold=true&size=400&name=Anton+G'">
+                </div>
+                <div class="absolute -bottom-4 -right-3 glass-card px-5 py-2.5 flex items-center gap-2"><i class="fab fa-python text-indigo-400 text-xl"></i><span class="text-sm font-mono font-bold">full-stack · AI</span></div>
+            </div>
+        </div>
+
+        <!-- Метрики -->
+        <div class="max-w-6xl mx-auto px-6 mt-20 grid grid-cols-2 md:grid-cols-4 gap-5 text-center">
+            <div class="glass-card p-5"><div class="stat-number" id="stat1">0</div><div class="text-slate-400 text-sm"><i class="fas fa-chart-simple mr-1 text-indigo-400"></i> CRM/автоматизация</div></div>
+            <div class="glass-card p-5"><div class="stat-number" id="stat2">0</div><div class="text-slate-400 text-sm"><i class="fas fa-brain mr-1 text-indigo-400"></i> AI-решений</div></div>
+            <div class="glass-card p-5"><div class="stat-number" id="stat3">0</div><div class="text-slate-400 text-sm"><i class="fas fa-chart-line mr-1 text-emerald-400"></i> к конверсии</div></div>
+            <div class="glass-card p-5"><div class="stat-number" id="stat4">0</div><div class="text-slate-400 text-sm"><i class="fas fa-trademark mr-1 text-indigo-400"></i> упакованных брендов</div></div>
+        </div>
+    </section>
+
+    <!-- ===== БЛОК 1: «Для кого я работаю» (только позитив) ===== -->
+    <section class="py-16 fade-up">
+        <div class="max-w-4xl mx-auto px-6">
+            <div class="glass-card p-8 md:p-10">
+                <div class="text-center mb-8"><i class="fas fa-bullseye text-4xl text-indigo-400 mb-3"></i><h2 class="text-3xl font-bold">Для кого я работаю</h2></div>
+                <div class="bg-emerald-950/20 p-6 rounded-2xl border border-emerald-500/20 max-w-2xl mx-auto">
+                    <h3 class="text-xl font-bold text-emerald-400 mb-4"><i class="fas fa-check-circle mr-2"></i> Идеальные клиенты:</h3>
+                    <ul class="space-y-3">
+                        <li class="flex items-start gap-3"><i class="fas fa-check text-emerald-400 mt-1"></i> <span>Понимают ценность автоматизации и готовы внедрять изменения</span></li>
+                        <li class="flex items-start gap-3"><i class="fas fa-check text-emerald-400 mt-1"></i> <span>Имеют чёткую задачу или готовы к аудиту перед стартом</span></li>
+                        <li class="flex items-start gap-3"><i class="fas fa-check text-emerald-400 mt-1"></i> <span>Ценят прозрачность: почасовая оплата, еженедельные отчёты, чеки</span></li>
+                        <li class="flex items-start gap-3"><i class="fas fa-check text-emerald-400 mt-1"></i> <span>Планируют долгосрочное развитие продукта</span></li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ===== БЛОК 2: «Как строится работа» ===== -->
+    <section id="process" class="py-16 bg-slate-900/30 fade-up">
+        <div class="max-w-6xl mx-auto px-6">
+            <div class="text-center mb-12"><i class="fas fa-sync-alt text-4xl text-indigo-400 mb-3"></i><h2 class="text-3xl font-bold">Как строится работа</h2><p class="text-slate-400 mt-2">Прозрачный процесс с понятными этапами</p></div>
+            <div class="grid md:grid-cols-4 gap-4">
+                <div class="glass-card p-6 text-center"><div class="text-3xl font-bold text-indigo-400 mb-3">01</div><i class="fas fa-clipboard-list text-3xl text-emerald-400 mb-3"></i><h3 class="font-bold">Аудит и ТЗ</h3><p class="text-sm text-slate-400 mt-2">Созвон, анализ процессов, фиксация задач и метрик успеха.</p></div>
+                <div class="glass-card p-6 text-center"><div class="text-3xl font-bold text-indigo-400 mb-3">02</div><i class="fas fa-project-diagram text-3xl text-emerald-400 mb-3"></i><h3 class="font-bold">Архитектура</h3><p class="text-sm text-slate-400 mt-2">Схема решения, выбор стека, дизайн-концепция.</p></div>
+                <div class="glass-card p-6 text-center"><div class="text-3xl font-bold text-indigo-400 mb-3">03</div><i class="fas fa-code text-3xl text-emerald-400 mb-3"></i><h3 class="font-bold">Разработка</h3><p class="text-sm text-slate-400 mt-2">Код, интеграции, ИИ-роботы, внутреннее QA.</p></div>
+                <div class="glass-card p-6 text-center"><div class="text-3xl font-bold text-indigo-400 mb-3">04</div><i class="fas fa-rocket text-3xl text-emerald-400 mb-3"></i><h3 class="font-bold">Запуск + поддержка</h3><p class="text-sm text-slate-400 mt-2">Обучение команды, документация, 30 дней гарантии.</p></div>
+            </div>
+            <div class="text-center mt-8 text-slate-400 text-sm"><i class="fas fa-calendar-week mr-2"></i> Средний срок проекта: 2–6 недель. Еженедельные созвоны + отчёт</div>
+        </div>
+    </section>
+
+    <!-- ===== ЭКСПЕРТИЗА ===== -->
+    <section id="expertise" class="py-20 fade-up">
+        <div class="max-w-6xl mx-auto px-6">
+            <div class="text-center mb-14"><h2 class="text-3xl md:text-4xl font-bold"><i class="fas fa-microchip mr-3 text-indigo-400"></i> экосистема компетенций</h2><div class="h-0.5 w-20 bg-indigo-500 mx-auto mt-3"></div></div>
+            <div class="grid md:grid-cols-3 gap-6">
+                <div class="glass-card p-7"><i class="fas fa-code text-4xl mb-4 text-indigo-400"></i><h3 class="text-xl font-bold">Разработка & архитектура</h3><p class="text-slate-400 text-sm mt-2">PHP, Python, React/Vue 3, REST, n8n, микросервисы.</p></div>
+                <div class="glass-card p-7"><i class="fas fa-robot text-4xl mb-4 text-indigo-400"></i><h3 class="text-xl font-bold">AI & автопилоты</h3><p class="text-slate-400 text-sm mt-2">LLM, прогнозы, AI-агенты, генерация отчётов, NLP.</p></div>
+                <div class="glass-card p-7"><i class="fas fa-chart-pie text-4xl mb-4 text-emerald-400"></i><h3 class="text-xl font-bold">Аналитика & BI</h3><p class="text-slate-400 text-sm mt-2">Воронки продаж, дашборды, data-driven оптимизация.</p></div>
+                <div class="glass-card p-7"><i class="fas fa-palette text-4xl mb-4 text-indigo-400"></i><h3 class="text-xl font-bold">Маркетинг & брендинг</h3><p class="text-slate-400 text-sm mt-2">UI/UX, фирменный стиль, HR-брендинг, упаковка.</p></div>
+                <div class="glass-card p-7"><i class="fas fa-users text-4xl mb-4 text-indigo-400"></i><h3 class="text-xl font-bold">Продукт-лидерство</h3><p class="text-slate-400 text-sm mt-2">Roadmap, тех. документация, управление командой.</p></div>
+                <div class="glass-card p-7"><i class="fas fa-link text-4xl mb-4 text-emerald-400"></i><h3 class="text-xl font-bold">Интеграции</h3><p class="text-slate-400 text-sm mt-2">ERP, КЭДО, вебхуки, телеграм-боты.</p></div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ===== СТЕК ТЕХНОЛОГИЙ ===== -->
+    <section class="py-16 bg-slate-900/30 fade-up">
+        <div class="max-w-6xl mx-auto px-6">
+            <div class="text-center mb-10"><i class="fas fa-microchip text-4xl text-indigo-400 mb-3"></i><h2 class="text-3xl font-bold">Стек технологий</h2><p class="text-slate-400">что я использую в работе</p></div>
+            <div class="flex flex-wrap justify-center gap-3">
+                <span class="tech-tag px-4 py-2 rounded-full text-sm"><i class="fab fa-python mr-1"></i> Python</span>
+                <span class="tech-tag px-4 py-2 rounded-full text-sm"><i class="fab fa-php mr-1"></i> PHP</span>
+                <span class="tech-tag px-4 py-2 rounded-full text-sm"><i class="fab fa-node-js mr-1"></i> Node.js</span>
+                <span class="tech-tag px-4 py-2 rounded-full text-sm"><i class="fab fa-react mr-1"></i> React</span>
+                <span class="tech-tag px-4 py-2 rounded-full text-sm"><i class="fab fa-vuejs mr-1"></i> Vue 3</span>
+                <span class="tech-tag px-4 py-2 rounded-full text-sm"><i class="fab fa-bitbucket mr-1"></i> Bitrix24</span>
+                <span class="tech-tag px-4 py-2 rounded-full text-sm"><i class="fas fa-brain mr-1"></i> LLM / OpenAI</span>
+                <span class="tech-tag px-4 py-2 rounded-full text-sm"><i class="fas fa-chart-line mr-1"></i> BI-дашборды</span>
+                <span class="tech-tag px-4 py-2 rounded-full text-sm"><i class="fas fa-database mr-1"></i> REST API</span>
+                <span class="tech-tag px-4 py-2 rounded-full text-sm"><i class="fas fa-robot mr-1"></i> n8n</span>
+                <span class="tech-tag px-4 py-2 rounded-full text-sm"><i class="fab fa-figma mr-1"></i> Figma</span>
+            </div>
+        </div>
+    </section>
+
+    <!-- ===== КЕЙСЫ (ПОЛНОСТЬЮ ПЕРЕПИСАНЫ) ===== -->
+    <section id="cases" class="py-20 fade-up">
+        <div class="max-w-6xl mx-auto px-6">
+            <div class="text-center mb-14"><h2 class="text-3xl md:text-4xl font-bold"><i class="fas fa-rocket mr-3 text-indigo-400"></i> кейсы & результаты</h2><p class="text-slate-400 mt-2">реальные проекты с измеримым эффектом</p></div>
+            <div class="space-y-12">
+                <!-- Кейс 1: ИИ-ассистент -->
+                <div class="glass-card p-0 overflow-hidden rounded-3xl">
+                    <div class="grid lg:grid-cols-5 gap-0">
+                        <div class="lg:col-span-2 h-80 lg:h-auto relative overflow-hidden bg-gradient-to-br from-indigo-950 to-slate-950">
+                            <img src="https://wsrv.nl/?url=https://i.pinimg.com/originals/83/ab/49/83ab496117790629005c2c255c62aa57.jpg&w=600&h=500&fit=cover" alt="AI ассистент" class="w-full h-full object-cover">
+                            <div class="absolute top-4 left-4 case-badge px-3 py-1 rounded-full text-xs font-semibold"><i class="fas fa-brain mr-1"></i> AI / ML</div>
+                        </div>
+                        <div class="lg:col-span-3 p-8 lg:p-10">
+                            <h3 class="text-3xl font-bold text-white mb-4"> ИИ-ассистент для отдела продаж + CRM-экосистема</h3>
+                            <div class="flex flex-wrap gap-2 mb-4"><span class="bg-indigo-900/50 px-3 py-1 rounded-full text-xs"><i class="fab fa-python"></i> Python / LLM</span><span class="bg-indigo-900/50 px-3 py-1 rounded-full text-xs"><i class="fab fa-bitbucket"></i> Bitrix24 REST</span><span class="bg-indigo-900/50 px-3 py-1 rounded-full text-xs"><i class="fab fa-vuejs"></i> Vue 3</span></div>
+                            <div class="space-y-4 text-slate-300">
+                                <div><strong class="text-white text-lg">🧩 Задача:</strong> Компания тратила 30+ часов в неделю на ручную обработку лидов. Менеджеры заполняли карточки в CRM вручную, не было прогнозов закрытия сделок, отдел продаж работал «вслепую».</div>
+                                <div><strong class="text-white text-lg">⚙️ Решение:</strong> Разработал AI-агента на базе LLM, который автоматически анализирует диалоги с клиентами (email, чаты, телефония), классифицирует лидов по готовности к покупке, самостоятельно заполняет все поля в CRM и выдаёт прогноз закрытия сделки с точностью 89%.</div>
+                                <div class="bg-slate-800/40 p-5 rounded-xl"><strong class="text-white text-lg">🏆 Ключевые результаты:</strong>
+                                    <ul class="grid md:grid-cols-2 gap-3 mt-3">
+                                        <li class="flex items-center gap-2"><i class="fas fa-chart-line text-emerald-400"></i> Конверсия в продажу выросла на <strong class="text-white">+42%</strong></li>
+                                        <li class="flex items-center gap-2"><i class="fas fa-clock text-indigo-400"></i> Экономия времени менеджеров — <strong class="text-white">25 часов в неделю</strong></li>
+                                        <li class="flex items-center gap-2"><i class="fas fa-chart-simple text-emerald-400"></i> Точность прогнозов выросла до <strong class="text-white">89%</strong></li>
+                                        <li class="flex items-center gap-2"><i class="fas fa-dollar-sign text-indigo-400"></i> ROI инструмента — <strong class="text-white">320% за 6 месяцев</strong></li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Кейс 2: Цифровая трансформация холдинга -->
+                <div class="glass-card p-0 overflow-hidden rounded-3xl">
+                    <div class="grid lg:grid-cols-5 gap-0">
+                        <div class="lg:col-span-2 h-80 lg:h-auto relative overflow-hidden bg-gradient-to-br from-emerald-950 to-slate-950">
+                            <img src="https://wsrv.nl/?url=https://www.apostille.org.uk/wp-content/uploads/2025/03/digital-document-files1100-600.jpg&w=600&h=500&fit=cover" alt="Трансформация холдинга" class="w-full h-full object-cover">
+                            <div class="absolute top-4 left-4 case-badge px-3 py-1 rounded-full text-xs font-semibold"><i class="fas fa-building mr-1"></i> Digital Transform</div>
+                        </div>
+                        <div class="lg:col-span-3 p-8 lg:p-10">
+                            <h3 class="text-3xl font-bold text-white mb-4"> Цифровая трансформация холдинга (5 юр.лиц)</h3>
+                            <div class="flex flex-wrap gap-2 mb-4"><span class="bg-indigo-900/50 px-3 py-1 rounded-full text-xs"><i class="fab fa-bitbucket"></i> Битрикс24</span><span class="bg-indigo-900/50 px-3 py-1 rounded-full text-xs"><i class="fas fa-file-signature"></i> КЭДО</span><span class="bg-indigo-900/50 px-3 py-1 rounded-full text-xs"><i class="fas fa-chart-line"></i> Бизнес-процессы</span></div>
+                            <div class="space-y-4 text-slate-300">
+                                <div><strong class="text-white text-lg">🧩 Задача:</strong> Холдинг из 5 юридических лиц с разрозненными CRM-системами. Согласование документов занимало до 2 недель, данные не консолидировались, руководство не видело реальную картину продаж по всем компаниям.</div>
+                                <div><strong class="text-white text-lg">⚙️ Решение:</strong> Построил единый корпоративный портал на Битрикс24, настроил сквозные бизнес-процессы и КЭДО (кадровый электронный документооборот). Объединил все компании в одном цифровом контуре с едиными воронками продаж и автоматической отчётностью.</div>
+                                <div class="bg-slate-800/40 p-5 rounded-xl"><strong class="text-white text-lg">📈 Ключевые результаты:</strong>
+                                    <ul class="grid md:grid-cols-2 gap-3 mt-3">
+                                        <li class="flex items-center gap-2"><i class="fas fa-clock text-emerald-400"></i> Время согласования документов сократилось на <strong class="text-white">-60%</strong></li>
+                                        <li class="flex items-center gap-2"><i class="fas fa-chart-line text-indigo-400"></i> Общая выручка холдинга выросла на <strong class="text-white">+35% за полгода</strong></li>
+                                        <li class="flex items-center gap-2"><i class="fas fa-building text-emerald-400"></i> <strong class="text-white">5 компаний</strong> в едином управленческом контуре</li>
+                                        <li class="flex items-center gap-2"><i class="fas fa-chart-pie text-indigo-400"></i> Отчётность в реальном времени для топ-менеджмента</li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Кейс 3: Ребрендинг + HR-маркетинг -->
+                <div class="glass-card p-0 overflow-hidden rounded-3xl">
+                    <div class="grid lg:grid-cols-5 gap-0">
+                        <div class="lg:col-span-2 h-80 lg:h-auto relative overflow-hidden bg-gradient-to-br from-purple-950 to-slate-950">
+                            <img src="https://wsrv.nl/?url=https://res.cloudinary.com/people-matters/image/upload/q_auto,f_auto/v1665054093/1665054091.jpg&w=600&h=500&fit=cover" alt="Ребрендинг и HR" class="w-full h-full object-cover">
+                            <div class="absolute top-4 left-4 case-badge px-3 py-1 rounded-full text-xs font-semibold"><i class="fas fa-palette mr-1"></i> Brand & HR</div>
+                        </div>
+                        <div class="lg:col-span-3 p-8 lg:p-10">
+                            <h3 class="text-3xl font-bold text-white mb-4"> Ребрендинг холдинга + HR-маркетинг под ключ</h3>
+                            <div class="flex flex-wrap gap-2 mb-4"><span class="bg-indigo-900/50 px-3 py-1 rounded-full text-xs"><i class="fas fa-trademark"></i> Брендинг</span><span class="bg-indigo-900/50 px-3 py-1 rounded-full text-xs"><i class="fas fa-users"></i> HR-маркетинг</span><span class="bg-indigo-900/50 px-3 py-1 rounded-full text-xs"><i class="fas fa-chart-simple"></i> Воронка найма</span></div>
+                            <div class="space-y-4 text-slate-300">
+                                <div><strong class="text-white text-lg">🧩 Задача:</strong> После слияния компаний бренд стал размытым, а подбор персонала занимал до 2 месяцев на одну позицию. HR-отдел работал без системы.</div>
+                                <div><strong class="text-white text-lg">⚙️ Решение:</strong> Разработал полноценную бренд-стратегию с нуля, создал HR-бренд работодателя, внедрил сквозную воронку подбора в CRM. Запустил автономные курсы адаптации для новых сотрудников.</div>
+                                <div class="bg-slate-800/40 p-5 rounded-xl"><strong class="text-white text-lg">🏅 Ключевые результаты:</strong>
+                                    <ul class="grid md:grid-cols-2 gap-3 mt-3">
+                                        <li class="flex items-center gap-2"><i class="fas fa-chart-line text-emerald-400"></i> Узнаваемость бренда выросла <strong class="text-white">в 2 раза</strong></li>
+                                        <li class="flex items-center gap-2"><i class="fas fa-users text-indigo-400"></i> Количество откликов на вакансии <strong class="text-white">+200%</strong></li>
+                                        <li class="flex items-center gap-2"><i class="fas fa-clock text-emerald-400"></i> Срок закрытия позиций сократился на <strong class="text-white">-40%</strong></li>
+                                        <li class="flex items-center gap-2"><i class="fas fa-gem text-indigo-400"></i> Запущены <strong class="text-white">автономные курсы адаптации</strong> для всех новых сотрудников</li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ===== ОТЗЫВЫ ===== -->
+    <section class="py-16 bg-slate-900/30 fade-up">
+        <div class="max-w-5xl mx-auto px-6">
+            <div class="text-center mb-10"><i class="fas fa-quote-left text-4xl text-indigo-400 mb-3"></i><h2 class="text-3xl font-bold">Отзывы о работе</h2></div>
+            <div class="grid md:grid-cols-3 gap-6">
+                <div class="glass-card p-6"><i class="fas fa-quote-left text-indigo-400 text-2xl mb-3"></i><p class="text-slate-300 text-sm">«Антон за 3 недели собрал CRM-экосистему, которая заменила работу двух менеджеров. Прогнозы сделок теперь точные».</p><p class="mt-4 text-indigo-400 font-semibold">— Алексей К., CEO</p></div>
+                <div class="glass-card p-6"><i class="fas fa-quote-left text-indigo-400 text-2xl mb-3"></i><p class="text-slate-300 text-sm">«Чёткий ТЗ, прозрачная оплата по часам. Портал объединил 5 юрлиц в единый контур за месяц».</p><p class="mt-4 text-indigo-400 font-semibold">— Марина В., Опер. директор</p></div>
+                <div class="glass-card p-6"><i class="fas fa-quote-left text-indigo-400 text-2xl mb-3"></i><p class="text-slate-300 text-sm">«Вывел приложение на маркетплейс Битрикс24 с нуля. Монетизация пошла со второго месяца».</p><p class="mt-4 text-indigo-400 font-semibold">— Дмитрий Л., Product Owner</p></div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ===== КАЛЬКУЛЯТОР ЭКОНОМИИ ===== -->
+    <section id="calculator" class="py-20 fade-up">
+        <div class="max-w-5xl mx-auto px-6">
+            <div class="glass-card p-8 md:p-10 rounded-3xl">
+                <div class="text-center mb-8">
+                    <i class="fas fa-calculator text-5xl text-indigo-400 mb-3"></i>
+                    <h2 class="text-3xl md:text-4xl font-bold">Сколько вы сэкономите, работая со мной?</h2>
+                    <p class="text-slate-400 mt-3 max-w-2xl mx-auto">Один исполнитель вместо команды. Экономия на коммуникациях, налогах и простоях.</p>
+                </div>
+
+                <div class="grid lg:grid-cols-2 gap-10">
+                    <div>
+                        <h3 class="text-xl font-bold mb-4"><i class="fas fa-users mr-2 text-indigo-400"></i> Отметьте, кого пришлось бы нанимать:</h3>
+                        <div class="space-y-3">
+                            <label class="flex items-center gap-3 p-3 rounded-xl bg-slate-800/30 cursor-pointer hover:bg-slate-800/50 transition"><input type="checkbox" class="checkbox-custom" data-role="designer" data-rate="2000"> <i class="fas fa-palette w-6 text-indigo-400"></i> <span>Веб-дизайнер / UI/UX — прототипы, визуал, брендбук <span class="text-slate-500 text-sm">(~2 000 ₽/час)</span></span></label>
+                            <label class="flex items-center gap-3 p-3 rounded-xl bg-slate-800/30 cursor-pointer hover:bg-slate-800/50 transition"><input type="checkbox" class="checkbox-custom" data-role="dev" data-rate="2500"> <i class="fas fa-code w-6 text-indigo-400"></i> <span>Full-Stack разработчик — код, архитектура, интеграции <span class="text-slate-500 text-sm">(~2 500 ₽/час)</span></span></label>
+                            <label class="flex items-center gap-3 p-3 rounded-xl bg-slate-800/30 cursor-pointer hover:bg-slate-800/50 transition"><input type="checkbox" class="checkbox-custom" data-role="analyst" data-rate="2000"> <i class="fas fa-chart-line w-6 text-indigo-400"></i> <span>Бизнес-аналитик — ТЗ, воронки, метрики <span class="text-slate-500 text-sm">(~2 000 ₽/час)</span></span></label>
+                            <label class="flex items-center gap-3 p-3 rounded-xl bg-slate-800/30 cursor-pointer hover:bg-slate-800/50 transition"><input type="checkbox" class="checkbox-custom" data-role="pm" data-rate="1800"> <i class="fas fa-tasks w-6 text-indigo-400"></i> <span>Проект-менеджер — координация, сроки, отчёты <span class="text-slate-500 text-sm">(~1 800 ₽/час)</span></span></label>
+                            <label class="flex items-center gap-3 p-3 rounded-xl bg-slate-800/30 cursor-pointer hover:bg-slate-800/50 transition"><input type="checkbox" class="checkbox-custom" data-role="qa" data-rate="1500"> <i class="fas fa-bug w-6 text-indigo-400"></i> <span>Тестировщик / QA — проверка, баги, документация <span class="text-slate-500 text-sm">(~1 500 ₽/час)</span></span></label>
+                            <label class="flex items-center gap-3 p-3 rounded-xl bg-slate-800/30 cursor-pointer hover:bg-slate-800/50 transition"><input type="checkbox" class="checkbox-custom" data-role="ai" data-rate="3000"> <i class="fas fa-brain w-6 text-indigo-400"></i> <span>AI-инженер — LLM-интеграции, автопилоты <span class="text-slate-500 text-sm">(~3 000 ₽/час)</span></span></label>
+                        </div>
+                    </div>
+
+                    <div>
+                        <h3 class="text-xl font-bold mb-4"><i class="fas fa-chart-simple mr-2 text-indigo-400"></i> Оцените объём работ:</h3>
+                        <div class="space-y-6">
+                            <div><p class="font-semibold mb-2">Часов в неделю:</p><div class="flex gap-4"><label class="flex items-center gap-2"><input type="radio" name="hours" value="10" class="checkbox-custom"> 10</label><label class="flex items-center gap-2"><input type="radio" name="hours" value="20" class="checkbox-custom"> 20</label><label class="flex items-center gap-2"><input type="radio" name="hours" value="40" class="checkbox-custom"> 40+</label></div></div>
+                            <div><p class="font-semibold mb-2">Длительность:</p><div class="flex gap-4"><label class="flex items-center gap-2"><input type="radio" name="duration" value="1" class="checkbox-custom"> 1 месяц</label><label class="flex items-center gap-2"><input type="radio" name="duration" value="3" class="checkbox-custom"> 3 месяца</label><label class="flex items-center gap-2"><input type="radio" name="duration" value="6" class="checkbox-custom"> 6+ месяцев</label></div></div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="result-highlight p-6 mt-8 text-center" id="savingResult">
+                    <p class="text-slate-400 mb-2">Примерная экономия при замене команды на одного меня:</p>
+                    <div class="text-4xl font-bold text-emerald-400" id="savingAmount">0 ₽</div>
+                    <p class="text-xs text-slate-500 mt-2">*Расчёт основан на средних рыночных ставках фрилансеров и штатных специалистов</p>
+                </div>
+
+                <div class="text-center mt-6">
+                    <p class="text-sm text-slate-500"><i class="fas fa-calculator mr-1"></i> Расчёт ни к чему не обязывает</p>
+                    <p class="text-sm text-slate-500 mt-1"><i class="fas fa-chart-line mr-1"></i> 87% клиентов начинают с малого — аудит одного процесса</p>
+                    <div class="mt-6 flex flex-wrap justify-center gap-4">
+                        <a href="#contacts" class="inline-flex items-center gap-2 bg-indigo-600 hover:bg-indigo-500 px-6 py-3 rounded-full font-semibold transition"><i class="fab fa-telegram"></i> Обсудить проект</a>
+                        <a href="#process" class="glass-card px-6 py-3 rounded-full font-semibold border border-indigo-500/40 hover:bg-indigo-950/40"><i class="fas fa-play-circle"></i> Как работаю →</a>
+                    </div>
+                    <div class="mt-6 text-xs text-slate-600 border-t border-slate-800 pt-4">Работаю как самозанятый: чеки, ГПХ, прозрачно. Точную стоимость назову после 30-минутного бесплатного аудита.</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ===== БЕСПЛАТНЫЙ АУДИТ ===== -->
+    <section class="py-12 fade-up">
+        <div class="max-w-4xl mx-auto px-6">
+            <div class="glass-card p-8 text-center bg-gradient-to-r from-indigo-950/40 to-emerald-950/40">
+                <i class="fas fa-gift text-4xl text-emerald-400 mb-3"></i>
+                <h3 class="text-2xl font-bold mb-2">Бесплатный аудит за 30 минут</h3>
+                <p class="text-slate-300 mb-4">Разберём ваш процесс, подсветим узкие места и дадим план первых шагов</p>
+                <a href="https://t.me/+79529024254" target="_blank" class="inline-flex items-center gap-2 bg-emerald-600 hover:bg-emerald-500 px-6 py-3 rounded-full font-semibold transition"><i class="fab fa-telegram"></i> Записаться на аудит</a>
+                <p class="text-xs text-slate-500 mt-3">или отправьте ТЗ — оценю сроки и стоимость за 24 часа</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- ===== FAQ ===== -->
+    <section class="py-16 fade-up">
+        <div class="max-w-4xl mx-auto px-6">
+            <div class="text-center mb-10"><i class="fas fa-question-circle text-4xl text-indigo-400 mb-3"></i><h2 class="text-3xl font-bold">Частые вопросы</h2></div>
+            <div class="space-y-4">
+                <div class="glass-card p-5"><details><summary class="font-bold cursor-pointer">Как начинается работа?</summary><p class="text-slate-400 mt-2">Бесплатный 30-минутный созвон → краткий аудит → оценка часов → старт.</p></details></div>
+                <div class="glass-card p-5"><details><summary class="font-bold cursor-pointer">Что если задача изменится в процессе?</summary><p class="text-slate-400 mt-2">Фиксируем изменения, корректируем оценку часов, согласовываем перед реализацией.</p></details></div>
+                <div class="glass-card p-5"><details><summary class="font-bold cursor-pointer">Как контролируется время?</summary><p class="text-slate-400 mt-2">Тайм-трекинг + еженедельный отчёт: что сделано, сколько часов, план на следующую неделю.</p></details></div>
+                <div class="glass-card p-5"><details><summary class="font-bold cursor-pointer">Работаете по договору?</summary><p class="text-slate-400 mt-2">Да, как самозанятый: договор ГПХ, чеки, закрывающие документы.</p></details></div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ===== КОНТАКТЫ ===== -->
+    <section id="contacts" class="py-20 border-t border-slate-800 fade-up">
+        <div class="max-w-3xl mx-auto px-6 text-center">
+            <i class="fas fa-paper-plane text-4xl text-indigo-400 mb-4"></i>
+            <h2 class="text-3xl font-bold mb-4">Давайте создавать продукт вместе</h2>
+            <p class="text-slate-400 mb-8">Бесплатная консультация, аудит или ТЗ — напишите.</p>
+            <div class="flex flex-wrap justify-center gap-5 mb-8">
+                <a href="mailto:innet.24@internet.ru" class="glass-card px-6 py-4 rounded-2xl flex items-center gap-3"><i class="fas fa-envelope text-indigo-400 text-xl"></i> innet.24@internet.ru</a>
+                <a href="https://t.me/+79529024254" target="_blank" class="bg-indigo-600 hover:bg-indigo-500 px-6 py-4 rounded-2xl flex items-center gap-3 transition"><i class="fab fa-telegram text-xl"></i> Telegram — Написать</a>
+            </div>
+            <div class="flex flex-wrap justify-center gap-3 text-xs text-slate-500"><span class="bg-slate-800 px-3 py-1 rounded-full"><i class="fas fa-check-circle text-emerald-400"></i> Самозанятый</span><span class="bg-slate-800 px-3 py-1 rounded-full"><i class="fas fa-file-signature"></i> Договор ГПХ</span><span class="bg-slate-800 px-3 py-1 rounded-full"><i class="fas fa-receipt"></i> Чеки</span><span class="bg-slate-800 px-3 py-1 rounded-full"><i class="fas fa-globe"></i> Удалённо</span></div>
+        </div>
+    </section>
+
+    <footer class="py-8 text-center text-slate-600 text-xs border-t border-slate-800">
+        <p>© 2026 Антон Галямов — Product Director & AI Architect</p>
+        <p class="mt-2"><a href="#calculator" class="text-indigo-400 hover:text-indigo-300"> Рассчитать экономию</a> • <a href="#contacts" class="text-indigo-400 hover:text-indigo-300">📩 Написать в Telegram</a></p>
+    </footer>
+
+    <script>
+        function animateNumber(el, final, suffix='') { let start=0, step=final/60; let timer=setInterval(()=>{ start+=step; if(start>=final){ clearInterval(timer); el.innerText=final+suffix; } else el.innerText=Math.floor(start)+suffix; },20); }
+        new IntersectionObserver(([e])=>{ if(e.isIntersecting){ animateNumber(stat1,35,'+'); animateNumber(stat2,8,'+'); animateNumber(stat3,120,'%'); animateNumber(stat4,20,'+'); } },{threshold:0.3}).observe(document.getElementById('stat1'));
+        document.querySelectorAll('.fade-up').forEach(el=>new IntersectionObserver(([e])=>e.isIntersecting&&e.target.classList.add('visible'),{threshold:0.2}).observe(el));
+
+        const roleCheckboxes = document.querySelectorAll('[data-role]');
+        const hoursRadios = document.querySelectorAll('input[name="hours"]');
+        const durationRadios = document.querySelectorAll('input[name="duration"]');
+        const savingSpan = document.getElementById('savingAmount');
+
+        function updateSavings() {
+            let totalRate = 0;
+            roleCheckboxes.forEach(cb => { if(cb.checked) totalRate += parseInt(cb.dataset.rate); });
+            let hours = 0;
+            hoursRadios.forEach(r => { if(r.checked) hours = parseInt(r.value); });
+            let duration = 0;
+            durationRadios.forEach(r => { if(r.checked) duration = parseInt(r.value); });
+            if(totalRate === 0 || hours === 0 || duration === 0) { savingSpan.innerText = '0 ₽'; return; }
+            const weeksInMonth = 4.3;
+            let totalHours = 0;
+            if(duration === 1) totalHours = hours * weeksInMonth;
+            else if(duration === 3) totalHours = hours * weeksInMonth * 3;
+            else totalHours = hours * weeksInMonth * 6;
+            const teamCost = totalRate * totalHours;
+            const myCost = 1100 * totalHours;
+            const saving = teamCost - myCost;
+            savingSpan.innerText = saving.toLocaleString('ru-RU') + ' ₽';
+        }
+        
+        roleCheckboxes.forEach(cb => cb.addEventListener('change', updateSavings));
+        hoursRadios.forEach(r => r.addEventListener('change', updateSavings));
+        durationRadios.forEach(r => r.addEventListener('change', updateSavings));
+    </script>
+</body>
+</html>
