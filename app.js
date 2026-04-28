@@ -10,18 +10,25 @@ app.use(cors());
 app.use(express.json());
 app.use(express.static('.'));
 
-const DB_PATH = path.join(__dirname, 'data', 'db.json');
+// ПУТЬ К БАЗЕ В КОРНЕ ПРОЕКТА
+const DB_PATH = path.join(__dirname, 'db.json');
 
+// Функции для работы с БД
 function readDB() {
-    const data = fs.readFileSync(DB_PATH, 'utf8');
-    return JSON.parse(data);
+    try {
+        const data = fs.readFileSync(DB_PATH, 'utf8');
+        return JSON.parse(data);
+    } catch (error) {
+        console.error('Ошибка чтения db.json:', error);
+        return { users: {}, projects: [], tasks: [], messages: [], transactions: [] };
+    }
 }
 
 function writeDB(data) {
-    fs.writeFileSync(DB_PATH, JSON.stringify(data, null, 2));
+    fs.writeFileSync(DB_PATH, JSON.stringify(data, null, 2), 'utf8');
 }
 
-// Авторизация
+// ============= АВТОРИЗАЦИЯ =============
 app.post('/api/login', (req, res) => {
     const { email, password } = req.body;
     const db = readDB();
@@ -34,14 +41,22 @@ app.post('/api/login', (req, res) => {
     }
 });
 
-// Получить всех клиентов (только для админа)
+// ============= ПОЛЬЗОВАТЕЛИ =============
 app.get('/api/users', (req, res) => {
     const db = readDB();
     const clients = Object.values(db.users).filter(u => u.role === 'client');
     res.json(clients);
 });
 
-// Получить проекты
+app.get('/api/user/:id', (req, res) => {
+    const db = readDB();
+    const user = db.users[req.params.id];
+    if (!user) return res.status(404).json({ error: 'User not found' });
+    const { password, ...safeUser } = user;
+    res.json(safeUser);
+});
+
+// ============= ПРОЕКТЫ =============
 app.get('/api/projects', (req, res) => {
     const { clientId } = req.query;
     const db = readDB();
@@ -50,7 +65,6 @@ app.get('/api/projects', (req, res) => {
     res.json(projects);
 });
 
-// Создать проект
 app.post('/api/projects', (req, res) => {
     const { clientId, name, description } = req.body;
     const db = readDB();
@@ -67,7 +81,18 @@ app.post('/api/projects', (req, res) => {
     res.json(newProject);
 });
 
-// Получить задачи
+app.put('/api/projects/:id', (req, res) => {
+    const { id } = req.params;
+    const updates = req.body;
+    const db = readDB();
+    const index = db.projects.findIndex(p => p.id === id);
+    if (index === -1) return res.status(404).json({ error: 'Project not found' });
+    db.projects[index] = { ...db.projects[index], ...updates };
+    writeDB(db);
+    res.json(db.projects[index]);
+});
+
+// ============= ЗАДАЧИ =============
 app.get('/api/tasks', (req, res) => {
     const { clientId, projectId, status } = req.query;
     const db = readDB();
@@ -78,7 +103,6 @@ app.get('/api/tasks', (req, res) => {
     res.json(tasks);
 });
 
-// Создать задачу
 app.post('/api/tasks', (req, res) => {
     const { projectId, clientId, title, description, createdBy } = req.body;
     const db = readDB();
@@ -101,50 +125,42 @@ app.post('/api/tasks', (req, res) => {
     res.json(newTask);
 });
 
-// Обновить задачу (оценка часов, согласование, списание)
 app.put('/api/tasks/:id', (req, res) => {
     const { id } = req.params;
     const updates = req.body;
     const db = readDB();
-    const taskIndex = db.tasks.findIndex(t => t.id === id);
-    if (taskIndex === -1) return res.status(404).json({ error: 'Task not found' });
+    const index = db.tasks.findIndex(t => t.id === id);
+    if (index === -1) return res.status(404).json({ error: 'Task not found' });
     
-    db.tasks[taskIndex] = { ...db.tasks[taskIndex], ...updates, updatedAt: new Date().toISOString() };
-    
-    // Если задача согласована и по ней начали списывать часы
-    if (updates.status === 'in_progress' && updates.approved_hours) {
-        // Здесь можно логику списания часов
-    }
-    
+    db.tasks[index] = { ...db.tasks[index], ...updates, updatedAt: new Date().toISOString() };
     writeDB(db);
-    res.json(db.tasks[taskIndex]);
+    res.json(db.tasks[index]);
 });
 
-// Списать часы с задачи
 app.post('/api/tasks/:id/spend', (req, res) => {
     const { id } = req.params;
     const { hours } = req.body;
     const db = readDB();
-    const task = db.tasks.find(t => t.id === id);
-    if (!task) return res.status(404).json({ error: 'Task not found' });
+    const taskIndex = db.tasks.findIndex(t => t.id === id);
+    if (taskIndex === -1) return res.status(404).json({ error: 'Task not found' });
     
-    task.spent_hours = (task.spent_hours || 0) + hours;
+    db.tasks[taskIndex].spent_hours = (db.tasks[taskIndex].spent_hours || 0) + hours;
     
     // Списать часы из пакета клиента
-    const client = db.users[task.clientId];
-    if (client && client.hours_package) {
+    const client = db.users[db.tasks[taskIndex].clientId];
+    if (client) {
         client.hours_used = (client.hours_used || 0) + hours;
     }
     
-    if (task.spent_hours >= task.approved_hours) {
-        task.status = 'completed';
+    if (db.tasks[taskIndex].spent_hours >= db.tasks[taskIndex].approved_hours) {
+        db.tasks[taskIndex].status = 'completed';
     }
     
     writeDB(db);
-    res.json({ task, client });
+    res.json({ task: db.tasks[taskIndex], client });
 });
 
-// Получить чат-сообщения
+// ============= СООБЩЕНИЯ (ЧАТ) =============
 app.get('/api/messages', (req, res) => {
     const { projectId, userId } = req.query;
     const db = readDB();
@@ -154,7 +170,6 @@ app.get('/api/messages', (req, res) => {
     res.json(messages);
 });
 
-// Отправить сообщение
 app.post('/api/messages', (req, res) => {
     const { projectId, from, to, text } = req.body;
     const db = readDB();
@@ -172,7 +187,17 @@ app.post('/api/messages', (req, res) => {
     res.json(newMessage);
 });
 
-// Купить пакет часов
+app.put('/api/messages/mark-read', (req, res) => {
+    const { userId } = req.body;
+    const db = readDB();
+    db.messages.forEach(msg => {
+        if (msg.to === userId && !msg.read) msg.read = true;
+    });
+    writeDB(db);
+    res.json({ success: true });
+});
+
+// ============= ПАКЕТЫ ЧАСОВ =============
 app.post('/api/buy-hours', (req, res) => {
     const { clientId, hours } = req.body;
     const db = readDB();
@@ -189,19 +214,22 @@ app.post('/api/buy-hours', (req, res) => {
     });
     
     writeDB(db);
-    res.json({ success: true, hours_package: client.hours_package });
+    res.json({ success: true, hours_package: client.hours_package, hours_used: client.hours_used || 0 });
 });
 
-// Статистика по клиенту
+// ============= СТАТИСТИКА КЛИЕНТА =============
 app.get('/api/client-stats/:clientId', (req, res) => {
     const { clientId } = req.params;
     const db = readDB();
     const client = db.users[clientId];
+    if (!client) return res.status(404).json({ error: 'Client not found' });
+    
     const tasks = db.tasks.filter(t => t.clientId === clientId);
     const totalTasks = tasks.length;
     const completedTasks = tasks.filter(t => t.status === 'completed').length;
     const inProgressTasks = tasks.filter(t => t.status === 'in_progress').length;
     const pendingEstimate = tasks.filter(t => t.status === 'pending_estimate').length;
+    const waitingApproval = tasks.filter(t => t.status === 'waiting_approval').length;
     
     res.json({
         hours_left: (client.hours_package || 0) - (client.hours_used || 0),
@@ -210,10 +238,35 @@ app.get('/api/client-stats/:clientId', (req, res) => {
         total_tasks: totalTasks,
         completed_tasks: completedTasks,
         in_progress_tasks: inProgressTasks,
-        pending_estimate: pendingEstimate
+        pending_estimate: pendingEstimate,
+        waiting_approval: waitingApproval
     });
 });
 
+// ============= АДМИНСКАЯ СТАТИСТИКА =============
+app.get('/api/admin-stats', (req, res) => {
+    const db = readDB();
+    const clients = Object.values(db.users).filter(u => u.role === 'client');
+    const tasks = db.tasks;
+    const totalHoursPackage = clients.reduce((sum, c) => sum + (c.hours_package || 0), 0);
+    const totalHoursUsed = clients.reduce((sum, c) => sum + (c.hours_used || 0), 0);
+    
+    res.json({
+        total_clients: clients.length,
+        total_tasks: tasks.length,
+        pending_tasks: tasks.filter(t => t.status === 'pending_estimate').length,
+        in_progress_tasks: tasks.filter(t => t.status === 'in_progress').length,
+        total_hours_sold: totalHoursPackage,
+        total_hours_used: totalHoursUsed,
+        total_revenue: totalHoursPackage * 1100
+    });
+});
+
+// Запуск сервера
 app.listen(PORT, () => {
-    console.log(`🚀 Сервер запущен на http://localhost:${PORT}`);
+    console.log(`\n🚀 Сервер запущен на http://localhost:${PORT}`);
+    console.log('📁 База данных: db.json (в корне проекта)');
+    console.log('\n🔑 Тестовые входы:');
+    console.log('   Админ: innet.24@internet.ru / admin123');
+    console.log('   Клиент: client@example.com / client123\n');
 });
