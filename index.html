@@ -37,6 +37,47 @@
         .result-highlight { background: linear-gradient(135deg, rgba(99,102,241,0.2), rgba(16,185,129,0.1)); border-radius: 1.5rem; }
         .modal { transition: opacity 0.3s ease, visibility 0.3s ease; }
         .modal.hidden { opacity: 0; visibility: hidden; }
+           /* Исправление для мобильных устройств - калькулятор */
+@media (max-width: 768px) {
+    .glass-card.p-8.md\:p-10 {
+        padding: 1.5rem;
+    }
+    #calculator .grid.lg\:grid-cols-2 {
+        display: flex;
+        flex-direction: column;
+        gap: 1.5rem;
+    }
+    #calculator .space-y-3 label, 
+    #calculator .space-y-6 .flex.gap-4,
+    #calculator .space-y-6 .flex.gap-4 label,
+    .result-highlight {
+        flex-wrap: wrap;
+        word-break: break-word;
+    }
+    #calculator .space-y-3 {
+        width: 100%;
+    }
+    #calculator .space-y-3 label {
+        display: flex;
+        align-items: flex-start;
+        gap: 0.5rem;
+        padding: 0.75rem;
+        width: 100%;
+    }
+    #calculator .space-y-3 label .text-slate-500.text-sm {
+        display: inline;
+        white-space: normal;
+    }
+    #calculator .flex.gap-4 {
+        flex-wrap: wrap;
+        gap: 0.75rem;
+    }
+    .checkbox-custom {
+        min-width: 1.2rem;
+        min-height: 1.2rem;
+        margin-top: 0.125rem;
+    }
+}
     </style>
 </head>
 <body class="text-slate-200 font-sans antialiased selection:bg-indigo-500/60">
@@ -311,8 +352,8 @@
                     <div>
                         <h3 class="text-xl font-bold mb-4"><i class="fas fa-chart-simple mr-2 text-indigo-400"></i> Оцените объём работ:</h3>
                         <div class="space-y-6">
-                            <div><p class="font-semibold mb-2">Часов в неделю:</p><div class="flex gap-4"><label class="flex items-center gap-2"><input type="radio" name="hours" value="10" class="checkbox-custom"> 10</label><label class="flex items-center gap-2"><input type="radio" name="hours" value="20" class="checkbox-custom"> 20</label><label class="flex items-center gap-2"><input type="radio" name="hours" value="40" class="checkbox-custom"> 40+</label></div></div>
-                            <div><p class="font-semibold mb-2">Длительность:</p><div class="flex gap-4"><label class="flex items-center gap-2"><input type="radio" name="duration" value="1" class="checkbox-custom"> 1 месяц</label><label class="flex items-center gap-2"><input type="radio" name="duration" value="3" class="checkbox-custom"> 3 месяца</label><label class="flex items-center gap-2"><input type="radio" name="duration" value="6" class="checkbox-custom"> 6+ месяцев</label></div></div>
+                            <div><p class="font-semibold mb-2">Часов в неделю:</p><div class="flex flex-wrap gap-3"><label class="flex items-center gap-2"><input type="radio" name="hours" value="10" class="checkbox-custom"> 10</label><label class="flex items-center gap-2"><input type="radio" name="hours" value="20" class="checkbox-custom"> 20</label><label class="flex items-center gap-2"><input type="radio" name="hours" value="40" class="checkbox-custom"> 40+</label></div></div>
+                            <div><p class="font-semibold mb-2">Длительность:</p><div class="flex flex-wrap gap-3"><label class="flex items-center gap-2"><input type="radio" name="duration" value="1" class="checkbox-custom"> 1 месяц</label><label class="flex items-center gap-2"><input type="radio" name="duration" value="3" class="checkbox-custom"> 3 месяца</label><label class="flex items-center gap-2"><input type="radio" name="duration" value="6" class="checkbox-custom"> 6+ месяцев</label></div></div>
                         </div>
                     </div>
                 </div>
