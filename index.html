@@ -27,6 +27,7 @@
         .hero-gradient { background: radial-gradient(circle at 50% 30%, rgba(99,102,241,0.2), transparent 70%); }
         .gradient-text { background: linear-gradient(90deg, #818CF8, #34D399, #6366F1); background-size: 200% auto; -webkit-background-clip: text; background-clip: text; color: transparent; }
         .stat-number { font-size: 2.5rem; font-weight: 800; background: linear-gradient(135deg, #FFFFFF, #A5B4FC); -webkit-background-clip: text; background-clip: text; color: transparent; }
+        /* Анимация убрана для блока кейсов — теперь они видны всегда */
         .fade-up { opacity: 0; transform: translateY(30px); transition: all 0.8s ease-out; }
         .fade-up.visible { opacity: 1; transform: translateY(0); }
         @keyframes float { 0% { transform: translateY(0px); } 50% { transform: translateY(-12px); } 100% { transform: translateY(0px); } }
@@ -37,47 +38,56 @@
         .result-highlight { background: linear-gradient(135deg, rgba(99,102,241,0.2), rgba(16,185,129,0.1)); border-radius: 1.5rem; }
         .modal { transition: opacity 0.3s ease, visibility 0.3s ease; }
         .modal.hidden { opacity: 0; visibility: hidden; }
-           /* Исправление для мобильных устройств - калькулятор */
-@media (max-width: 768px) {
-    .glass-card.p-8.md\:p-10 {
-        padding: 1.5rem;
-    }
-    #calculator .grid.lg\:grid-cols-2 {
-        display: flex;
-        flex-direction: column;
-        gap: 1.5rem;
-    }
-    #calculator .space-y-3 label, 
-    #calculator .space-y-6 .flex.gap-4,
-    #calculator .space-y-6 .flex.gap-4 label,
-    .result-highlight {
-        flex-wrap: wrap;
-        word-break: break-word;
-    }
-    #calculator .space-y-3 {
-        width: 100%;
-    }
-    #calculator .space-y-3 label {
-        display: flex;
-        align-items: flex-start;
-        gap: 0.5rem;
-        padding: 0.75rem;
-        width: 100%;
-    }
-    #calculator .space-y-3 label .text-slate-500.text-sm {
-        display: inline;
-        white-space: normal;
-    }
-    #calculator .flex.gap-4 {
-        flex-wrap: wrap;
-        gap: 0.75rem;
-    }
-    .checkbox-custom {
-        min-width: 1.2rem;
-        min-height: 1.2rem;
-        margin-top: 0.125rem;
-    }
-}
+        /* Блок кейсов всегда видимый — убираем любую скрывающую анимацию */
+        #cases {
+            opacity: 1 !important;
+            transform: none !important;
+            display: block !important;
+        }
+        #cases .glass-card {
+            display: block !important;
+        }
+        /* Исправление для мобильных устройств - калькулятор */
+        @media (max-width: 768px) {
+            .glass-card.p-8.md\:p-10 {
+                padding: 1.5rem;
+            }
+            #calculator .grid.lg\:grid-cols-2 {
+                display: flex;
+                flex-direction: column;
+                gap: 1.5rem;
+            }
+            #calculator .space-y-3 label, 
+            #calculator .space-y-6 .flex.gap-4,
+            #calculator .space-y-6 .flex.gap-4 label,
+            .result-highlight {
+                flex-wrap: wrap;
+                word-break: break-word;
+            }
+            #calculator .space-y-3 {
+                width: 100%;
+            }
+            #calculator .space-y-3 label {
+                display: flex;
+                align-items: flex-start;
+                gap: 0.5rem;
+                padding: 0.75rem;
+                width: 100%;
+            }
+            #calculator .space-y-3 label .text-slate-500.text-sm {
+                display: inline;
+                white-space: normal;
+            }
+            #calculator .flex.gap-4 {
+                flex-wrap: wrap;
+                gap: 0.75rem;
+            }
+            .checkbox-custom {
+                min-width: 1.2rem;
+                min-height: 1.2rem;
+                margin-top: 0.125rem;
+            }
+        }
     </style>
 </head>
 <body class="text-slate-200 font-sans antialiased selection:bg-indigo-500/60">
@@ -149,8 +159,8 @@
             <div class="flex-1 flex justify-center relative">
                 <div class="relative w-80 h-80 lg:w-[400px] lg:h-[400px] rounded-full overflow-hidden border-2 border-indigo-500/50 shadow-2xl shadow-indigo-500/30 animate-float bg-gradient-to-br from-indigo-900 to-purple-900">
                     <img class="dev-photo w-full h-full object-cover object-top" 
-                         src="https://img.hhcdn.ru/photo/761428149.jpeg?t=1777474324&amp;h=vFW-66iAGI7GRPoWk6MIGw" 
-                         alt="Антон Галямов"
+     src="https://iili.io/BDOeSQ1.jpg" 
+     alt="Антон Галямов">
                          referrerpolicy="no-referrer"
                          onerror="this.src='https://ui-avatars.com/api/?background=6366F1&color=fff&bold=true&size=400&name=Anton+G'">
                 </div>
@@ -234,10 +244,13 @@
         </div>
     </section>
 
-    <!-- ===== КЕЙСЫ ===== -->
-    <section id="cases" class="py-20 fade-up">
+    <!-- ===== КЕЙСЫ (БЛОК ПОЯВЛЯЕТСЯ СРАЗУ, АНИМАЦИЯ УБРАНА) ===== -->
+    <section id="cases" class="py-20">
         <div class="max-w-6xl mx-auto px-6">
-            <div class="text-center mb-14"><h2 class="text-3xl md:text-4xl font-bold"><i class="fas fa-rocket mr-3 text-indigo-400"></i> кейсы & результаты</h2><p class="text-slate-400 mt-2">реальные проекты с измеримым эффектом</p></div>
+            <div class="text-center mb-14">
+                <h2 class="text-3xl md:text-4xl font-bold"><i class="fas fa-rocket mr-3 text-indigo-400"></i> кейсы & результаты</h2>
+                <p class="text-slate-400 mt-2">реальные проекты с измеримым эффектом</p>
+            </div>
             <div class="space-y-12">
                 <!-- Кейс 1 -->
                 <div class="glass-card p-0 overflow-hidden rounded-3xl">
@@ -426,7 +439,11 @@
         // Анимация цифр в статистике
         function animateNumber(el, final, suffix='') { let start=0, step=final/60; let timer=setInterval(()=>{ start+=step; if(start>=final){ clearInterval(timer); el.innerText=final+suffix; } else el.innerText=Math.floor(start)+suffix; },20); }
         new IntersectionObserver(([e])=>{ if(e.isIntersecting){ animateNumber(stat1,35,'+'); animateNumber(stat2,8,'+'); animateNumber(stat3,120,'%'); animateNumber(stat4,20,'+'); } },{threshold:0.3}).observe(document.getElementById('stat1'));
-        document.querySelectorAll('.fade-up').forEach(el=>new IntersectionObserver(([e])=>e.isIntersecting&&e.target.classList.add('visible'),{threshold:0.2}).observe(el));
+        document.querySelectorAll('.fade-up:not(#cases)').forEach(el=>new IntersectionObserver(([e])=>e.isIntersecting&&e.target.classList.add('visible'),{threshold:0.2}).observe(el));
+        
+        // Кейсы всегда видимы, поэтому не применяем к ним fade-up анимацию
+        // Принудительно показываем блок кейсов (на случай любых конфликтов)
+        document.getElementById('cases')?.classList.add('visible');
 
         // Калькулятор экономии
         const roleCheckboxes = document.querySelectorAll('[data-role]');
@@ -505,25 +522,21 @@
             }
         };
 
-        // Закрытие модалки по Escape
         document.addEventListener('keydown', (e) => {
             if (e.key === 'Escape') {
                 closeLoginModal();
             }
         });
 
-        // Закрытие по клику вне окна
         document.getElementById('loginModal').addEventListener('click', (e) => {
             if (e.target === document.getElementById('loginModal')) {
                 closeLoginModal();
             }
         });
 
-        // Проверка, может пользователь уже залогинен?
         const savedUser = localStorage.getItem('user');
         if (savedUser && window.location.pathname.includes('index.html')) {
             const user = JSON.parse(savedUser);
-            // Можно показать приветствие, но не перенаправляем автоматически
             console.log(`👋 Привет, ${user.name}!`);
         }
     </script>
