@@ -27,7 +27,6 @@
         .hero-gradient { background: radial-gradient(circle at 50% 30%, rgba(99,102,241,0.2), transparent 70%); }
         .gradient-text { background: linear-gradient(90deg, #818CF8, #34D399, #6366F1); background-size: 200% auto; -webkit-background-clip: text; background-clip: text; color: transparent; }
         .stat-number { font-size: 2.5rem; font-weight: 800; background: linear-gradient(135deg, #FFFFFF, #A5B4FC); -webkit-background-clip: text; background-clip: text; color: transparent; }
-        /* Анимация убрана для блока кейсов — теперь они видны всегда */
         .fade-up { opacity: 0; transform: translateY(30px); transition: all 0.8s ease-out; }
         .fade-up.visible { opacity: 1; transform: translateY(0); }
         @keyframes float { 0% { transform: translateY(0px); } 50% { transform: translateY(-12px); } 100% { transform: translateY(0px); } }
@@ -38,61 +37,18 @@
         .result-highlight { background: linear-gradient(135deg, rgba(99,102,241,0.2), rgba(16,185,129,0.1)); border-radius: 1.5rem; }
         .modal { transition: opacity 0.3s ease, visibility 0.3s ease; }
         .modal.hidden { opacity: 0; visibility: hidden; }
-        /* Блок кейсов всегда видимый — убираем любую скрывающую анимацию */
-        #cases {
-            opacity: 1 !important;
-            transform: none !important;
-            display: block !important;
-        }
-        #cases .glass-card {
-            display: block !important;
-        }
-        /* Исправление для мобильных устройств - калькулятор */
+        #cases { opacity: 1 !important; transform: none !important; display: block !important; }
         @media (max-width: 768px) {
-            .glass-card.p-8.md\:p-10 {
-                padding: 1.5rem;
-            }
-            #calculator .grid.lg\:grid-cols-2 {
-                display: flex;
-                flex-direction: column;
-                gap: 1.5rem;
-            }
-            #calculator .space-y-3 label, 
-            #calculator .space-y-6 .flex.gap-4,
-            #calculator .space-y-6 .flex.gap-4 label,
-            .result-highlight {
-                flex-wrap: wrap;
-                word-break: break-word;
-            }
-            #calculator .space-y-3 {
-                width: 100%;
-            }
-            #calculator .space-y-3 label {
-                display: flex;
-                align-items: flex-start;
-                gap: 0.5rem;
-                padding: 0.75rem;
-                width: 100%;
-            }
-            #calculator .space-y-3 label .text-slate-500.text-sm {
-                display: inline;
-                white-space: normal;
-            }
-            #calculator .flex.gap-4 {
-                flex-wrap: wrap;
-                gap: 0.75rem;
-            }
-            .checkbox-custom {
-                min-width: 1.2rem;
-                min-height: 1.2rem;
-                margin-top: 0.125rem;
-            }
+            .glass-card.p-8.md\:p-10 { padding: 1.5rem; }
+            #calculator .grid.lg\:grid-cols-2 { display: flex; flex-direction: column; gap: 1.5rem; }
+            .checkbox-custom { min-width: 1.2rem; min-height: 1.2rem; margin-top: 0.125rem; }
         }
+        [data-translate] { transition: opacity 0.2s; }
+        .lang-switching { opacity: 0.7; }
     </style>
 </head>
 <body class="text-slate-200 font-sans antialiased selection:bg-indigo-500/60">
 
-    <!-- Динамический фон -->
     <div class="fixed inset-0 -z-10 opacity-20 pointer-events-none">
         <div class="absolute inset-0 bg-[radial-gradient(#6366f1_1px,transparent_1px)] [background-size:32px_32px]"></div>
         <div class="hero-gradient absolute inset-0"></div>
@@ -100,147 +56,133 @@
 
     <!-- Header -->
     <header class="fixed w-full z-50 bg-brand-dark/80 backdrop-blur-xl border-b border-slate-800/60">
-    <div class="max-w-6xl mx-auto px-4 sm:px-6 py-3 sm:py-4 flex justify-between items-center">
-        <div class="text-xl sm:text-2xl font-bold tracking-tighter"><span class="gradient-text">AG<span class="text-indigo-400">_</span>dev</span></div>
-        <nav class="hidden md:flex gap-6 lg:gap-8 text-sm font-medium">
-            <a href="#about" class="hover:text-indigo-400 transition"><i class="fas fa-user mr-1"></i> о_мне</a>
-            <a href="#expertise" class="hover:text-indigo-400 transition"><i class="fas fa-cubes mr-1"></i> экспертиза</a>
-            <a href="#cases" class="hover:text-indigo-400 transition"><i class="fas fa-folder-open mr-1"></i> кейсы</a>
-            <a href="#process" class="hover:text-indigo-400 transition"><i class="fas fa-sync-alt mr-1"></i> процесс</a>
-            <a href="#calculator" class="text-indigo-400 hover:text-emerald-400 transition"><i class="fas fa-calculator mr-1"></i> экономия</a>
-            <a href="#contacts" class="hover:text-indigo-400 transition"><i class="fas fa-paper-plane mr-1"></i> контакты</a>
-        </nav>
-        <div class="flex gap-2 sm:gap-3 items-center">
-            <button onclick="showLoginModal()" class="glass-card px-3 sm:px-5 py-1.5 sm:py-2.5 rounded-full text-xs sm:text-sm font-semibold border border-indigo-500/40 hover:bg-indigo-950/40 transition whitespace-nowrap"><i class="fas fa-sign-in-alt mr-1"></i> <span class="hidden xs:inline">Войти</span><span class="inline xs:hidden">Вход</span></button>
-            <a href="#contacts" class="bg-indigo-600 hover:bg-indigo-500 text-white px-3 sm:px-5 py-1.5 sm:py-2.5 rounded-full text-xs sm:text-sm font-semibold transition-all shadow-lg shadow-indigo-600/40 hover:scale-105 whitespace-nowrap"><i class="fab fa-telegram mr-1"></i> <span class="hidden xs:inline">Связаться</span><span class="inline xs:hidden">ТГ</span></a>
-            
-            <!-- Кнопка выбора языка -->
-            <div class="relative">
-                <button id="langButton" onclick="toggleLangDropdown()" class="glass-card px-3 sm:px-4 py-1.5 sm:py-2.5 rounded-full text-xs sm:text-sm font-semibold border border-indigo-500/40 hover:bg-indigo-950/40 transition whitespace-nowrap flex items-center gap-1">
-                    <i class="fas fa-globe mr-1"></i> <span id="currentLangLabel">РУ</span> <i class="fas fa-chevron-down text-[10px]"></i>
-                </button>
-                <div id="langDropdown" class="absolute right-0 mt-2 w-40 glass-card rounded-xl overflow-hidden hidden z-50">
-                    <div onclick="setLanguage('ru')" class="px-4 py-2 hover:bg-indigo-500/30 cursor-pointer text-sm flex items-center gap-2">🇷🇺 Русский</div>
-                    <div onclick="setLanguage('en')" class="px-4 py-2 hover:bg-indigo-500/30 cursor-pointer text-sm flex items-center gap-2">🇬🇧 English</div>
-                    <div onclick="setLanguage('ko')" class="px-4 py-2 hover:bg-indigo-500/30 cursor-pointer text-sm flex items-center gap-2">🇰🇷 한국어</div>
-                    <div onclick="setLanguage('zh')" class="px-4 py-2 hover:bg-indigo-500/30 cursor-pointer text-sm flex items-center gap-2">🇨🇳 中文</div>
+        <div class="max-w-6xl mx-auto px-4 sm:px-6 py-3 sm:py-4 flex justify-between items-center">
+            <div class="text-xl sm:text-2xl font-bold tracking-tighter"><span class="gradient-text">AG<span class="text-indigo-400">_</span>dev</span></div>
+            <nav class="hidden md:flex gap-6 lg:gap-8 text-sm font-medium">
+                <a href="#about" class="hover:text-indigo-400 transition"><i class="fas fa-user mr-1"></i> <span data-translate="nav_about">о_мне</span></a>
+                <a href="#expertise" class="hover:text-indigo-400 transition"><i class="fas fa-cubes mr-1"></i> <span data-translate="nav_expertise">экспертиза</span></a>
+                <a href="#cases" class="hover:text-indigo-400 transition"><i class="fas fa-folder-open mr-1"></i> <span data-translate="nav_cases">кейсы</span></a>
+                <a href="#process" class="hover:text-indigo-400 transition"><i class="fas fa-sync-alt mr-1"></i> <span data-translate="nav_process">процесс</span></a>
+                <a href="#calculator" class="text-indigo-400 hover:text-emerald-400 transition"><i class="fas fa-calculator mr-1"></i> <span data-translate="nav_calculator">экономия</span></a>
+                <a href="#contacts" class="hover:text-indigo-400 transition"><i class="fas fa-paper-plane mr-1"></i> <span data-translate="nav_contacts">контакты</span></a>
+            </nav>
+            <div class="flex gap-2 sm:gap-3 items-center">
+                <button onclick="showLoginModal()" class="glass-card px-3 sm:px-5 py-1.5 sm:py-2.5 rounded-full text-xs sm:text-sm font-semibold border border-indigo-500/40 hover:bg-indigo-950/40 transition whitespace-nowrap"><i class="fas fa-sign-in-alt mr-1"></i> <span data-translate="login_btn">Войти</span></button>
+                <a href="#contacts" class="bg-indigo-600 hover:bg-indigo-500 text-white px-3 sm:px-5 py-1.5 sm:py-2.5 rounded-full text-xs sm:text-sm font-semibold transition-all shadow-lg shadow-indigo-600/40 hover:scale-105 whitespace-nowrap"><i class="fab fa-telegram mr-1"></i> <span data-translate="contact_btn">Связаться</span></a>
+                <div class="relative">
+                    <button id="langButton" onclick="toggleLangDropdown()" class="glass-card px-3 sm:px-4 py-1.5 sm:py-2.5 rounded-full text-xs sm:text-sm font-semibold border border-indigo-500/40 hover:bg-indigo-950/40 transition whitespace-nowrap flex items-center gap-1">
+                        <i class="fas fa-globe mr-1"></i> <span id="currentLangLabel">РУ</span> <i class="fas fa-chevron-down text-[10px]"></i>
+                    </button>
+                    <div id="langDropdown" class="absolute right-0 mt-2 w-40 glass-card rounded-xl overflow-hidden hidden z-50">
+                        <div onclick="setLanguage('ru')" class="px-4 py-2 hover:bg-indigo-500/30 cursor-pointer text-sm flex items-center gap-2">🇷🇺 Русский</div>
+                        <div onclick="setLanguage('en')" class="px-4 py-2 hover:bg-indigo-500/30 cursor-pointer text-sm flex items-center gap-2">🇬🇧 English</div>
+                        <div onclick="setLanguage('ko')" class="px-4 py-2 hover:bg-indigo-500/30 cursor-pointer text-sm flex items-center gap-2">🇰🇷 한국어</div>
+                        <div onclick="setLanguage('zh')" class="px-4 py-2 hover:bg-indigo-500/30 cursor-pointer text-sm flex items-center gap-2">🇨🇳 中文</div>
+                    </div>
                 </div>
             </div>
         </div>
-    </div>
-</header>
+    </header>
 
-    <!-- Модальное окно входа -->
     <div id="loginModal" class="modal fixed inset-0 z-50 flex items-center justify-center bg-black/70 backdrop-blur-sm hidden transition-all">
         <div class="glass-card p-8 w-full max-w-md mx-4 relative">
             <button onclick="closeLoginModal()" class="absolute top-4 right-4 text-slate-400 hover:text-white text-xl">&times;</button>
             <div class="text-center mb-6">
                 <i class="fas fa-lock text-4xl text-indigo-400 mb-3"></i>
-                <h2 class="text-2xl font-bold">Вход в личный кабинет для клиентов</h2>
-                <p class="text-slate-400 text-sm mt-2">Введите email и пароль</p>
+                <h2 class="text-2xl font-bold" data-translate="login_title">Вход в личный кабинет для клиентов</h2>
+                <p class="text-slate-400 text-sm mt-2" data-translate="login_subtitle">Введите email и пароль</p>
             </div>
             <div class="space-y-4">
                 <div>
-                    <label class="block text-sm font-medium mb-1">Email</label>
+                    <label class="block text-sm font-medium mb-1" data-translate="login_email">Email</label>
                     <input type="email" id="loginEmail" class="w-full bg-slate-800 border border-slate-700 rounded-xl px-4 py-2 focus:outline-none focus:border-indigo-500" placeholder="ваш логин">
                 </div>
                 <div>
-                    <label class="block text-sm font-medium mb-1">Пароль</label>
+                    <label class="block text-sm font-medium mb-1" data-translate="login_password">Пароль</label>
                     <input type="password" id="loginPassword" class="w-full bg-slate-800 border border-slate-700 rounded-xl px-4 py-2 focus:outline-none focus:border-indigo-500" placeholder="••••••">
                 </div>
-                <button onclick="doLogin()" class="w-full bg-indigo-600 hover:bg-indigo-500 py-2.5 rounded-xl font-semibold transition"><i class="fas fa-arrow-right mr-2"></i> Войти</button>
-                <p class="text-xs text-center text-slate-500 mt-4"></p>
+                <button onclick="doLogin()" class="w-full bg-indigo-600 hover:bg-indigo-500 py-2.5 rounded-xl font-semibold transition"><i class="fas fa-arrow-right mr-2"></i> <span data-translate="login_submit">Войти</span></button>
             </div>
         </div>
     </div>
 
-    <!-- ===== HERO ===== -->
+    <!-- HERO -->
     <section class="relative pt-36 pb-16 overflow-hidden">
         <div class="max-w-6xl mx-auto px-6 flex flex-col lg:flex-row gap-12 items-center">
             <div class="flex-1 text-center lg:text-left">
                 <div class="inline-flex items-center gap-3 bg-slate-900/80 backdrop-blur-sm border border-indigo-500/40 rounded-full px-5 py-1.5 text-sm mb-6">
                     <span class="relative flex h-3 w-3"><span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span><span class="relative inline-flex rounded-full h-3 w-3 bg-emerald-500"></span></span> 
-                    <span><i class="fas fa-globe mr-1"></i> Open for remote · product & AI</span>
+                    <span><i class="fas fa-globe mr-1"></i> <span data-translate="hero_badge">Open for remote · product & AI</span></span>
                 </div>
-                <h1 class="text-5xl lg:text-7xl font-extrabold leading-tight tracking-tight mb-6">Антон Галямов<br><span class="gradient-text">Product Director &<br>AI Architect</span></h1>
-                <p class="text-lg text-slate-400 max-w-xl mx-auto lg:mx-0 mb-8">7+ лет в разработке, ИИ и управлении продуктами. Строю цифровые экосистемы, которые масштабируют бизнес.</p>
+                <h1 class="text-5xl lg:text-7xl font-extrabold leading-tight tracking-tight mb-6"><span data-translate="hero_name">Антон Галямов</span><br><span class="gradient-text"><span data-translate="hero_title1">Product Director &</span><br><span data-translate="hero_title2">AI Architect</span></span></h1>
+                <p class="text-lg text-slate-400 max-w-xl mx-auto lg:mx-0 mb-8" data-translate="hero_desc">7+ лет в разработке, ИИ и управлении продуктами. Строю цифровые экосистемы, которые масштабируют бизнес.</p>
                 <div class="flex flex-wrap gap-4 justify-center lg:justify-start">
-                    <a href="#calculator" class="inline-flex items-center gap-2 bg-indigo-600 hover:bg-indigo-500 px-7 py-3.5 rounded-full font-semibold transition-all shadow-xl shadow-indigo-600/50"><i class="fas fa-chart-line"></i> Рассчитать экономию</a>
-                    <a href="#cases" class="glass-card px-7 py-3.5 rounded-full font-semibold border border-indigo-500/40 hover:bg-indigo-950/40"><i class="fas fa-play-circle mr-1"></i> Смотреть кейсы</a>
+                    <a href="#calculator" class="inline-flex items-center gap-2 bg-indigo-600 hover:bg-indigo-500 px-7 py-3.5 rounded-full font-semibold transition-all shadow-xl shadow-indigo-600/50"><i class="fas fa-chart-line"></i> <span data-translate="hero_calc_btn">Рассчитать экономию</span></a>
+                    <a href="#cases" class="glass-card px-7 py-3.5 rounded-full font-semibold border border-indigo-500/40 hover:bg-indigo-950/40"><i class="fas fa-play-circle mr-1"></i> <span data-translate="hero_cases_btn">Смотреть кейсы</span></a>
                 </div>
             </div>
             <div class="flex-1 flex justify-center relative">
                 <div class="relative w-80 h-80 lg:w-[400px] lg:h-[400px] rounded-full overflow-hidden border-2 border-indigo-500/50 shadow-2xl shadow-indigo-500/30 animate-float bg-gradient-to-br from-indigo-900 to-purple-900">
-                    <img class="dev-photo w-full h-full object-cover object-top" 
-     src="https://iili.io/BDOeSQ1.jpg" 
-     alt="Антон Галямов">
-                         referrerpolicy="no-referrer"
-                         onerror="this.src='https://ui-avatars.com/api/?background=6366F1&color=fff&bold=true&size=400&name=Anton+G'">
+                    <img class="dev-photo w-full h-full object-cover object-top" src="https://iili.io/BDOeSQ1.jpg" alt="Антон Галямов">
                 </div>
                 <div class="absolute -bottom-4 -right-3 glass-card px-5 py-2.5 flex items-center gap-2"><i class="fab fa-python text-indigo-400 text-xl"></i><span class="text-sm font-mono font-bold">full-stack · AI</span></div>
             </div>
         </div>
-
-        <!-- Метрики -->
         <div class="max-w-6xl mx-auto px-6 mt-20 grid grid-cols-2 md:grid-cols-4 gap-5 text-center">
-            <div class="glass-card p-5"><div class="stat-number" id="stat1">0</div><div class="text-slate-400 text-sm"><i class="fas fa-chart-simple mr-1 text-indigo-400"></i> CRM/автоматизация</div></div>
-            <div class="glass-card p-5"><div class="stat-number" id="stat2">0</div><div class="text-slate-400 text-sm"><i class="fas fa-brain mr-1 text-indigo-400"></i> AI-решений</div></div>
-            <div class="glass-card p-5"><div class="stat-number" id="stat3">0</div><div class="text-slate-400 text-sm"><i class="fas fa-chart-line mr-1 text-emerald-400"></i> к конверсии</div></div>
-            <div class="glass-card p-5"><div class="stat-number" id="stat4">0</div><div class="text-slate-400 text-sm"><i class="fas fa-trademark mr-1 text-indigo-400"></i> упакованных брендов</div></div>
+            <div class="glass-card p-5"><div class="stat-number" id="stat1">0</div><div class="text-slate-400 text-sm"><i class="fas fa-chart-simple mr-1 text-indigo-400"></i> <span data-translate="stat1">CRM/автоматизация</span></div></div>
+            <div class="glass-card p-5"><div class="stat-number" id="stat2">0</div><div class="text-slate-400 text-sm"><i class="fas fa-brain mr-1 text-indigo-400"></i> <span data-translate="stat2">AI-решений</span></div></div>
+            <div class="glass-card p-5"><div class="stat-number" id="stat3">0</div><div class="text-slate-400 text-sm"><i class="fas fa-chart-line mr-1 text-emerald-400"></i> <span data-translate="stat3">к конверсии</span></div></div>
+            <div class="glass-card p-5"><div class="stat-number" id="stat4">0</div><div class="text-slate-400 text-sm"><i class="fas fa-trademark mr-1 text-indigo-400"></i> <span data-translate="stat4">упакованных брендов</span></div></div>
         </div>
     </section>
 
-    <!-- ===== БЛОК 1: «Для кого я работаю» ===== -->
     <section class="py-16 fade-up">
         <div class="max-w-4xl mx-auto px-6">
             <div class="glass-card p-8 md:p-10">
-                <div class="text-center mb-8"><i class="fas fa-bullseye text-4xl text-indigo-400 mb-3"></i><h2 class="text-3xl font-bold">Для кого я работаю</h2></div>
+                <div class="text-center mb-8"><i class="fas fa-bullseye text-4xl text-indigo-400 mb-3"></i><h2 class="text-3xl font-bold" data-translate="client_title">Для кого я работаю</h2></div>
                 <div class="bg-emerald-950/20 p-6 rounded-2xl border border-emerald-500/20 max-w-2xl mx-auto">
-                    <h3 class="text-xl font-bold text-emerald-400 mb-4"><i class="fas fa-check-circle mr-2"></i> Идеальные клиенты:</h3>
+                    <h3 class="text-xl font-bold text-emerald-400 mb-4"><i class="fas fa-check-circle mr-2"></i> <span data-translate="client_subtitle">Идеальные клиенты:</span></h3>
                     <ul class="space-y-3">
-                        <li class="flex items-start gap-3"><i class="fas fa-check text-emerald-400 mt-1"></i> <span>Понимают ценность автоматизации и готовы внедрять изменения</span></li>
-                        <li class="flex items-start gap-3"><i class="fas fa-check text-emerald-400 mt-1"></i> <span>Имеют чёткую задачу или готовы к аудиту перед стартом</span></li>
-                        <li class="flex items-start gap-3"><i class="fas fa-check text-emerald-400 mt-1"></i> <span>Ценят прозрачность: почасовая оплата, еженедельные отчёты, чеки</span></li>
-                        <li class="flex items-start gap-3"><i class="fas fa-check text-emerald-400 mt-1"></i> <span>Планируют долгосрочное развитие продукта</span></li>
+                        <li class="flex items-start gap-3"><i class="fas fa-check text-emerald-400 mt-1"></i> <span data-translate="client1">Понимают ценность автоматизации и готовы внедрять изменения</span></li>
+                        <li class="flex items-start gap-3"><i class="fas fa-check text-emerald-400 mt-1"></i> <span data-translate="client2">Имеют чёткую задачу или готовы к аудиту перед стартом</span></li>
+                        <li class="flex items-start gap-3"><i class="fas fa-check text-emerald-400 mt-1"></i> <span data-translate="client3">Ценят прозрачность: почасовая оплата, еженедельные отчёты, чеки</span></li>
+                        <li class="flex items-start gap-3"><i class="fas fa-check text-emerald-400 mt-1"></i> <span data-translate="client4">Планируют долгосрочное развитие продукта</span></li>
                     </ul>
                 </div>
             </div>
         </div>
     </section>
 
-    <!-- ===== БЛОК 2: «Как строится работа» ===== -->
     <section id="process" class="py-16 bg-slate-900/30 fade-up">
         <div class="max-w-6xl mx-auto px-6">
-            <div class="text-center mb-12"><i class="fas fa-sync-alt text-4xl text-indigo-400 mb-3"></i><h2 class="text-3xl font-bold">Как строится работа</h2><p class="text-slate-400 mt-2">Прозрачный процесс с понятными этапами</p></div>
+            <div class="text-center mb-12"><i class="fas fa-sync-alt text-4xl text-indigo-400 mb-3"></i><h2 class="text-3xl font-bold" data-translate="process_title">Как строится работа</h2><p class="text-slate-400 mt-2" data-translate="process_subtitle">Прозрачный процесс с понятными этапами</p></div>
             <div class="grid md:grid-cols-4 gap-4">
-                <div class="glass-card p-6 text-center"><div class="text-3xl font-bold text-indigo-400 mb-3">01</div><i class="fas fa-clipboard-list text-3xl text-emerald-400 mb-3"></i><h3 class="font-bold">Аудит и ТЗ</h3><p class="text-sm text-slate-400 mt-2">Созвон, анализ процессов, фиксация задач и метрик успеха.</p></div>
-                <div class="glass-card p-6 text-center"><div class="text-3xl font-bold text-indigo-400 mb-3">02</div><i class="fas fa-project-diagram text-3xl text-emerald-400 mb-3"></i><h3 class="font-bold">Архитектура</h3><p class="text-sm text-slate-400 mt-2">Схема решения, выбор стека, дизайн-концепция.</p></div>
-                <div class="glass-card p-6 text-center"><div class="text-3xl font-bold text-indigo-400 mb-3">03</div><i class="fas fa-code text-3xl text-emerald-400 mb-3"></i><h3 class="font-bold">Разработка</h3><p class="text-sm text-slate-400 mt-2">Код, интеграции, ИИ-роботы, внутреннее QA.</p></div>
-                <div class="glass-card p-6 text-center"><div class="text-3xl font-bold text-indigo-400 mb-3">04</div><i class="fas fa-rocket text-3xl text-emerald-400 mb-3"></i><h3 class="font-bold">Запуск + поддержка</h3><p class="text-sm text-slate-400 mt-2">Обучение команды, документация, 30 дней гарантии.</p></div>
+                <div class="glass-card p-6 text-center"><div class="text-3xl font-bold text-indigo-400 mb-3">01</div><i class="fas fa-clipboard-list text-3xl text-emerald-400 mb-3"></i><h3 class="font-bold" data-translate="process1_title">Аудит и ТЗ</h3><p class="text-sm text-slate-400 mt-2" data-translate="process1_desc">Созвон, анализ процессов, фиксация задач и метрик успеха.</p></div>
+                <div class="glass-card p-6 text-center"><div class="text-3xl font-bold text-indigo-400 mb-3">02</div><i class="fas fa-project-diagram text-3xl text-emerald-400 mb-3"></i><h3 class="font-bold" data-translate="process2_title">Архитектура</h3><p class="text-sm text-slate-400 mt-2" data-translate="process2_desc">Схема решения, выбор стека, дизайн-концепция.</p></div>
+                <div class="glass-card p-6 text-center"><div class="text-3xl font-bold text-indigo-400 mb-3">03</div><i class="fas fa-code text-3xl text-emerald-400 mb-3"></i><h3 class="font-bold" data-translate="process3_title">Разработка</h3><p class="text-sm text-slate-400 mt-2" data-translate="process3_desc">Код, интеграции, ИИ-роботы, внутреннее QA.</p></div>
+                <div class="glass-card p-6 text-center"><div class="text-3xl font-bold text-indigo-400 mb-3">04</div><i class="fas fa-rocket text-3xl text-emerald-400 mb-3"></i><h3 class="font-bold" data-translate="process4_title">Запуск + поддержка</h3><p class="text-sm text-slate-400 mt-2" data-translate="process4_desc">Обучение команды, документация, 30 дней гарантии.</p></div>
             </div>
-            <div class="text-center mt-8 text-slate-400 text-sm"><i class="fas fa-calendar-week mr-2"></i> Средний срок проекта: 2–6 недель. Еженедельные созвоны + отчёт</div>
+            <div class="text-center mt-8 text-slate-400 text-sm"><i class="fas fa-calendar-week mr-2"></i> <span data-translate="process_note">Средний срок проекта: 2–6 недель. Еженедельные созвоны + отчёт</span></div>
         </div>
     </section>
 
-    <!-- ===== ЭКСПЕРТИЗА ===== -->
     <section id="expertise" class="py-20 fade-up">
         <div class="max-w-6xl mx-auto px-6">
-            <div class="text-center mb-14"><h2 class="text-3xl md:text-4xl font-bold"><i class="fas fa-microchip mr-3 text-indigo-400"></i> экосистема компетенций</h2><div class="h-0.5 w-20 bg-indigo-500 mx-auto mt-3"></div></div>
+            <div class="text-center mb-14"><h2 class="text-3xl md:text-4xl font-bold"><i class="fas fa-microchip mr-3 text-indigo-400"></i> <span data-translate="expertise_title">экосистема компетенций</span></h2><div class="h-0.5 w-20 bg-indigo-500 mx-auto mt-3"></div></div>
             <div class="grid md:grid-cols-3 gap-6">
-                <div class="glass-card p-7"><i class="fas fa-code text-4xl mb-4 text-indigo-400"></i><h3 class="text-xl font-bold">Разработка & архитектура</h3><p class="text-slate-400 text-sm mt-2">PHP, Python, React/Vue 3, REST, n8n, микросервисы.</p></div>
-                <div class="glass-card p-7"><i class="fas fa-robot text-4xl mb-4 text-indigo-400"></i><h3 class="text-xl font-bold">AI & автопилоты</h3><p class="text-slate-400 text-sm mt-2">LLM, прогнозы, AI-агенты, генерация отчётов, NLP.</p></div>
-                <div class="glass-card p-7"><i class="fas fa-chart-pie text-4xl mb-4 text-emerald-400"></i><h3 class="text-xl font-bold">Аналитика & BI</h3><p class="text-slate-400 text-sm mt-2">Воронки продаж, дашборды, data-driven оптимизация.</p></div>
-                <div class="glass-card p-7"><i class="fas fa-palette text-4xl mb-4 text-indigo-400"></i><h3 class="text-xl font-bold">Маркетинг & брендинг</h3><p class="text-slate-400 text-sm mt-2">UI/UX, фирменный стиль, HR-брендинг, упаковка.</p></div>
-                <div class="glass-card p-7"><i class="fas fa-users text-4xl mb-4 text-indigo-400"></i><h3 class="text-xl font-bold">Продукт-лидерство</h3><p class="text-slate-400 text-sm mt-2">Roadmap, тех. документация, управление командой.</p></div>
-                <div class="glass-card p-7"><i class="fas fa-link text-4xl mb-4 text-emerald-400"></i><h3 class="text-xl font-bold">Интеграции</h3><p class="text-slate-400 text-sm mt-2">ERP, КЭДО, вебхуки, телеграм-боты.</p></div>
+                <div class="glass-card p-7"><i class="fas fa-code text-4xl mb-4 text-indigo-400"></i><h3 class="text-xl font-bold" data-translate="expertise1">Разработка & архитектура</h3><p class="text-slate-400 text-sm mt-2" data-translate="expertise1_desc">PHP, Python, React/Vue 3, REST, n8n, микросервисы.</p></div>
+                <div class="glass-card p-7"><i class="fas fa-robot text-4xl mb-4 text-indigo-400"></i><h3 class="text-xl font-bold" data-translate="expertise2">AI & автопилоты</h3><p class="text-slate-400 text-sm mt-2" data-translate="expertise2_desc">LLM, прогнозы, AI-агенты, генерация отчётов, NLP.</p></div>
+                <div class="glass-card p-7"><i class="fas fa-chart-pie text-4xl mb-4 text-emerald-400"></i><h3 class="text-xl font-bold" data-translate="expertise3">Аналитика & BI</h3><p class="text-slate-400 text-sm mt-2" data-translate="expertise3_desc">Воронки продаж, дашборды, data-driven оптимизация.</p></div>
+                <div class="glass-card p-7"><i class="fas fa-palette text-4xl mb-4 text-indigo-400"></i><h3 class="text-xl font-bold" data-translate="expertise4">Маркетинг & брендинг</h3><p class="text-slate-400 text-sm mt-2" data-translate="expertise4_desc">UI/UX, фирменный стиль, HR-брендинг, упаковка.</p></div>
+                <div class="glass-card p-7"><i class="fas fa-users text-4xl mb-4 text-indigo-400"></i><h3 class="text-xl font-bold" data-translate="expertise5">Продукт-лидерство</h3><p class="text-slate-400 text-sm mt-2" data-translate="expertise5_desc">Roadmap, тех. документация, управление командой.</p></div>
+                <div class="glass-card p-7"><i class="fas fa-link text-4xl mb-4 text-emerald-400"></i><h3 class="text-xl font-bold" data-translate="expertise6">Интеграции</h3><p class="text-slate-400 text-sm mt-2" data-translate="expertise6_desc">ERP, КЭДО, вебхуки, телеграм-боты.</p></div>
             </div>
         </div>
     </section>
 
-    <!-- ===== СТЕК ТЕХНОЛОГИЙ ===== -->
     <section class="py-16 bg-slate-900/30 fade-up">
         <div class="max-w-6xl mx-auto px-6">
-            <div class="text-center mb-10"><i class="fas fa-microchip text-4xl text-indigo-400 mb-3"></i><h2 class="text-3xl font-bold">Стек технологий</h2><p class="text-slate-400">что я использую в работе</p></div>
+            <div class="text-center mb-10"><i class="fas fa-microchip text-4xl text-indigo-400 mb-3"></i><h2 class="text-3xl font-bold" data-translate="tech_title">Стек технологий</h2><p class="text-slate-400" data-translate="tech_subtitle">что я использую в работе</p></div>
             <div class="flex flex-wrap justify-center gap-3">
                 <span class="tech-tag px-4 py-2 rounded-full text-sm"><i class="fab fa-python mr-1"></i> Python</span>
                 <span class="tech-tag px-4 py-2 rounded-full text-sm"><i class="fab fa-php mr-1"></i> PHP</span>
@@ -257,15 +199,11 @@
         </div>
     </section>
 
-    <!-- ===== КЕЙСЫ (БЛОК ПОЯВЛЯЕТСЯ СРАЗУ, АНИМАЦИЯ УБРАНА) ===== -->
+    <!-- КЕЙСЫ -->
     <section id="cases" class="py-20">
         <div class="max-w-6xl mx-auto px-6">
-            <div class="text-center mb-14">
-                <h2 class="text-3xl md:text-4xl font-bold"><i class="fas fa-rocket mr-3 text-indigo-400"></i> кейсы & результаты</h2>
-                <p class="text-slate-400 mt-2">реальные проекты с измеримым эффектом</p>
-            </div>
+            <div class="text-center mb-14"><h2 class="text-3xl md:text-4xl font-bold"><i class="fas fa-rocket mr-3 text-indigo-400"></i> <span data-translate="cases_title">кейсы & результаты</span></h2><p class="text-slate-400 mt-2" data-translate="cases_subtitle">реальные проекты с измеримым эффектом</p></div>
             <div class="space-y-12">
-                <!-- Кейс 1 -->
                 <div class="glass-card p-0 overflow-hidden rounded-3xl">
                     <div class="grid lg:grid-cols-5 gap-0">
                         <div class="lg:col-span-2 h-80 lg:h-auto relative overflow-hidden bg-gradient-to-br from-indigo-950 to-slate-950">
@@ -273,63 +211,61 @@
                             <div class="absolute top-4 left-4 case-badge px-3 py-1 rounded-full text-xs font-semibold"><i class="fas fa-brain mr-1"></i> AI / ML</div>
                         </div>
                         <div class="lg:col-span-3 p-8 lg:p-10">
-                            <h3 class="text-3xl font-bold text-white mb-4">ИИ-ассистент для отдела продаж + CRM-экосистема</h3>
+                            <h3 class="text-3xl font-bold text-white mb-4" data-translate="case1_title">ИИ-ассистент для отдела продаж + CRM-экосистема</h3>
                             <div class="flex flex-wrap gap-2 mb-4"><span class="bg-indigo-900/50 px-3 py-1 rounded-full text-xs"><i class="fab fa-python"></i> Python / LLM</span><span class="bg-indigo-900/50 px-3 py-1 rounded-full text-xs"><i class="fab fa-bitbucket"></i> Bitrix24 REST</span><span class="bg-indigo-900/50 px-3 py-1 rounded-full text-xs"><i class="fab fa-vuejs"></i> Vue 3</span></div>
                             <div class="space-y-4 text-slate-300">
-                                <div><strong class="text-white text-lg">🧩 Задача:</strong> Компания тратила 30+ часов в неделю на ручную обработку лидов. Менеджеры заполняли карточки в CRM вручную, не было прогнозов.</div>
-                                <div><strong class="text-white text-lg">⚙️ Решение:</strong> Разработал AI-агента на базе LLM, который автоматически анализирует диалоги с клиентами, классифицирует лидов, заполняет CRM и выдаёт прогноз.</div>
-                                <div class="bg-slate-800/40 p-5 rounded-xl"><strong class="text-white text-lg">🏆 Ключевые результаты:</strong>
+                                <div><strong class="text-white text-lg" data-translate="case1_task_label">🧩 Задача:</strong> <span data-translate="case1_task">Компания тратила 30+ часов в неделю на ручную обработку лидов. Менеджеры заполняли карточки в CRM вручную, не было прогнозов.</span></div>
+                                <div><strong class="text-white text-lg" data-translate="case1_solution_label">⚙️ Решение:</strong> <span data-translate="case1_solution">Разработал AI-агента на базе LLM, который автоматически анализирует диалоги с клиентами, классифицирует лидов, заполняет CRM и выдаёт прогноз.</span></div>
+                                <div class="bg-slate-800/40 p-5 rounded-xl"><strong class="text-white text-lg" data-translate="case1_results_label">🏆 Ключевые результаты:</strong>
                                     <ul class="grid md:grid-cols-2 gap-3 mt-3">
-                                        <li class="flex items-center gap-2"><i class="fas fa-chart-line text-emerald-400"></i> Конверсия выросла на <strong class="text-white">+42%</strong></li>
-                                        <li class="flex items-center gap-2"><i class="fas fa-clock text-indigo-400"></i> Экономия времени — <strong class="text-white">25 ч/нед</strong></li>
-                                        <li class="flex items-center gap-2"><i class="fas fa-chart-simple text-emerald-400"></i> Точность прогнозов <strong class="text-white">89%</strong></li>
-                                        <li class="flex items-center gap-2"><i class="fas fa-dollar-sign text-indigo-400"></i> ROI <strong class="text-white">320% за 6 мес</strong></li>
+                                        <li class="flex items-center gap-2"><i class="fas fa-chart-line text-emerald-400"></i> <span data-translate="case1_result1">Конверсия выросла на <strong class="text-white">+42%</strong></span></li>
+                                        <li class="flex items-center gap-2"><i class="fas fa-clock text-indigo-400"></i> <span data-translate="case1_result2">Экономия времени — <strong class="text-white">25 ч/нед</strong></span></li>
+                                        <li class="flex items-center gap-2"><i class="fas fa-chart-simple text-emerald-400"></i> <span data-translate="case1_result3">Точность прогнозов <strong class="text-white">89%</strong></span></li>
+                                        <li class="flex items-center gap-2"><i class="fas fa-dollar-sign text-indigo-400"></i> <span data-translate="case1_result4">ROI <strong class="text-white">320% за 6 мес</strong></span></li>
                                     </ul>
                                 </div>
                             </div>
                         </div>
                     </div>
                 </div>
-                <!-- Кейс 2 -->
                 <div class="glass-card p-0 overflow-hidden rounded-3xl">
                     <div class="grid lg:grid-cols-5 gap-0">
                         <div class="lg:col-span-2 h-80 lg:h-auto relative overflow-hidden bg-gradient-to-br from-emerald-950 to-slate-950">
                             <img src="https://imageup.ru/img119/5097030/screenshot_2026_04_30-2.jpg" alt="Трансформация холдинга" class="w-full h-full object-cover">
                         </div>
                         <div class="lg:col-span-3 p-8 lg:p-10">
-                            <h3 class="text-3xl font-bold text-white mb-4">Цифровая трансформация холдинга (5 юр.лиц)</h3>
+                            <h3 class="text-3xl font-bold text-white mb-4" data-translate="case2_title">Цифровая трансформация холдинга (5 юр.лиц)</h3>
                             <div class="flex flex-wrap gap-2 mb-4"><span class="bg-indigo-900/50 px-3 py-1 rounded-full text-xs"><i class="fab fa-bitbucket"></i> Битрикс24</span><span class="bg-indigo-900/50 px-3 py-1 rounded-full text-xs"><i class="fas fa-file-signature"></i> КЭДО</span></div>
                             <div class="space-y-4 text-slate-300">
-                                <div><strong class="text-white text-lg">🧩 Задача:</strong> Холдинг из 5 юрлиц с разрозненными CRM. Согласование документов — до 4 месяцев.</div>
-                                <div><strong class="text-white text-lg">⚙️ Решение:</strong> Единый корпоративный портал, сквозные бизнес-процессы, КЭДО, автоматическая отчётность.</div>
-                                <div class="bg-slate-800/40 p-5 rounded-xl"><strong class="text-white text-lg">📈 Ключевые результаты:</strong>
+                                <div><strong class="text-white text-lg" data-translate="case2_task_label">🧩 Задача:</strong> <span data-translate="case2_task">Холдинг из 5 юрлиц с разрозненными CRM. Согласование документов — до 4 месяцев.</span></div>
+                                <div><strong class="text-white text-lg" data-translate="case2_solution_label">⚙️ Решение:</strong> <span data-translate="case2_solution">Единый корпоративный портал, сквозные бизнес-процессы, КЭДО, автоматическая отчётность.</span></div>
+                                <div class="bg-slate-800/40 p-5 rounded-xl"><strong class="text-white text-lg" data-translate="case2_results_label">📈 Ключевые результаты:</strong>
                                     <ul class="grid md:grid-cols-2 gap-3 mt-3">
-                                        <li class="flex items-center gap-2"><i class="fas fa-clock text-emerald-400"></i> Согласование <strong class="text-white">-60% времени</strong></li>
-                                        <li class="flex items-center gap-2"><i class="fas fa-chart-line text-indigo-400"></i> Выручка <strong class="text-white">+35% за полгода</strong></li>
-                                        <li class="flex items-center gap-2"><i class="fas fa-building text-emerald-400"></i> <strong class="text-white">5 компаний</strong> в едином контуре</li>
+                                        <li class="flex items-center gap-2"><i class="fas fa-clock text-emerald-400"></i> <span data-translate="case2_result1">Согласование <strong class="text-white">-60% времени</strong></span></li>
+                                        <li class="flex items-center gap-2"><i class="fas fa-chart-line text-indigo-400"></i> <span data-translate="case2_result2">Выручка <strong class="text-white">+35% за полгода</strong></span></li>
+                                        <li class="flex items-center gap-2"><i class="fas fa-building text-emerald-400"></i> <span data-translate="case2_result3"><strong class="text-white">5 компаний</strong> в едином контуре</span></li>
                                     </ul>
                                 </div>
                             </div>
                         </div>
                     </div>
                 </div>
-                <!-- Кейс 3 -->
                 <div class="glass-card p-0 overflow-hidden rounded-3xl">
                     <div class="grid lg:grid-cols-5 gap-0">
                         <div class="lg:col-span-2 h-80 lg:h-auto relative overflow-hidden bg-gradient-to-br from-purple-950 to-slate-950">
                             <img src="https://imageup.ru/img92/5097033/11.jpg" alt="Ребрендинг и HR" class="w-full h-full object-cover">
                         </div>
                         <div class="lg:col-span-3 p-8 lg:p-10">
-                            <h3 class="text-3xl font-bold text-white mb-4">Ребрендинг холдинга + HR-маркетинг под ключ</h3>
+                            <h3 class="text-3xl font-bold text-white mb-4" data-translate="case3_title">Ребрендинг холдинга + HR-маркетинг под ключ</h3>
                             <div class="flex flex-wrap gap-2 mb-4"><span class="bg-indigo-900/50 px-3 py-1 rounded-full text-xs"><i class="fas fa-trademark"></i> Брендинг</span><span class="bg-indigo-900/50 px-3 py-1 rounded-full text-xs"><i class="fas fa-users"></i> HR-маркетинг</span></div>
                             <div class="space-y-4 text-slate-300">
-                                <div><strong class="text-white text-lg">🧩 Задача:</strong> Размытый бренд после слияния, подбор персонала до 2 месяцев на позицию.</div>
-                                <div><strong class="text-white text-lg">⚙️ Решение:</strong> Бренд-стратегия, HR-бренд, сквозная воронка подбора в CRM, курсы адаптации.</div>
-                                <div class="bg-slate-800/40 p-5 rounded-xl"><strong class="text-white text-lg">🏅 Ключевые результаты:</strong>
+                                <div><strong class="text-white text-lg" data-translate="case3_task_label">🧩 Задача:</strong> <span data-translate="case3_task">Размытый бренд после слияния, подбор персонала до 2 месяцев на позицию.</span></div>
+                                <div><strong class="text-white text-lg" data-translate="case3_solution_label">⚙️ Решение:</strong> <span data-translate="case3_solution">Бренд-стратегия, HR-бренд, сквозная воронка подбора в CRM, курсы адаптации.</span></div>
+                                <div class="bg-slate-800/40 p-5 rounded-xl"><strong class="text-white text-lg" data-translate="case3_results_label">🏅 Ключевые результаты:</strong>
                                     <ul class="grid md:grid-cols-2 gap-3 mt-3">
-                                        <li class="flex items-center gap-2"><i class="fas fa-chart-line text-emerald-400"></i> Узнаваемость <strong class="text-white">в 2 раза выше</strong></li>
-                                        <li class="flex items-center gap-2"><i class="fas fa-users text-indigo-400"></i> Откликов <strong class="text-white">+200%</strong></li>
-                                        <li class="flex items-center gap-2"><i class="fas fa-clock text-emerald-400"></i> Срок закрытия <strong class="text-white">-40%</strong></li>
+                                        <li class="flex items-center gap-2"><i class="fas fa-chart-line text-emerald-400"></i> <span data-translate="case3_result1">Узнаваемость <strong class="text-white">в 2 раза выше</strong></span></li>
+                                        <li class="flex items-center gap-2"><i class="fas fa-users text-indigo-400"></i> <span data-translate="case3_result2">Откликов <strong class="text-white">+200%</strong></span></li>
+                                        <li class="flex items-center gap-2"><i class="fas fa-clock text-emerald-400"></i> <span data-translate="case3_result3">Срок закрытия <strong class="text-white">-40%</strong></span></li>
                                     </ul>
                                 </div>
                             </div>
@@ -340,125 +276,303 @@
         </div>
     </section>
 
-    <!-- ===== ОТЗЫВЫ ===== -->
     <section class="py-16 bg-slate-900/30 fade-up">
         <div class="max-w-5xl mx-auto px-6">
-            <div class="text-center mb-10"><i class="fas fa-quote-left text-4xl text-indigo-400 mb-3"></i><h2 class="text-3xl font-bold">Отзывы о работе</h2></div>
+            <div class="text-center mb-10"><i class="fas fa-quote-left text-4xl text-indigo-400 mb-3"></i><h2 class="text-3xl font-bold" data-translate="reviews_title">Отзывы о работе</h2></div>
             <div class="grid md:grid-cols-3 gap-6">
-                <div class="glass-card p-6"><i class="fas fa-quote-left text-indigo-400 text-2xl mb-3"></i><p class="text-slate-300 text-sm">«Антон за 3 недели собрал CRM-экосистему, которая заменила работу двух менеджеров. Прогнозы сделок теперь точные».</p><p class="mt-4 text-indigo-400 font-semibold">— Алексей К., CEO</p></div>
-                <div class="glass-card p-6"><i class="fas fa-quote-left text-indigo-400 text-2xl mb-3"></i><p class="text-slate-300 text-sm">«Чёткий ТЗ, прозрачная оплата по часам. Портал объединил 5 юрлиц в единый контур за месяц».</p><p class="mt-4 text-indigo-400 font-semibold">— Марина В., Опер. директор</p></div>
-                <div class="glass-card p-6"><i class="fas fa-quote-left text-indigo-400 text-2xl mb-3"></i><p class="text-slate-300 text-sm">«Вывел приложение на маркетплейс Битрикс24 с нуля. Монетизация пошла со второго месяца».</p><p class="mt-4 text-indigo-400 font-semibold">— Дмитрий Л., Product Owner</p></div>
+                <div class="glass-card p-6"><i class="fas fa-quote-left text-indigo-400 text-2xl mb-3"></i><p class="text-slate-300 text-sm" data-translate="review1">«Антон за 3 недели собрал CRM-экосистему, которая заменила работу двух менеджеров. Прогнозы сделок теперь точные».</p><p class="mt-4 text-indigo-400 font-semibold">— Алексей К., CEO</p></div>
+                <div class="glass-card p-6"><i class="fas fa-quote-left text-indigo-400 text-2xl mb-3"></i><p class="text-slate-300 text-sm" data-translate="review2">«Чёткий ТЗ, прозрачная оплата по часам. Портал объединил 5 юрлиц в единый контур за месяц».</p><p class="mt-4 text-indigo-400 font-semibold">— Марина В., Опер. директор</p></div>
+                <div class="glass-card p-6"><i class="fas fa-quote-left text-indigo-400 text-2xl mb-3"></i><p class="text-slate-300 text-sm" data-translate="review3">«Вывел приложение на маркетплейс Битрикс24 с нуля. Монетизация пошла со второго месяца».</p><p class="mt-4 text-indigo-400 font-semibold">— Дмитрий Л., Product Owner</p></div>
             </div>
         </div>
     </section>
 
-    <!-- ===== КАЛЬКУЛЯТОР ЭКОНОМИИ ===== -->
     <section id="calculator" class="py-20 fade-up">
         <div class="max-w-5xl mx-auto px-6">
             <div class="glass-card p-8 md:p-10 rounded-3xl">
                 <div class="text-center mb-8">
                     <i class="fas fa-calculator text-5xl text-indigo-400 mb-3"></i>
-                    <h2 class="text-3xl md:text-4xl font-bold">Сколько вы сэкономите, работая со мной?</h2>
-                    <p class="text-slate-400 mt-3 max-w-2xl mx-auto">Один исполнитель вместо команды. Экономия на коммуникациях, налогах и простоях.</p>
+                    <h2 class="text-3xl md:text-4xl font-bold" data-translate="calc_title">Сколько вы сэкономите, работая со мной?</h2>
+                    <p class="text-slate-400 mt-3 max-w-2xl mx-auto" data-translate="calc_subtitle">Один исполнитель вместо команды. Экономия на коммуникациях, налогах и простоях.</p>
                 </div>
-
                 <div class="grid lg:grid-cols-2 gap-10">
                     <div>
-                        <h3 class="text-xl font-bold mb-4"><i class="fas fa-users mr-2 text-indigo-400"></i> Отметьте, кого пришлось бы нанимать:</h3>
+                        <h3 class="text-xl font-bold mb-4"><i class="fas fa-users mr-2 text-indigo-400"></i> <span data-translate="calc_roles">Отметьте, кого пришлось бы нанимать:</span></h3>
                         <div class="space-y-3">
-                            <label class="flex items-center gap-3 p-3 rounded-xl bg-slate-800/30 cursor-pointer hover:bg-slate-800/50 transition"><input type="checkbox" class="checkbox-custom" data-role="designer" data-rate="2000"> <i class="fas fa-palette w-6 text-indigo-400"></i> <span>Веб-дизайнер / UI/UX — прототипы, визуал, брендбук <span class="text-slate-500 text-sm">(~2 000 ₽/час)</span></span></label>
-                            <label class="flex items-center gap-3 p-3 rounded-xl bg-slate-800/30 cursor-pointer hover:bg-slate-800/50 transition"><input type="checkbox" class="checkbox-custom" data-role="dev" data-rate="2500"> <i class="fas fa-code w-6 text-indigo-400"></i> <span>Full-Stack разработчик — код, архитектура, интеграции <span class="text-slate-500 text-sm">(~2 500 ₽/час)</span></span></label>
-                            <label class="flex items-center gap-3 p-3 rounded-xl bg-slate-800/30 cursor-pointer hover:bg-slate-800/50 transition"><input type="checkbox" class="checkbox-custom" data-role="analyst" data-rate="2000"> <i class="fas fa-chart-line w-6 text-indigo-400"></i> <span>Бизнес-аналитик — ТЗ, воронки, метрики <span class="text-slate-500 text-sm">(~2 000 ₽/час)</span></span></label>
-                            <label class="flex items-center gap-3 p-3 rounded-xl bg-slate-800/30 cursor-pointer hover:bg-slate-800/50 transition"><input type="checkbox" class="checkbox-custom" data-role="pm" data-rate="1800"> <i class="fas fa-tasks w-6 text-indigo-400"></i> <span>Проект-менеджер — координация, сроки, отчёты <span class="text-slate-500 text-sm">(~1 800 ₽/час)</span></span></label>
-                            <label class="flex items-center gap-3 p-3 rounded-xl bg-slate-800/30 cursor-pointer hover:bg-slate-800/50 transition"><input type="checkbox" class="checkbox-custom" data-role="qa" data-rate="1500"> <i class="fas fa-bug w-6 text-indigo-400"></i> <span>Тестировщик / QA — проверка, баги, документация <span class="text-slate-500 text-sm">(~1 500 ₽/час)</span></span></label>
-                            <label class="flex items-center gap-3 p-3 rounded-xl bg-slate-800/30 cursor-pointer hover:bg-slate-800/50 transition"><input type="checkbox" class="checkbox-custom" data-role="ai" data-rate="3000"> <i class="fas fa-brain w-6 text-indigo-400"></i> <span>AI-инженер — LLM-интеграции, автопилоты <span class="text-slate-500 text-sm">(~3 000 ₽/час)</span></span></label>
+                            <label class="flex items-center gap-3 p-3 rounded-xl bg-slate-800/30 cursor-pointer hover:bg-slate-800/50 transition"><input type="checkbox" class="checkbox-custom" data-role="designer" data-rate="2000"> <i class="fas fa-palette w-6 text-indigo-400"></i> <span><span data-translate="calc_role1">Веб-дизайнер / UI/UX — прототипы, визуал, брендбук</span> <span class="text-slate-500 text-sm">(~2 000 ₽/час)</span></span></label>
+                            <label class="flex items-center gap-3 p-3 rounded-xl bg-slate-800/30 cursor-pointer hover:bg-slate-800/50 transition"><input type="checkbox" class="checkbox-custom" data-role="dev" data-rate="2500"> <i class="fas fa-code w-6 text-indigo-400"></i> <span><span data-translate="calc_role2">Full-Stack разработчик — код, архитектура, интеграции</span> <span class="text-slate-500 text-sm">(~2 500 ₽/час)</span></span></label>
+                            <label class="flex items-center gap-3 p-3 rounded-xl bg-slate-800/30 cursor-pointer hover:bg-slate-800/50 transition"><input type="checkbox" class="checkbox-custom" data-role="analyst" data-rate="2000"> <i class="fas fa-chart-line w-6 text-indigo-400"></i> <span><span data-translate="calc_role3">Бизнес-аналитик — ТЗ, воронки, метрики</span> <span class="text-slate-500 text-sm">(~2 000 ₽/час)</span></span></label>
+                            <label class="flex items-center gap-3 p-3 rounded-xl bg-slate-800/30 cursor-pointer hover:bg-slate-800/50 transition"><input type="checkbox" class="checkbox-custom" data-role="pm" data-rate="1800"> <i class="fas fa-tasks w-6 text-indigo-400"></i> <span><span data-translate="calc_role4">Проект-менеджер — координация, сроки, отчёты</span> <span class="text-slate-500 text-sm">(~1 800 ₽/час)</span></span></label>
+                            <label class="flex items-center gap-3 p-3 rounded-xl bg-slate-800/30 cursor-pointer hover:bg-slate-800/50 transition"><input type="checkbox" class="checkbox-custom" data-role="qa" data-rate="1500"> <i class="fas fa-bug w-6 text-indigo-400"></i> <span><span data-translate="calc_role5">Тестировщик / QA — проверка, баги, документация</span> <span class="text-slate-500 text-sm">(~1 500 ₽/час)</span></span></label>
+                            <label class="flex items-center gap-3 p-3 rounded-xl bg-slate-800/30 cursor-pointer hover:bg-slate-800/50 transition"><input type="checkbox" class="checkbox-custom" data-role="ai" data-rate="3000"> <i class="fas fa-brain w-6 text-indigo-400"></i> <span><span data-translate="calc_role6">AI-инженер — LLM-интеграции, автопилоты</span> <span class="text-slate-500 text-sm">(~3 000 ₽/час)</span></span></label>
                         </div>
                     </div>
-
                     <div>
-                        <h3 class="text-xl font-bold mb-4"><i class="fas fa-chart-simple mr-2 text-indigo-400"></i> Оцените объём работ:</h3>
+                        <h3 class="text-xl font-bold mb-4"><i class="fas fa-chart-simple mr-2 text-indigo-400"></i> <span data-translate="calc_hours_title">Оцените объём работ:</span></h3>
                         <div class="space-y-6">
-                            <div><p class="font-semibold mb-2">Часов в неделю:</p><div class="flex flex-wrap gap-3"><label class="flex items-center gap-2"><input type="radio" name="hours" value="10" class="checkbox-custom"> 10</label><label class="flex items-center gap-2"><input type="radio" name="hours" value="20" class="checkbox-custom"> 20</label><label class="flex items-center gap-2"><input type="radio" name="hours" value="40" class="checkbox-custom"> 40+</label></div></div>
-                            <div><p class="font-semibold mb-2">Длительность:</p><div class="flex flex-wrap gap-3"><label class="flex items-center gap-2"><input type="radio" name="duration" value="1" class="checkbox-custom"> 1 месяц</label><label class="flex items-center gap-2"><input type="radio" name="duration" value="3" class="checkbox-custom"> 3 месяца</label><label class="flex items-center gap-2"><input type="radio" name="duration" value="6" class="checkbox-custom"> 6+ месяцев</label></div></div>
+                            <div><p class="font-semibold mb-2" data-translate="calc_hours_per_week">Часов в неделю:</p><div class="flex flex-wrap gap-3"><label class="flex items-center gap-2"><input type="radio" name="hours" value="10" class="checkbox-custom"> 10</label><label class="flex items-center gap-2"><input type="radio" name="hours" value="20" class="checkbox-custom"> 20</label><label class="flex items-center gap-2"><input type="radio" name="hours" value="40" class="checkbox-custom"> 40+</label></div></div>
+                            <div><p class="font-semibold mb-2" data-translate="calc_duration">Длительность:</p><div class="flex flex-wrap gap-3"><label class="flex items-center gap-2"><input type="radio" name="duration" value="1" class="checkbox-custom"> <span data-translate="calc_month1">1 месяц</span></label><label class="flex items-center gap-2"><input type="radio" name="duration" value="3" class="checkbox-custom"> <span data-translate="calc_month3">3 месяца</span></label><label class="flex items-center gap-2"><input type="radio" name="duration" value="6" class="checkbox-custom"> <span data-translate="calc_month6">6+ месяцев</span></label></div></div>
                         </div>
                     </div>
                 </div>
-
                 <div class="result-highlight p-6 mt-8 text-center" id="savingResult">
-                    <p class="text-slate-400 mb-2">Примерная экономия при замене команды на одного меня:</p>
+                    <p class="text-slate-400 mb-2" data-translate="calc_saving_label">Примерная экономия при замене команды на одного меня:</p>
                     <div class="text-4xl font-bold text-emerald-400" id="savingAmount">0 ₽</div>
-                    <p class="text-xs text-slate-500 mt-2">*Расчёт основан на средних рыночных ставках</p>
+                    <p class="text-xs text-slate-500 mt-2" data-translate="calc_note">*Расчёт основан на средних рыночных ставках</p>
                 </div>
-
                 <div class="text-center mt-6">
-                    <p class="text-sm text-slate-500"><i class="fas fa-calculator mr-1"></i> Расчёт ни к чему не обязывает</p>
+                    <p class="text-sm text-slate-500"><i class="fas fa-calculator mr-1"></i> <span data-translate="calc_disclaimer">Расчёт ни к чему не обязывает</span></p>
                     <div class="mt-6 flex flex-wrap justify-center gap-4">
-                        <a href="#contacts" class="inline-flex items-center gap-2 bg-indigo-600 hover:bg-indigo-500 px-6 py-3 rounded-full font-semibold transition"><i class="fab fa-telegram"></i> Обсудить проект</a>
-                        <a href="#process" class="glass-card px-6 py-3 rounded-full font-semibold border border-indigo-500/40 hover:bg-indigo-950/40"><i class="fas fa-play-circle"></i> Как работаю →</a>
+                        <a href="#contacts" class="inline-flex items-center gap-2 bg-indigo-600 hover:bg-indigo-500 px-6 py-3 rounded-full font-semibold transition"><i class="fab fa-telegram"></i> <span data-translate="calc_discuss">Обсудить проект</span></a>
+                        <a href="#process" class="glass-card px-6 py-3 rounded-full font-semibold border border-indigo-500/40 hover:bg-indigo-950/40"><i class="fas fa-play-circle"></i> <span data-translate="calc_how_work">Как работаю →</span></a>
                     </div>
-                    <div class="mt-6 text-xs text-slate-600 border-t border-slate-800 pt-4">Работаю как самозанятый: чеки, ГПХ, прозрачно. Точную стоимость назову после бесплатного аудита.</div>
+                    <div class="mt-6 text-xs text-slate-600 border-t border-slate-800 pt-4" data-translate="calc_footer">Работаю как самозанятый: чеки, ГПХ, прозрачно. Точную стоимость назову после бесплатного аудита.</div>
                 </div>
             </div>
         </div>
     </section>
 
-    <!-- ===== БЕСПЛАТНЫЙ АУДИТ ===== -->
     <section class="py-12 fade-up">
         <div class="max-w-4xl mx-auto px-6">
             <div class="glass-card p-8 text-center bg-gradient-to-r from-indigo-950/40 to-emerald-950/40">
                 <i class="fas fa-gift text-4xl text-emerald-400 mb-3"></i>
-                <h3 class="text-2xl font-bold mb-2">Бесплатный аудит за 30 минут</h3>
-                <p class="text-slate-300 mb-4">Разберём ваш процесс, подсветим узкие места и дадим план первых шагов</p>
-                <a href="https://t.me/+79529024254" target="_blank" class="inline-flex items-center gap-2 bg-emerald-600 hover:bg-emerald-500 px-6 py-3 rounded-full font-semibold transition"><i class="fab fa-telegram"></i> Записаться на аудит</a>
-                <p class="text-xs text-slate-500 mt-3">или отправьте ТЗ — оценю сроки и стоимость за 24 часа</p>
+                <h3 class="text-2xl font-bold mb-2" data-translate="audit_title">Бесплатный аудит за 30 минут</h3>
+                <p class="text-slate-300 mb-4" data-translate="audit_desc">Разберём ваш процесс, подсветим узкие места и дадим план первых шагов</p>
+                <a href="https://t.me/+79529024254" target="_blank" class="inline-flex items-center gap-2 bg-emerald-600 hover:bg-emerald-500 px-6 py-3 rounded-full font-semibold transition"><i class="fab fa-telegram"></i> <span data-translate="audit_btn">Записаться на аудит</span></a>
+                <p class="text-xs text-slate-500 mt-3" data-translate="audit_note">или отправьте ТЗ — оценю сроки и стоимость за 24 часа</p>
             </div>
         </div>
     </section>
 
-    <!-- ===== FAQ ===== -->
     <section class="py-16 fade-up">
         <div class="max-w-4xl mx-auto px-6">
-            <div class="text-center mb-10"><i class="fas fa-question-circle text-4xl text-indigo-400 mb-3"></i><h2 class="text-3xl font-bold">Частые вопросы</h2></div>
+            <div class="text-center mb-10"><i class="fas fa-question-circle text-4xl text-indigo-400 mb-3"></i><h2 class="text-3xl font-bold" data-translate="faq_title">Частые вопросы</h2></div>
             <div class="space-y-4">
-                <div class="glass-card p-5"><details><summary class="font-bold cursor-pointer">Как начинается работа?</summary><p class="text-slate-400 mt-2">Бесплатный 30-минутный созвон → краткий аудит → оценка часов → старт.</p></details></div>
-                <div class="glass-card p-5"><details><summary class="font-bold cursor-pointer">Что если задача изменится в процессе?</summary><p class="text-slate-400 mt-2">Фиксируем изменения, корректируем оценку, согласовываем перед реализацией.</p></details></div>
-                <div class="glass-card p-5"><details><summary class="font-bold cursor-pointer">Как контролируется время?</summary><p class="text-slate-400 mt-2">Тайм-трекинг + еженедельный отчёт: что сделано, сколько часов, план на следующую неделю.</p></details></div>
-                <div class="glass-card p-5"><details><summary class="font-bold cursor-pointer">Работаете по договору?</summary><p class="text-slate-400 mt-2">Да, как самозанятый: договор ГПХ, чеки, закрывающие документы.</p></details></div>
+                <div class="glass-card p-5"><details><summary class="font-bold cursor-pointer" data-translate="faq1_q">Как начинается работа?</summary><p class="text-slate-400 mt-2" data-translate="faq1_a">Бесплатный 30-минутный созвон → краткий аудит → оценка часов → старт.</p></details></div>
+                <div class="glass-card p-5"><details><summary class="font-bold cursor-pointer" data-translate="faq2_q">Что если задача изменится в процессе?</summary><p class="text-slate-400 mt-2" data-translate="faq2_a">Фиксируем изменения, корректируем оценку, согласовываем перед реализацией.</p></details></div>
+                <div class="glass-card p-5"><details><summary class="font-bold cursor-pointer" data-translate="faq3_q">Как контролируется время?</summary><p class="text-slate-400 mt-2" data-translate="faq3_a">Тайм-трекинг + еженедельный отчёт: что сделано, сколько часов, план на следующую неделю.</p></details></div>
+                <div class="glass-card p-5"><details><summary class="font-bold cursor-pointer" data-translate="faq4_q">Работаете по договору?</summary><p class="text-slate-400 mt-2" data-translate="faq4_a">Да, как самозанятый: договор ГПХ, чеки, закрывающие документы.</p></details></div>
             </div>
         </div>
     </section>
 
-    <!-- ===== КОНТАКТЫ ===== -->
     <section id="contacts" class="py-20 border-t border-slate-800 fade-up">
         <div class="max-w-3xl mx-auto px-6 text-center">
             <i class="fas fa-paper-plane text-4xl text-indigo-400 mb-4"></i>
-            <h2 class="text-3xl font-bold mb-4">Давайте создавать продукт вместе</h2>
-            <p class="text-slate-400 mb-8">Бесплатная консультация, аудит или ТЗ — напишите.</p>
+            <h2 class="text-3xl font-bold mb-4" data-translate="contacts_title">Давайте создавать продукт вместе</h2>
+            <p class="text-slate-400 mb-8" data-translate="contacts_subtitle">Бесплатная консультация, аудит или ТЗ — напишите.</p>
             <div class="flex flex-wrap justify-center gap-5 mb-8">
                 <a href="mailto:innet.24@internet.ru" class="glass-card px-6 py-4 rounded-2xl flex items-center gap-3"><i class="fas fa-envelope text-indigo-400 text-xl"></i> innet.24@internet.ru</a>
-                <a href="https://t.me/+79529024254" target="_blank" class="bg-indigo-600 hover:bg-indigo-500 px-6 py-4 rounded-2xl flex items-center gap-3 transition"><i class="fab fa-telegram text-xl"></i> Telegram — Написать</a>
+                <a href="https://t.me/+79529024254" target="_blank" class="bg-indigo-600 hover:bg-indigo-500 px-6 py-4 rounded-2xl flex items-center gap-3 transition"><i class="fab fa-telegram text-xl"></i> Telegram — <span data-translate="contacts_telegram">Написать</span></a>
             </div>
-            <div class="flex flex-wrap justify-center gap-3 text-xs text-slate-500"><span class="bg-slate-800 px-3 py-1 rounded-full"><i class="fas fa-check-circle text-emerald-400"></i> Самозанятый</span><span class="bg-slate-800 px-3 py-1 rounded-full"><i class="fas fa-file-signature"></i> Договор ГПХ</span><span class="bg-slate-800 px-3 py-1 rounded-full"><i class="fas fa-receipt"></i> Чеки</span><span class="bg-slate-800 px-3 py-1 rounded-full"><i class="fas fa-globe"></i> Удалённо</span></div>
-            <p class="text-slate-500 text-sm mt-6"><i class="fas fa-clock"></i> Отвечаю в Telegram в течение 2 часов</p>
+            <div class="flex flex-wrap justify-center gap-3 text-xs text-slate-500"><span class="bg-slate-800 px-3 py-1 rounded-full"><i class="fas fa-check-circle text-emerald-400"></i> <span data-translate="contacts_badge1">Самозанятый</span></span><span class="bg-slate-800 px-3 py-1 rounded-full"><i class="fas fa-file-signature"></i> <span data-translate="contacts_badge2">Договор ГПХ</span></span><span class="bg-slate-800 px-3 py-1 rounded-full"><i class="fas fa-receipt"></i> <span data-translate="contacts_badge3">Чеки</span></span><span class="bg-slate-800 px-3 py-1 rounded-full"><i class="fas fa-globe"></i> <span data-translate="contacts_badge4">Удалённо</span></span></div>
+            <p class="text-slate-500 text-sm mt-6"><i class="fas fa-clock"></i> <span data-translate="contacts_response">Отвечаю в Telegram в течение 2 часов</span></p>
         </div>
     </section>
 
     <footer class="py-8 text-center text-slate-600 text-xs border-t border-slate-800">
-        <p>© 2026 Антон Галямов — Product Director & AI Architect</p>
-        <p class="mt-2"><a href="#calculator" class="text-indigo-400 hover:text-indigo-300">Рассчитать экономию</a> • <a href="#contacts" class="text-indigo-400 hover:text-indigo-300">Написать в Telegram</a></p>
+        <p>© 2026 <span data-translate="footer_name">Антон Галямов — Product Director & AI Architect</span></p>
+        <p class="mt-2"><a href="#calculator" class="text-indigo-400 hover:text-indigo-300" data-translate="footer_calc">Рассчитать экономию</a> • <a href="#contacts" class="text-indigo-400 hover:text-indigo-300" data-translate="footer_contact">Написать в Telegram</a></p>
     </footer>
 
     <script>
-        // Анимация цифр в статистике
+        // СЛОВАРЬ ПЕРЕВОДОВ
+        const translations = {
+            ru: {
+                nav_about: "о_мне", nav_expertise: "экспертиза", nav_cases: "кейсы", nav_process: "процесс", nav_calculator: "экономия", nav_contacts: "контакты",
+                login_btn: "Войти", contact_btn: "Связаться", hero_badge: "Open for remote · product & AI", hero_name: "Антон Галямов", hero_title1: "Product Director &", hero_title2: "AI Architect",
+                hero_desc: "7+ лет в разработке, ИИ и управлении продуктами. Строю цифровые экосистемы, которые масштабируют бизнес.", hero_calc_btn: "Рассчитать экономию", hero_cases_btn: "Смотреть кейсы",
+                stat1: "CRM/автоматизация", stat2: "AI-решений", stat3: "к конверсии", stat4: "упакованных брендов",
+                client_title: "Для кого я работаю", client_subtitle: "Идеальные клиенты:", client1: "Понимают ценность автоматизации и готовы внедрять изменения", client2: "Имеют чёткую задачу или готовы к аудиту перед стартом",
+                client3: "Ценят прозрачность: почасовая оплата, еженедельные отчёты, чеки", client4: "Планируют долгосрочное развитие продукта",
+                process_title: "Как строится работа", process_subtitle: "Прозрачный процесс с понятными этапами", process1_title: "Аудит и ТЗ", process1_desc: "Созвон, анализ процессов, фиксация задач и метрик успеха.",
+                process2_title: "Архитектура", process2_desc: "Схема решения, выбор стека, дизайн-концепция.", process3_title: "Разработка", process3_desc: "Код, интеграции, ИИ-роботы, внутреннее QA.",
+                process4_title: "Запуск + поддержка", process4_desc: "Обучение команды, документация, 30 дней гарантии.", process_note: "Средний срок проекта: 2–6 недель. Еженедельные созвоны + отчёт",
+                expertise_title: "экосистема компетенций", expertise1: "Разработка & архитектура", expertise1_desc: "PHP, Python, React/Vue 3, REST, n8n, микросервисы.",
+                expertise2: "AI & автопилоты", expertise2_desc: "LLM, прогнозы, AI-агенты, генерация отчётов, NLP.", expertise3: "Аналитика & BI", expertise3_desc: "Воронки продаж, дашборды, data-driven оптимизация.",
+                expertise4: "Маркетинг & брендинг", expertise4_desc: "UI/UX, фирменный стиль, HR-брендинг, упаковка.", expertise5: "Продукт-лидерство", expertise5_desc: "Roadmap, тех. документация, управление командой.",
+                expertise6: "Интеграции", expertise6_desc: "ERP, КЭДО, вебхуки, телеграм-боты.",
+                tech_title: "Стек технологий", tech_subtitle: "что я использую в работе",
+                cases_title: "кейсы & результаты", cases_subtitle: "реальные проекты с измеримым эффектом",
+                case1_title: "ИИ-ассистент для отдела продаж + CRM-экосистема", case1_task_label: "🧩 Задача:", case1_task: "Компания тратила 30+ часов в неделю на ручную обработку лидов. Менеджеры заполняли карточки в CRM вручную, не было прогнозов.",
+                case1_solution_label: "⚙️ Решение:", case1_solution: "Разработал AI-агента на базе LLM, который автоматически анализирует диалоги с клиентами, классифицирует лидов, заполняет CRM и выдаёт прогноз.",
+                case1_results_label: "🏆 Ключевые результаты:", case1_result1: "Конверсия выросла на <strong class='text-white'>+42%</strong>", case1_result2: "Экономия времени — <strong class='text-white'>25 ч/нед</strong>", case1_result3: "Точность прогнозов <strong class='text-white'>89%</strong>", case1_result4: "ROI <strong class='text-white'>320% за 6 мес</strong>",
+                case2_title: "Цифровая трансформация холдинга (5 юр.лиц)", case2_task_label: "🧩 Задача:", case2_task: "Холдинг из 5 юрлиц с разрозненными CRM. Согласование документов — до 4 месяцев.",
+                case2_solution_label: "⚙️ Решение:", case2_solution: "Единый корпоративный портал, сквозные бизнес-процессы, КЭДО, автоматическая отчётность.",
+                case2_results_label: "📈 Ключевые результаты:", case2_result1: "Согласование <strong class='text-white'>-60% времени</strong>", case2_result2: "Выручка <strong class='text-white'>+35% за полгода</strong>", case2_result3: "<strong class='text-white'>5 компаний</strong> в едином контуре",
+                case3_title: "Ребрендинг холдинга + HR-маркетинг под ключ", case3_task_label: "🧩 Задача:", case3_task: "Размытый бренд после слияния, подбор персонала до 2 месяцев на позицию.",
+                case3_solution_label: "⚙️ Решение:", case3_solution: "Бренд-стратегия, HR-бренд, сквозная воронка подбора в CRM, курсы адаптации.",
+                case3_results_label: "🏅 Ключевые результаты:", case3_result1: "Узнаваемость <strong class='text-white'>в 2 раза выше</strong>", case3_result2: "Откликов <strong class='text-white'>+200%</strong>", case3_result3: "Срок закрытия <strong class='text-white'>-40%</strong>",
+                reviews_title: "Отзывы о работе", review1: "«Антон за 3 недели собрал CRM-экосистему, которая заменила работу двух менеджеров. Прогнозы сделок теперь точные».", review2: "«Чёткий ТЗ, прозрачная оплата по часам. Портал объединил 5 юрлиц в единый контур за месяц».", review3: "«Вывел приложение на маркетплейс Битрикс24 с нуля. Монетизация пошла со второго месяца».",
+                calc_title: "Сколько вы сэкономите, работая со мной?", calc_subtitle: "Один исполнитель вместо команды. Экономия на коммуникациях, налогах и простоях.", calc_roles: "Отметьте, кого пришлось бы нанимать:",
+                calc_role1: "Веб-дизайнер / UI/UX — прототипы, визуал, брендбук", calc_role2: "Full-Stack разработчик — код, архитектура, интеграции", calc_role3: "Бизнес-аналитик — ТЗ, воронки, метрики", calc_role4: "Проект-менеджер — координация, сроки, отчёты", calc_role5: "Тестировщик / QA — проверка, баги, документация", calc_role6: "AI-инженер — LLM-интеграции, автопилоты",
+                calc_hours_title: "Оцените объём работ:", calc_hours_per_week: "Часов в неделю:", calc_duration: "Длительность:", calc_month1: "1 месяц", calc_month3: "3 месяца", calc_month6: "6+ месяцев",
+                calc_saving_label: "Примерная экономия при замене команды на одного меня:", calc_note: "*Расчёт основан на средних рыночных ставках", calc_disclaimer: "Расчёт ни к чему не обязывает", calc_discuss: "Обсудить проект", calc_how_work: "Как работаю →", calc_footer: "Работаю как самозанятый: чеки, ГПХ, прозрачно. Точную стоимость назову после бесплатного аудита.",
+                audit_title: "Бесплатный аудит за 30 минут", audit_desc: "Разберём ваш процесс, подсветим узкие места и дадим план первых шагов", audit_btn: "Записаться на аудит", audit_note: "или отправьте ТЗ — оценю сроки и стоимость за 24 часа",
+                faq_title: "Частые вопросы", faq1_q: "Как начинается работа?", faq1_a: "Бесплатный 30-минутный созвон → краткий аудит → оценка часов → старт.", faq2_q: "Что если задача изменится в процессе?", faq2_a: "Фиксируем изменения, корректируем оценку, согласовываем перед реализацией.", faq3_q: "Как контролируется время?", faq3_a: "Тайм-трекинг + еженедельный отчёт: что сделано, сколько часов, план на следующую неделю.", faq4_q: "Работаете по договору?", faq4_a: "Да, как самозанятый: договор ГПХ, чеки, закрывающие документы.",
+                contacts_title: "Давайте создавать продукт вместе", contacts_subtitle: "Бесплатная консультация, аудит или ТЗ — напишите.", contacts_telegram: "Написать", contacts_badge1: "Самозанятый", contacts_badge2: "Договор ГПХ", contacts_badge3: "Чеки", contacts_badge4: "Удалённо", contacts_response: "Отвечаю в Telegram в течение 2 часов",
+                footer_name: "Антон Галямов — Product Director & AI Architect", footer_calc: "Рассчитать экономию", footer_contact: "Написать в Telegram",
+                login_title: "Вход в личный кабинет для клиентов", login_subtitle: "Введите email и пароль", login_email: "Email", login_password: "Пароль", login_submit: "Войти"
+            },
+            en: {
+                nav_about: "about", nav_expertise: "expertise", nav_cases: "cases", nav_process: "process", nav_calculator: "savings", nav_contacts: "contacts",
+                login_btn: "Sign In", contact_btn: "Contact", hero_badge: "Open for remote · product & AI", hero_name: "Anton Galyamov", hero_title1: "Product Director &", hero_title2: "AI Architect",
+                hero_desc: "7+ years in development, AI, and product management. Building digital ecosystems that scale businesses.", hero_calc_btn: "Calculate savings", hero_cases_btn: "View cases",
+                stat1: "CRM/Automation", stat2: "AI Solutions", stat3: "to conversion", stat4: "brands packaged",
+                client_title: "Who I work for", client_subtitle: "Ideal clients:", client1: "Understand the value of automation and ready to implement changes", client2: "Have a clear task or ready for an audit before starting",
+                client3: "Value transparency: hourly rates, weekly reports, receipts", client4: "Plan long-term product development",
+                process_title: "How it works", process_subtitle: "Transparent process with clear stages", process1_title: "Audit & TOR", process1_desc: "Call, process analysis, task definition, success metrics.",
+                process2_title: "Architecture", process2_desc: "Solution scheme, tech stack selection, design concept.", process3_title: "Development", process3_desc: "Code, integrations, AI agents, internal QA.",
+                process4_title: "Launch & Support", process4_desc: "Team training, documentation, 30-day warranty.", process_note: "Average project duration: 2-6 weeks. Weekly calls + report",
+                expertise_title: "Competence ecosystem", expertise1: "Development & Architecture", expertise1_desc: "PHP, Python, React/Vue 3, REST, n8n, microservices.",
+                expertise2: "AI & Autopilots", expertise2_desc: "LLM, forecasts, AI agents, report generation, NLP.", expertise3: "Analytics & BI", expertise3_desc: "Sales funnels, dashboards, data-driven optimization.",
+                expertise4: "Marketing & Branding", expertise4_desc: "UI/UX, corporate identity, HR branding, packaging.", expertise5: "Product Leadership", expertise5_desc: "Roadmap, technical documentation, team management.",
+                expertise6: "Integrations", expertise6_desc: "ERP, HR document flow, webhooks, Telegram bots.",
+                tech_title: "Tech Stack", tech_subtitle: "what I use",
+                cases_title: "cases & results", cases_subtitle: "real projects with measurable impact",
+                case1_title: "AI Assistant for sales department + CRM ecosystem", case1_task_label: "🧩 Task:", case1_task: "The company spent 30+ hours a week manually processing leads. Managers filled CRM cards manually, no forecasts.",
+                case1_solution_label: "⚙️ Solution:", case1_solution: "Developed an AI agent based on LLM that automatically analyzes customer conversations, classifies leads, fills CRM, and provides forecasts.",
+                case1_results_label: "🏆 Key results:", case1_result1: "Conversion increased by <strong class='text-white'>+42%</strong>", case1_result2: "Time savings — <strong class='text-white'>25 h/week</strong>", case1_result3: "Forecast accuracy <strong class='text-white'>89%</strong>", case1_result4: "ROI <strong class='text-white'>320% in 6 months</strong>",
+                case2_title: "Digital transformation of a holding (5 legal entities)", case2_task_label: "🧩 Task:", case2_task: "A holding of 5 legal entities with disparate CRMs. Document approval — up to 4 months.",
+                case2_solution_label: "⚙️ Solution:", case2_solution: "Single corporate portal, end-to-end business processes, HR document flow, automated reporting.",
+                case2_results_label: "📈 Key results:", case2_result1: "Approval <strong class='text-white'>-60% time</strong>", case2_result2: "Revenue <strong class='text-white'>+35% in six months</strong>", case2_result3: "<strong class='text-white'>5 companies</strong> in a single loop",
+                case3_title: "Holding rebranding + HR marketing turnkey", case3_task_label: "🧩 Task:", case3_task: "Blurred brand after merger, hiring takes up to 2 months per position.",
+                case3_solution_label: "⚙️ Solution:", case3_solution: "Brand strategy, HR brand, end-to-end recruitment funnel in CRM, adaptation courses.",
+                case3_results_label: "🏅 Key results:", case3_result1: "Recognition <strong class='text-white'>2x higher</strong>", case3_result2: "Responses <strong class='text-white'>+200%</strong>", case3_result3: "Closing time <strong class='text-white'>-40%</strong>",
+                reviews_title: "Testimonials", review1: "«Anton built a CRM ecosystem in 3 weeks that replaced two managers. Deal forecasts are now accurate.»", review2: "«Clear TOR, transparent hourly rates. The portal united 5 legal entities in one loop in a month.»", review3: "«Launched the application on Bitrix24 marketplace from scratch. Monetization started in the second month.»",
+                calc_title: "How much will you save by working with me?", calc_subtitle: "One specialist instead of a team. Savings on communication, taxes, and downtime.", calc_roles: "Check who you would have to hire:",
+                calc_role1: "Web Designer / UI/UX — prototypes, visuals, brand book", calc_role2: "Full-Stack Developer — code, architecture, integrations", calc_role3: "Business Analyst — TOR, funnels, metrics", calc_role4: "Project Manager — coordination, deadlines, reports", calc_role5: "QA Tester — checks, bugs, documentation", calc_role6: "AI Engineer — LLM integrations, autopilots",
+                calc_hours_title: "Estimate the scope of work:", calc_hours_per_week: "Hours per week:", calc_duration: "Duration:", calc_month1: "1 month", calc_month3: "3 months", calc_month6: "6+ months",
+                calc_saving_label: "Estimated savings when replacing a team with me:", calc_note: "*Calculation based on average market rates", calc_disclaimer: "Calculation is non-binding", calc_discuss: "Discuss project", calc_how_work: "How I work →", calc_footer: "I work as self-employed: receipts, contract, transparent. Exact cost after free audit.",
+                audit_title: "Free 30-minute audit", audit_desc: "Let's analyze your process, highlight bottlenecks, and give a plan of first steps", audit_btn: "Book an audit", audit_note: "or send TOR — I'll estimate timeline and cost within 24 hours",
+                faq_title: "FAQ", faq1_q: "How do we start?", faq1_a: "Free 30-minute call → brief audit → hour estimate → start.", faq2_q: "What if the task changes during the process?", faq2_a: "We document changes, adjust estimates, agree before implementation.", faq3_q: "How is time tracked?", faq3_a: "Time tracking + weekly report: what's done, hours spent, plan for next week.", faq4_q: "Do you work with a contract?", faq4_a: "Yes, as self-employed: contract, receipts, closing documents.",
+                contacts_title: "Let's build a product together", contacts_subtitle: "Free consultation, audit, or TOR — write to me.", contacts_telegram: "Write", contacts_badge1: "Self-employed", contacts_badge2: "Contract", contacts_badge3: "Receipts", contacts_badge4: "Remote", contacts_response: "I reply on Telegram within 2 hours",
+                footer_name: "Anton Galyamov — Product Director & AI Architect", footer_calc: "Calculate savings", footer_contact: "Write on Telegram",
+                login_title: "Client portal login", login_subtitle: "Enter email and password", login_email: "Email", login_password: "Password", login_submit: "Sign In"
+            },
+            ko: {
+                nav_about: "소개", nav_expertise: "전문성", nav_cases: "사례", nav_process: "프로세스", nav_calculator: "비용 절감", nav_contacts: "연락처",
+                login_btn: "로그인", contact_btn: "문의하기", hero_badge: "원격 근무 가능 · 제품 & AI", hero_name: "안톤 갈리야모프", hero_title1: "제품 디렉터 &", hero_title2: "AI 아키텍트",
+                hero_desc: "개발, AI 및 제품 관리 분야에서 7년 이상의 경험. 비즈니스를 확장하는 디지털 생태계를 구축합니다.", hero_calc_btn: "비용 절감 계산", hero_cases_btn: "사례 보기",
+                stat1: "CRM/자동화", stat2: "AI 솔루션", stat3: "전환율", stat4: "브랜드 패키징",
+                client_title: "누구를 위해 일하나요", client_subtitle: "이상적인 고객:", client1: "자동화의 가치를 이해하고 변화를 기꺼이 받아들이는 분", client2: "명확한 작업 또는 시작 전 감사를 받을 준비가 된 분",
+                client3: "투명성을 중요시하는 분: 시간당 요금, 주간 보고서, 영수증", client4: "장기적인 제품 개발을 계획하는 분",
+                process_title: "작업 방식", process_subtitle: "명확한 단계를 통한 투명한 프로세스", process1_title: "감사 및 TOR", process1_desc: "통화, 프로세스 분석, 작업 정의, 성공 지표.",
+                process2_title: "아키텍처", process2_desc: "솔루션 구성표, 기술 스택 선택, 디자인 컨셉.", process3_title: "개발", process3_desc: "코드, 통합, AI 에이전트, 내부 QA.",
+                process4_title: "런칭 및 지원", process4_desc: "팀 교육, 문서화, 30일 보증.", process_note: "평균 프로젝트 기간: 2-6주. 주간 통화 + 보고서",
+                expertise_title: "전문성 생태계", expertise1: "개발 및 아키텍처", expertise1_desc: "PHP, Python, React/Vue 3, REST, n8n, 마이크로서비스.",
+                expertise2: "AI 및 오토파일럿", expertise2_desc: "LLM, 예측, AI 에이전트, 보고서 생성, NLP.", expertise3: "분석 및 BI", expertise3_desc: "판매 깔때기, 대시보드, 데이터 기반 최적화.",
+                expertise4: "마케팅 및 브랜딩", expertise4_desc: "UI/UX, 기업 아이덴티티, HR 브랜딩, 패키징.", expertise5: "제품 리더십", expertise5_desc: "로드맵, 기술 문서, 팀 관리.",
+                expertise6: "통합", expertise6_desc: "ERP, HR 문서 흐름, 웹훅, 텔레그램 봇.",
+                tech_title: "기술 스택", tech_subtitle: "제가 사용하는 것",
+                cases_title: "사례 및 결과", cases_subtitle: "측정 가능한 영향을 미친 실제 프로젝트",
+                case1_title: "영업 부서용 AI 어시스턴트 + CRM 생태계", case1_task_label: "🧩 작업:", case1_task: "회사는 리드 수동 처리를 위해 주당 30시간 이상을 소비했습니다. 관리자가 수동으로 CRM 카드를 작성했으며 예측이 없었습니다.",
+                case1_solution_label: "⚙️ 해결책:", case1_solution: "고객 대화를 자동으로 분석하고, 리드를 분류하고, CRM을 채우고 예측을 제공하는 LLM 기반 AI 에이전트를 개발했습니다.",
+                case1_results_label: "🏆 주요 결과:", case1_result1: "전환율 <strong class='text-white'>+42%</strong> 증가", case1_result2: "시간 절약 — <strong class='text-white'>25시간/주</strong>", case1_result3: "예측 정확도 <strong class='text-white'>89%</strong>", case1_result4: "ROI <strong class='text-white'>6개월 만에 320%</strong>",
+                case2_title: "홀딩스 디지털 전환 (5개 법인)", case2_task_label: "🧩 작업:", case2_task: "분산된 CRM을 가진 5개 법인으로 구성된 홀딩스. 문서 승인 — 최대 4개월.",
+                case2_solution_label: "⚙️ 해결책:", case2_solution: "단일 기업 포털, 종단 간 비즈니스 프로세스, HR 문서 흐름, 자동화된 보고.",
+                case2_results_label: "📈 주요 결과:", case2_result1: "승인 <strong class='text-white'>시간 60% 감소</strong>", case2_result2: "수익 <strong class='text-white'>6개월 만에 +35%</strong>", case2_result3: "단일 루프의 <strong class='text-white'>5개 회사</strong>",
+                case3_title: "홀딩스 리브랜딩 + HR 마케팅 턴키", case3_task_label: "🧩 작업:", case3_task: "합병 후 브랜드 흐릿, 직책당 채용에 최대 2개월 소요.",
+                case3_solution_label: "⚙️ 해결책:", case3_solution: "브랜드 전략, HR 브랜드, CRM의 종단 간 채용 깔때기, 적응 과정.",
+                case3_results_label: "🏅 주요 결과:", case3_result1: "인지도 <strong class='text-white'>2배 향상</strong>", case3_result2: "응답 <strong class='text-white'>+200%</strong>", case3_result3: "마감 시간 <strong class='text-white'>-40%</strong>",
+                reviews_title: "추천사", review1: "«안톤은 3주 만에 두 명의 관리자를 대체하는 CRM 생태계를 구축했습니다. 거래 예측이 정확해졌습니다.»", review2: "«명확한 TOR, 투명한 시간당 요금. 포털은 한 달 만에 5개 법인을 단일 루프로 통합했습니다.»", review3: "«처음부터 Bitrix24 마켓플레이스에 애플리케이션을 런칭했습니다. 두 번째 달에 수익 창출이 시작되었습니다.»",
+                calc_title: "저와 함께 일하면 얼마나 절약할 수 있나요?", calc_subtitle: "팀 대신 한 명의 전문가. 커뮤니케이션, 세금, 다운타임 절감.", calc_roles: "고용해야 할 사람을 선택하세요:",
+                calc_role1: "웹 디자이너 / UI/UX — 프로토타입, 비주얼, 브랜드북", calc_role2: "풀스택 개발자 — 코드, 아키텍처, 통합", calc_role3: "비즈니스 분석가 — TOR, 깔때기, 지표", calc_role4: "프로젝트 매니저 — 조정, 마감, 보고서", calc_role5: "QA 테스터 — 확인, 버그, 문서", calc_role6: "AI 엔지니어 — LLM 통합, 오토파일럿",
+                calc_hours_title: "작업 범위 추정:", calc_hours_per_week: "주당 시간:", calc_duration: "기간:", calc_month1: "1개월", calc_month3: "3개월", calc_month6: "6개월 이상",
+                calc_saving_label: "팀을 저로 대체할 때 예상 절감액:", calc_note: "*평균 시장 요율 기준 계산", calc_disclaimer: "계산은 구속력이 없습니다", calc_discuss: "프로젝트 논의", calc_how_work: "작업 방식 →", calc_footer: "자영업자로 일함: 영수증, 계약, 투명. 정확한 비용은 무료 감사 후 알려드립니다.",
+                audit_title: "30분 무료 감사", audit_desc: "프로세스를 분석하고, 병목 현상을 파악하고, 첫 단계 계획을 제공합니다", audit_btn: "감사 예약", audit_note: "또는 TOR를 보내주세요 — 24시간 이내에 일정과 비용을 추정해 드립니다",
+                faq_title: "자주 묻는 질문", faq1_q: "어떻게 시작하나요?", faq1_a: "무료 30분 통화 → 간단한 감사 → 시간 추정 → 시작.", faq2_q: "프로세스 중에 작업이 변경되면 어떻게 되나요?", faq2_a: "변경 사항을 문서화하고, 추정치를 조정하고, 구현 전에 동의합니다.", faq3_q: "시간은 어떻게 추적되나요?", faq3_a: "시간 추적 + 주간 보고서: 완료된 작업, 소요 시간, 다음 주 계획.", faq4_q: "계약서로 작업하나요?", faq4_a: "네, 자영업자로서: 계약서, 영수증, 마감 문서.",
+                contacts_title: "함께 제품을 만들어요", contacts_subtitle: "무료 상담, 감사 또는 TOR — 저에게 작성해주세요.", contacts_telegram: "작성하기", contacts_badge1: "자영업자", contacts_badge2: "계약", contacts_badge3: "영수증", contacts_badge4: "원격", contacts_response: "텔레그램에서 2시간 이내에 답변",
+                footer_name: "안톤 갈리야모프 — 제품 디렉터 & AI 아키텍트", footer_calc: "비용 절감 계산", footer_contact: "텔레그램에 작성",
+                login_title: "클라이언트 포털 로그인", login_subtitle: "이메일과 비밀번호를 입력하세요", login_email: "이메일", login_password: "비밀번호", login_submit: "로그인"
+            },
+            zh: {
+                nav_about: "关于我", nav_expertise: "专业领域", nav_cases: "案例", nav_process: "流程", nav_calculator: "节省成本", nav_contacts: "联系方式",
+                login_btn: "登录", contact_btn: "联系", hero_badge: "远程工作 · 产品与 AI", hero_name: "安东·加利亚莫夫", hero_title1: "产品总监 &", hero_title2: "AI 架构师",
+                hero_desc: "7年以上开发、AI和产品管理经验。构建可扩展业务的数字生态系统。", hero_calc_btn: "计算节省", hero_cases_btn: "查看案例",
+                stat1: "CRM/自动化", stat2: "AI 解决方案", stat3: "转化率", stat4: "品牌包装",
+                client_title: "我为谁工作", client_subtitle: "理想客户:", client1: "理解自动化价值并愿意实施变革", client2: "有明确任务或准备在接受审核后开始",
+                client3: "重视透明度：按小时收费、每周报告、收据", client4: "规划长期产品开发",
+                process_title: "工作流程", process_subtitle: "清晰的流程，明确的阶段", process1_title: "审核与TOR", process1_desc: "电话沟通、流程分析、任务定义、成功指标。",
+                process2_title: "架构设计", process2_desc: "解决方案示意图、技术栈选择、设计概念。", process3_title: "开发", process3_desc: "代码、集成、AI代理、内部QA。",
+                process4_title: "上线与支持", process4_desc: "团队培训、文档、30天保修。", process_note: "平均项目周期：2-6周。每周电话会议 + 报告",
+                expertise_title: "能力生态系统", expertise1: "开发与架构", expertise1_desc: "PHP、Python、React/Vue 3、REST、n8n、微服务。",
+                expertise2: "AI与自动驾驶", expertise2_desc: "LLM、预测、AI代理、报告生成、NLP。", expertise3: "分析与BI", expertise3_desc: "销售漏斗、仪表板、数据驱动优化。",
+                expertise4: "营销与品牌", expertise4_desc: "UI/UX、企业形象、HR品牌、包装。", expertise5: "产品领导力", expertise5_desc: "路线图、技术文档、团队管理。",
+                expertise6: "集成", expertise6_desc: "ERP、HR文档流、webhook、Telegram机器人。",
+                tech_title: "技术栈", tech_subtitle: "我使用的工具",
+                cases_title: "案例与成果", cases_subtitle: "具有可衡量影响的实际项目",
+                case1_title: "销售部门AI助手 + CRM生态系统", case1_task_label: "🧩 任务:", case1_task: "公司每周花费30多个小时手动处理潜在客户。经理手动填写CRM卡片，没有预测。",
+                case1_solution_label: "⚙️ 解决方案:", case1_solution: "开发了基于LLM的AI代理，自动分析客户对话、分类潜在客户、填写CRM并提供预测。",
+                case1_results_label: "🏆 主要成果:", case1_result1: "转化率提高 <strong class='text-white'>+42%</strong>", case1_result2: "节省时间 — <strong class='text-white'>25小时/周</strong>", case1_result3: "预测准确率 <strong class='text-white'>89%</strong>", case1_result4: "ROI <strong class='text-white'>6个月内320%</strong>",
+                case2_title: "控股公司数字化转型（5个法人实体）", case2_task_label: "🧩 任务:", case2_task: "拥有不同CRM的5个法人实体组成的控股公司。文件审批 — 长达4个月。",
+                case2_solution_label: "⚙️ 解决方案:", case2_solution: "单一企业门户、端到端业务流程、HR文档流、自动报告。",
+                case2_results_label: "📈 主要成果:", case2_result1: "审批 <strong class='text-white'>时间减少60%</strong>", case2_result2: "收入 <strong class='text-white'>6个月内+35%</strong>", case2_result3: "单一循环中的<strong class='text-white'>5家公司</strong>",
+                case3_title: "控股公司品牌重塑 + HR营销交钥匙", case3_task_label: "🧩 任务:", case3_task: "合并后品牌模糊，每个职位的招聘时间长达2个月。",
+                case3_solution_label: "⚙️ 解决方案:", case3_solution: "品牌战略、HR品牌、CRM中的端到端招聘漏斗、适应课程。",
+                case3_results_label: "🏅 主要成果:", case3_result1: "认知度 <strong class='text-white'>提高2倍</strong>", case3_result2: "响应 <strong class='text-white'>+200%</strong>", case3_result3: "关闭时间 <strong class='text-white'>-40%</strong>",
+                reviews_title: "推荐语", review1: "«安东在3周内建立了一个CRM生态系统，取代了两名经理。交易预测现在很准确。»", review2: "«清晰的TOR，透明的按小时收费。门户在一个月内将5个法人实体统一到一个循环中。»", review3: "«从零开始在Bitrix24市场上推出应用程序。第二个月就开始盈利。»",
+                calc_title: "与我合作能节省多少？", calc_subtitle: "一名专家代替一个团队。节省沟通、税收和停机成本。", calc_roles: "勾选您需要雇用的人员：",
+                calc_role1: "网页设计师/UI/UX — 原型、视觉、品牌手册", calc_role2: "全栈开发人员 — 代码、架构、集成", calc_role3: "业务分析师 — TOR、漏斗、指标", calc_role4: "项目经理 — 协调、截止日期、报告", calc_role5: "QA测试员 — 检查、错误、文档", calc_role6: "AI工程师 — LLM集成、自动驾驶",
+                calc_hours_title: "估算工作量：", calc_hours_per_week: "每周小时数：", calc_duration: "持续时间：", calc_month1: "1个月", calc_month3: "3个月", calc_month6: "6个月以上",
+                calc_saving_label: "用我代替团队时的预计节省：", calc_note: "*基于平均市场价格计算", calc_disclaimer: "计算不具约束力", calc_discuss: "讨论项目", calc_how_work: "我的工作方式 →", calc_footer: "我作为自雇人士工作：收据、合同、透明。免费审核后告知确切费用。",
+                audit_title: "30分钟免费审核", audit_desc: "分析您的流程，突出瓶颈，并给出第一步计划", audit_btn: "预约审核", audit_note: "或发送TOR — 我将在24小时内估算时间和费用",
+                faq_title: "常见问题", faq1_q: "如何开始？", faq1_a: "免费30分钟通话 → 简要审核 → 时间估算 → 开始。", faq2_q: "如果流程中任务发生变化怎么办？", faq2_a: "记录变更，调整估算，实施前达成一致。", faq3_q: "如何跟踪时间？", faq3_a: "时间跟踪 + 每周报告：完成的工作、花费的时间、下周计划。", faq4_q: "有合同吗？", faq4_a: "是的，作为自雇人士：合同、收据、结案文件。",
+                contacts_title: "让我们一起打造产品", contacts_subtitle: "免费咨询、审核或TOR — 给我留言。", contacts_telegram: "留言", contacts_badge1: "自雇人士", contacts_badge2: "合同", contacts_badge3: "收据", contacts_badge4: "远程", contacts_response: "我在Telegram上2小时内回复",
+                footer_name: "安东·加利亚莫夫 — 产品总监 & AI架构师", footer_calc: "计算节省", footer_contact: "在Telegram上留言",
+                login_title: "客户门户登录", login_subtitle: "输入邮箱和密码", login_email: "邮箱", login_password: "密码", login_submit: "登录"
+            }
+        };
+
+        let currentLang = 'ru';
+
+        function toggleLangDropdown() {
+            document.getElementById('langDropdown').classList.toggle('hidden');
+        }
+
+        function setLanguage(lang) {
+            currentLang = lang;
+            const labels = { ru: 'РУ', en: 'EN', ko: 'KO', zh: '中文' };
+            document.getElementById('currentLangLabel').innerText = labels[lang];
+            document.getElementById('langDropdown').classList.add('hidden');
+            
+            // Переводим все элементы с data-translate
+            document.querySelectorAll('[data-translate]').forEach(el => {
+                const key = el.getAttribute('data-translate');
+                if (translations[lang][key]) {
+                    if (key.startsWith('case1_result') || key.startsWith('case2_result') || key.startsWith('case3_result')) {
+                        el.innerHTML = translations[lang][key];
+                    } else {
+                        el.innerText = translations[lang][key];
+                    }
+                }
+            });
+            
+            localStorage.setItem('preferredLang', lang);
+        }
+
+        // Закрытие дропдауна при клике вне
+        document.addEventListener('click', function(event) {
+            const button = document.getElementById('langButton');
+            const dropdown = document.getElementById('langDropdown');
+            if (button && dropdown && !button.contains(event.target) && !dropdown.contains(event.target)) {
+                dropdown.classList.add('hidden');
+            }
+        });
+
+        // Загрузка сохранённого языка
+        const savedLang = localStorage.getItem('preferredLang');
+        if (savedLang && translations[savedLang]) {
+            setLanguage(savedLang);
+        }
+
+        // Анимация цифр и fade-up
         function animateNumber(el, final, suffix='') { let start=0, step=final/60; let timer=setInterval(()=>{ start+=step; if(start>=final){ clearInterval(timer); el.innerText=final+suffix; } else el.innerText=Math.floor(start)+suffix; },20); }
         new IntersectionObserver(([e])=>{ if(e.isIntersecting){ animateNumber(stat1,35,'+'); animateNumber(stat2,8,'+'); animateNumber(stat3,120,'%'); animateNumber(stat4,20,'+'); } },{threshold:0.3}).observe(document.getElementById('stat1'));
-        document.querySelectorAll('.fade-up:not(#cases)').forEach(el=>new IntersectionObserver(([e])=>e.isIntersecting&&e.target.classList.add('visible'),{threshold:0.2}).observe(el));
-        
-        // Кейсы всегда видимы, поэтому не применяем к ним fade-up анимацию
-        // Принудительно показываем блок кейсов (на случай любых конфликтов)
+        document.querySelectorAll('.fade-up').forEach(el=>new IntersectionObserver(([e])=>e.isIntersecting&&e.target.classList.add('visible'),{threshold:0.2}).observe(el));
         document.getElementById('cases')?.classList.add('visible');
 
-        // Калькулятор экономии
+        // Калькулятор
         const roleCheckboxes = document.querySelectorAll('[data-role]');
         const hoursRadios = document.querySelectorAll('input[name="hours"]');
         const durationRadios = document.querySelectorAll('input[name="duration"]');
@@ -487,99 +601,26 @@
         hoursRadios.forEach(r => r.addEventListener('change', updateSavings));
         durationRadios.forEach(r => r.addEventListener('change', updateSavings));
 
-        // ============= ЛОГИКА ВХОДА =============
+        // Логика входа
         const API_BASE = 'http://localhost:3000';
-
-        window.showLoginModal = () => {
-            document.getElementById('loginModal').classList.remove('hidden');
-        };
-
-        window.closeLoginModal = () => {
-            document.getElementById('loginModal').classList.add('hidden');
-            document.getElementById('loginEmail').value = '';
-            document.getElementById('loginPassword').value = '';
-        };
-
+        window.showLoginModal = () => { document.getElementById('loginModal').classList.remove('hidden'); };
+        window.closeLoginModal = () => { document.getElementById('loginModal').classList.add('hidden'); document.getElementById('loginEmail').value = ''; document.getElementById('loginPassword').value = ''; };
         window.doLogin = async () => {
             const email = document.getElementById('loginEmail').value.trim();
             const password = document.getElementById('loginPassword').value;
-            
-            if (!email || !password) {
-                alert('Заполните email и пароль');
-                return;
-            }
-            
+            if (!email || !password) { alert('Заполните email и пароль'); return; }
             try {
-                const response = await fetch(`${API_BASE}/api/login`, {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({ email, password })
-                });
-                
+                const response = await fetch(`${API_BASE}/api/login`, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ email, password }) });
                 const data = await response.json();
-                
                 if (data.success) {
                     localStorage.setItem('user', JSON.stringify(data.user));
                     closeLoginModal();
-                    if (data.user.role === 'admin') {
-                        window.location.href = 'admin.html';
-                    } else {
-                        window.location.href = 'client.html';
-                    }
-                } else {
-                    alert(data.message || 'Ошибка входа');
-                }
-            } catch (error) {
-                console.error('Login error:', error);
-                alert('Ошибка соединения с сервером. Убедитесь, что сервер запущен (node app.js)');
-            }
+                    window.location.href = data.user.role === 'admin' ? 'admin.html' : 'client.html';
+                } else { alert(data.message || 'Ошибка входа'); }
+            } catch (error) { alert('Ошибка соединения с сервером. Убедитесь, что сервер запущен (node app.js)'); }
         };
-
-        document.addEventListener('keydown', (e) => {
-            if (e.key === 'Escape') {
-                closeLoginModal();
-            }
-        });
-
-        document.getElementById('loginModal').addEventListener('click', (e) => {
-            if (e.target === document.getElementById('loginModal')) {
-                closeLoginModal();
-            }
-        });
-
-        const savedUser = localStorage.getItem('user');
-        if (savedUser && window.location.pathname.includes('index.html')) {
-            const user = JSON.parse(savedUser);
-            console.log(`👋 Привет, ${user.name}!`);
-        }
-        // ============= ЯЗЫКИ =============
-function toggleLangDropdown() {
-    const dropdown = document.getElementById('langDropdown');
-    dropdown.classList.toggle('hidden');
-}
-
-function setLanguage(lang) {
-    const labels = {
-        ru: 'РУ',
-        en: 'EN',
-        ko: 'KO',
-        zh: '中文'
-    };
-    document.getElementById('currentLangLabel').innerText = labels[lang];
-    document.getElementById('langDropdown').classList.add('hidden');
-    console.log('Язык изменён на:', lang);
-    // TODO: здесь потом добавишь логику перевода контента
-}
-
-// Закрывать дропдаун при клике вне его
-document.addEventListener('click', function(event) {
-    const button = document.getElementById('langButton');
-    const dropdown = document.getElementById('langDropdown');
-    if (!button?.contains(event.target) && !dropdown?.contains(event.target)) {
-        dropdown?.classList.add('hidden');
-    }
-});
+        document.addEventListener('keydown', (e) => { if (e.key === 'Escape') closeLoginModal(); });
+        document.getElementById('loginModal').addEventListener('click', (e) => { if (e.target === document.getElementById('loginModal')) closeLoginModal(); });
     </script>
-    
 </body>
 </html>
