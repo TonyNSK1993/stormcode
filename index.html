@@ -113,6 +113,19 @@
         <div class="flex gap-2 sm:gap-3 items-center">
             <button onclick="showLoginModal()" class="glass-card px-3 sm:px-5 py-1.5 sm:py-2.5 rounded-full text-xs sm:text-sm font-semibold border border-indigo-500/40 hover:bg-indigo-950/40 transition whitespace-nowrap"><i class="fas fa-sign-in-alt mr-1"></i> <span class="hidden xs:inline">Войти</span><span class="inline xs:hidden">Вход</span></button>
             <a href="#contacts" class="bg-indigo-600 hover:bg-indigo-500 text-white px-3 sm:px-5 py-1.5 sm:py-2.5 rounded-full text-xs sm:text-sm font-semibold transition-all shadow-lg shadow-indigo-600/40 hover:scale-105 whitespace-nowrap"><i class="fab fa-telegram mr-1"></i> <span class="hidden xs:inline">Связаться</span><span class="inline xs:hidden">ТГ</span></a>
+            
+            <!-- Кнопка выбора языка -->
+            <div class="relative">
+                <button id="langButton" onclick="toggleLangDropdown()" class="glass-card px-3 sm:px-4 py-1.5 sm:py-2.5 rounded-full text-xs sm:text-sm font-semibold border border-indigo-500/40 hover:bg-indigo-950/40 transition whitespace-nowrap flex items-center gap-1">
+                    <i class="fas fa-globe mr-1"></i> <span id="currentLangLabel">РУ</span> <i class="fas fa-chevron-down text-[10px]"></i>
+                </button>
+                <div id="langDropdown" class="absolute right-0 mt-2 w-40 glass-card rounded-xl overflow-hidden hidden z-50">
+                    <div onclick="setLanguage('ru')" class="px-4 py-2 hover:bg-indigo-500/30 cursor-pointer text-sm flex items-center gap-2">🇷🇺 Русский</div>
+                    <div onclick="setLanguage('en')" class="px-4 py-2 hover:bg-indigo-500/30 cursor-pointer text-sm flex items-center gap-2">🇬🇧 English</div>
+                    <div onclick="setLanguage('ko')" class="px-4 py-2 hover:bg-indigo-500/30 cursor-pointer text-sm flex items-center gap-2">🇰🇷 한국어</div>
+                    <div onclick="setLanguage('zh')" class="px-4 py-2 hover:bg-indigo-500/30 cursor-pointer text-sm flex items-center gap-2">🇨🇳 中文</div>
+                </div>
+            </div>
         </div>
     </div>
 </header>
@@ -539,6 +552,34 @@
             const user = JSON.parse(savedUser);
             console.log(`👋 Привет, ${user.name}!`);
         }
+        // ============= ЯЗЫКИ =============
+function toggleLangDropdown() {
+    const dropdown = document.getElementById('langDropdown');
+    dropdown.classList.toggle('hidden');
+}
+
+function setLanguage(lang) {
+    const labels = {
+        ru: 'РУ',
+        en: 'EN',
+        ko: 'KO',
+        zh: '中文'
+    };
+    document.getElementById('currentLangLabel').innerText = labels[lang];
+    document.getElementById('langDropdown').classList.add('hidden');
+    console.log('Язык изменён на:', lang);
+    // TODO: здесь потом добавишь логику перевода контента
+}
+
+// Закрывать дропдаун при клике вне его
+document.addEventListener('click', function(event) {
+    const button = document.getElementById('langButton');
+    const dropdown = document.getElementById('langDropdown');
+    if (!button?.contains(event.target) && !dropdown?.contains(event.target)) {
+        dropdown?.classList.add('hidden');
+    }
+});
     </script>
+    
 </body>
 </html>
