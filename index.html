@@ -578,6 +578,19 @@
         const durationRadios = document.querySelectorAll('input[name="duration"]');
         const savingSpan = document.getElementById('savingAmount');
 
+                // КУРСЫ ВАЛЮТ
+        const exchangeRates = {
+            ru: { symbol: '₽', rateToRub: 1 },
+            en: { symbol: '$', rateToRub: 0.012 },
+            ko: { symbol: '₩', rateToRub: 16.5 },
+            zh: { symbol: '¥', rateToRub: 0.087 }
+        };
+
+        function convertCurrency(rubAmount, lang) {
+            const rate = exchangeRates[lang]?.rateToRub || 1;
+            return Math.round(rubAmount / rate);
+        }
+
         function updateSavings() {
             let totalRate = 0;
             roleCheckboxes.forEach(cb => { if(cb.checked) totalRate += parseInt(cb.dataset.rate); });
@@ -585,16 +598,26 @@
             hoursRadios.forEach(r => { if(r.checked) hours = parseInt(r.value); });
             let duration = 0;
             durationRadios.forEach(r => { if(r.checked) duration = parseInt(r.value); });
-            if(totalRate === 0 || hours === 0 || duration === 0) { savingSpan.innerText = '0 ₽'; return; }
+            
+            if(totalRate === 0 || hours === 0 || duration === 0) { 
+                savingSpan.innerText = '0 ' + (exchangeRates[currentLang]?.symbol || '₽'); 
+                return; 
+            }
+            
             const weeksInMonth = 4.3;
             let totalHours = 0;
             if(duration === 1) totalHours = hours * weeksInMonth;
             else if(duration === 3) totalHours = hours * weeksInMonth * 3;
             else totalHours = hours * weeksInMonth * 6;
-            const teamCost = totalRate * totalHours;
-            const myCost = 1100 * totalHours;
-            const saving = teamCost - myCost;
-            savingSpan.innerText = saving.toLocaleString('ru-RU') + ' ₽';
+            
+            const teamCostRub = totalRate * totalHours;
+            const myCostRub = 1100 * totalHours;
+            const savingRub = teamCostRub - myCostRub;
+            
+            const convertedSaving = convertCurrency(savingRub, currentLang);
+            const currencySymbol = exchangeRates[currentLang]?.symbol || '₽';
+            
+            savingSpan.innerText = convertedSaving.toLocaleString('ru-RU') + ' ' + currencySymbol;
         }
         
         roleCheckboxes.forEach(cb => cb.addEventListener('change', updateSavings));
