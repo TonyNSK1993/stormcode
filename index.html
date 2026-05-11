@@ -100,22 +100,22 @@
 
     <!-- Header -->
     <header class="fixed w-full z-50 bg-brand-dark/80 backdrop-blur-xl border-b border-slate-800/60">
-        <div class="max-w-6xl mx-auto px-6 py-4 flex justify-between items-center">
-            <div class="text-2xl font-bold tracking-tighter"><span class="gradient-text">AG<span class="text-indigo-400">_</span>dev</span></div>
-            <nav class="hidden md:flex gap-8 text-sm font-medium">
-                <a href="#about" class="hover:text-indigo-400 transition"><i class="fas fa-user mr-1"></i> о_мне</a>
-                <a href="#expertise" class="hover:text-indigo-400 transition"><i class="fas fa-cubes mr-1"></i> экспертиза</a>
-                <a href="#cases" class="hover:text-indigo-400 transition"><i class="fas fa-folder-open mr-1"></i> кейсы</a>
-                <a href="#process" class="hover:text-indigo-400 transition"><i class="fas fa-sync-alt mr-1"></i> процесс</a>
-                <a href="#calculator" class="text-indigo-400 hover:text-emerald-400 transition"><i class="fas fa-calculator mr-1"></i> экономия</a>
-                <a href="#contacts" class="hover:text-indigo-400 transition"><i class="fas fa-paper-plane mr-1"></i> контакты</a>
-            </nav>
-            <div class="flex gap-3">
-                <button onclick="showLoginModal()" class="glass-card px-5 py-2.5 rounded-full text-sm font-semibold border border-indigo-500/40 hover:bg-indigo-950/40 transition"><i class="fas fa-sign-in-alt mr-1"></i> Войти</button>
-                <a href="#contacts" class="bg-indigo-600 hover:bg-indigo-500 text-white px-5 py-2.5 rounded-full text-sm font-semibold transition-all shadow-lg shadow-indigo-600/40 hover:scale-105"><i class="fab fa-telegram mr-1"></i> Связаться</a>
-            </div>
+    <div class="max-w-6xl mx-auto px-4 sm:px-6 py-3 sm:py-4 flex justify-between items-center">
+        <div class="text-xl sm:text-2xl font-bold tracking-tighter"><span class="gradient-text">AG<span class="text-indigo-400">_</span>dev</span></div>
+        <nav class="hidden md:flex gap-6 lg:gap-8 text-sm font-medium">
+            <a href="#about" class="hover:text-indigo-400 transition"><i class="fas fa-user mr-1"></i> о_мне</a>
+            <a href="#expertise" class="hover:text-indigo-400 transition"><i class="fas fa-cubes mr-1"></i> экспертиза</a>
+            <a href="#cases" class="hover:text-indigo-400 transition"><i class="fas fa-folder-open mr-1"></i> кейсы</a>
+            <a href="#process" class="hover:text-indigo-400 transition"><i class="fas fa-sync-alt mr-1"></i> процесс</a>
+            <a href="#calculator" class="text-indigo-400 hover:text-emerald-400 transition"><i class="fas fa-calculator mr-1"></i> экономия</a>
+            <a href="#contacts" class="hover:text-indigo-400 transition"><i class="fas fa-paper-plane mr-1"></i> контакты</a>
+        </nav>
+        <div class="flex gap-2 sm:gap-3 items-center">
+            <button onclick="showLoginModal()" class="glass-card px-3 sm:px-5 py-1.5 sm:py-2.5 rounded-full text-xs sm:text-sm font-semibold border border-indigo-500/40 hover:bg-indigo-950/40 transition whitespace-nowrap"><i class="fas fa-sign-in-alt mr-1"></i> <span class="hidden xs:inline">Войти</span><span class="inline xs:hidden">Вход</span></button>
+            <a href="#contacts" class="bg-indigo-600 hover:bg-indigo-500 text-white px-3 sm:px-5 py-1.5 sm:py-2.5 rounded-full text-xs sm:text-sm font-semibold transition-all shadow-lg shadow-indigo-600/40 hover:scale-105 whitespace-nowrap"><i class="fab fa-telegram mr-1"></i> <span class="hidden xs:inline">Связаться</span><span class="inline xs:hidden">ТГ</span></a>
         </div>
-    </header>
+    </div>
+</header>
 
     <!-- Модальное окно входа -->
     <div id="loginModal" class="modal fixed inset-0 z-50 flex items-center justify-center bg-black/70 backdrop-blur-sm hidden transition-all">
