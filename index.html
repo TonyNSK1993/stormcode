@@ -376,7 +376,7 @@
     </footer>
 
     <script>
-        // СЛОВАРЬ ПЕРЕВОДОВ
+        // СЛОВАРЬ ПЕРЕВОДОВ (полный, все 4 языка)
         const translations = {
             ru: {
                 nav_about: "о_мне", nav_expertise: "экспертиза", nav_cases: "кейсы", nav_process: "процесс", nav_calculator: "экономия", nav_contacts: "контакты",
@@ -526,59 +526,13 @@
 
         let currentLang = 'ru';
 
-        function toggleLangDropdown() {
-            document.getElementById('langDropdown').classList.toggle('hidden');
-        }
-
-        function setLanguage(lang) {
-            currentLang = lang;
-            const labels = { ru: 'РУ', en: 'EN', ko: 'KO', zh: '中文' };
-            document.getElementById('currentLangLabel').innerText = labels[lang];
-            document.getElementById('langDropdown').classList.add('hidden');
-            
-            // Переводим все элементы с data-translate
-            document.querySelectorAll('[data-translate]').forEach(el => {
-                const key = el.getAttribute('data-translate');
-                if (translations[lang][key]) {
-                    if (key.startsWith('case1_result') || key.startsWith('case2_result') || key.startsWith('case3_result')) {
-                        el.innerHTML = translations[lang][key];
-                    } else {
-                        el.innerText = translations[lang][key];
-                    }
-                }
-            });
-            updateSavings();
-            localStorage.setItem('preferredLang', lang);
-        }
-
-        // Закрытие дропдауна при клике вне
-        document.addEventListener('click', function(event) {
-            const button = document.getElementById('langButton');
-            const dropdown = document.getElementById('langDropdown');
-            if (button && dropdown && !button.contains(event.target) && !dropdown.contains(event.target)) {
-                dropdown.classList.add('hidden');
-            }
-        });
-
-        // Загрузка сохранённого языка
-        const savedLang = localStorage.getItem('preferredLang');
-        if (savedLang && translations[savedLang]) {
-            setLanguage(savedLang);
-        }
-
-        // Анимация цифр и fade-up
-        function animateNumber(el, final, suffix='') { let start=0, step=final/60; let timer=setInterval(()=>{ start+=step; if(start>=final){ clearInterval(timer); el.innerText=final+suffix; } else el.innerText=Math.floor(start)+suffix; },20); }
-        new IntersectionObserver(([e])=>{ if(e.isIntersecting){ animateNumber(stat1,35,'+'); animateNumber(stat2,8,'+'); animateNumber(stat3,120,'%'); animateNumber(stat4,20,'+'); } },{threshold:0.3}).observe(document.getElementById('stat1'));
-        document.querySelectorAll('.fade-up').forEach(el=>new IntersectionObserver(([e])=>e.isIntersecting&&e.target.classList.add('visible'),{threshold:0.2}).observe(el));
-        document.getElementById('cases')?.classList.add('visible');
-
-        // Калькулятор
+        // === ПОЛУЧАЕМ ЭЛЕМЕНТЫ КАЛЬКУЛЯТОРА (ОБЪЯВЛЯЕМ РАНЬШЕ) ===
         const roleCheckboxes = document.querySelectorAll('[data-role]');
         const hoursRadios = document.querySelectorAll('input[name="hours"]');
         const durationRadios = document.querySelectorAll('input[name="duration"]');
         const savingSpan = document.getElementById('savingAmount');
 
-                // КУРСЫ ВАЛЮТ
+        // === КУРСЫ ВАЛЮТ ===
         const exchangeRates = {
             ru: { symbol: '₽', rateToRub: 1 },
             en: { symbol: '$', rateToRub: 0.012 },
@@ -619,10 +573,61 @@
             
             savingSpan.innerText = convertedSaving.toLocaleString('ru-RU') + ' ' + currencySymbol;
         }
-        
+
+        // === ФУНКЦИЯ ПЕРЕКЛЮЧЕНИЯ ЯЗЫКА ===
+        function setLanguage(lang) {
+            currentLang = lang;
+            const labels = { ru: 'РУ', en: 'EN', ko: 'KO', zh: '中文' };
+            document.getElementById('currentLangLabel').innerText = labels[lang];
+            document.getElementById('langDropdown').classList.add('hidden');
+            
+            document.querySelectorAll('[data-translate]').forEach(el => {
+                const key = el.getAttribute('data-translate');
+                if (translations[lang][key]) {
+                    if (key.startsWith('case1_result') || key.startsWith('case2_result') || key.startsWith('case3_result')) {
+                        el.innerHTML = translations[lang][key];
+                    } else {
+                        el.innerText = translations[lang][key];
+                    }
+                }
+            });
+            updateSavings();
+            localStorage.setItem('preferredLang', lang);
+        }
+
+        // === ДРУГИЕ ФУНКЦИИ ===
+        function toggleLangDropdown() {
+            document.getElementById('langDropdown').classList.toggle('hidden');
+        }
+
+        // Закрытие дропдауна при клике вне
+        document.addEventListener('click', function(event) {
+            const button = document.getElementById('langButton');
+            const dropdown = document.getElementById('langDropdown');
+            if (button && dropdown && !button.contains(event.target) && !dropdown.contains(event.target)) {
+                dropdown.classList.add('hidden');
+            }
+        });
+
+        // Загрузка сохранённого языка
+        const savedLang = localStorage.getItem('preferredLang');
+        if (savedLang && translations[savedLang]) {
+            setLanguage(savedLang);
+        } else {
+            // Инициализация калькулятора при загрузке
+            updateSavings();
+        }
+
+        // === ОБРАБОТЧИКИ КАЛЬКУЛЯТОРА ===
         roleCheckboxes.forEach(cb => cb.addEventListener('change', updateSavings));
         hoursRadios.forEach(r => r.addEventListener('change', updateSavings));
         durationRadios.forEach(r => r.addEventListener('change', updateSavings));
+
+        // Анимация цифр и fade-up
+        function animateNumber(el, final, suffix='') { let start=0, step=final/60; let timer=setInterval(()=>{ start+=step; if(start>=final){ clearInterval(timer); el.innerText=final+suffix; } else el.innerText=Math.floor(start)+suffix; },20); }
+        new IntersectionObserver(([e])=>{ if(e.isIntersecting){ animateNumber(stat1,35,'+'); animateNumber(stat2,8,'+'); animateNumber(stat3,120,'%'); animateNumber(stat4,20,'+'); } },{threshold:0.3}).observe(document.getElementById('stat1'));
+        document.querySelectorAll('.fade-up').forEach(el=>new IntersectionObserver(([e])=>e.isIntersecting&&e.target.classList.add('visible'),{threshold:0.2}).observe(el));
+        document.getElementById('cases')?.classList.add('visible');
 
         // Логика входа
         const API_BASE = 'http://localhost:3000';
