@@ -1,0 +1,16 @@
+User-agent: *
+Allow: /
+
+# Запрещаем индексацию служебных страниц
+Disallow: /admin.html
+Disallow: /client.html
+Disallow: /api/
+Disallow: /cgi-bin/
+Disallow: /tmp/
+Disallow: /backup/
+
+# Яндекс.Вебмастер
+Host: https://stormcode.ru/
+
+# Карта сайта (если будете создавать)
+Sitemap: https://stormcode.ru/sitemap.xml
