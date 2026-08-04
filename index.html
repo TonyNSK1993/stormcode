@@ -284,28 +284,32 @@ nav.scrolled .nav-inner{
     }
 }
 
-/* ===== GLITCH ===== */
-.glitch{
+/* ===== АВТОМАТИЧЕСКИЙ ГЛИТЧ (без наведения, каждые 3 сек) ===== */
+.glitch-auto{
     position:relative;
     display:inline-block;
 }
-.glitch:hover:before,
-.glitch:hover:after{
+.glitch-auto:before,
+.glitch-auto:after{
     content:attr(data-text);
     position:absolute;
     inset:0;
     pointer-events:none;
+    opacity:0;
+    transition:opacity .05s;
 }
-.glitch:hover:before{
+.glitch-auto.active:before{
     color:var(--accent);
     transform:translate(2px,0);
     clip-path:polygon(0 20%,100% 20%,100% 38%,0 38%);
+    opacity:1;
     animation:glitch1 .25s infinite;
 }
-.glitch:hover:after{
+.glitch-auto.active:after{
     color:var(--accent2);
     transform:translate(-2px,0);
     clip-path:polygon(0 60%,100% 60%,100% 78%,0 78%);
+    opacity:1;
     animation:glitch2 .2s infinite;
 }
 @keyframes glitch1{
@@ -673,7 +677,7 @@ section{
     color:#777;
 }
 
-/* ===== PROJECTS ===== */
+/* ===== PROJECTS / CASES ===== */
 .projects{
     background:#0b0c0e;
 }
@@ -749,7 +753,28 @@ section{
     background:var(--accent);
     color:#111;
     border-color:var(--accent);
-    transform:rotate(-45deg);
+}
+
+/* Анимация подсказки "нажми чтобы раскрыть" */
+.project-pulse{
+    animation:pulseHint 2.5s ease-in-out 3;
+}
+@keyframes pulseHint{
+    0%,100%{opacity:.4;transform:scale(1)}
+    50%{opacity:1;transform:scale(1.06)}
+}
+
+.case-details{
+    display:none;
+    margin-top:16px;
+    padding-top:16px;
+    border-top:1px solid var(--line);
+    opacity:0;
+    transition:opacity .4s ease;
+}
+.case-details.open{
+    display:block;
+    opacity:1;
 }
 
 /* ===== SERVICES ===== */
@@ -1359,7 +1384,7 @@ footer{
                 PRODUCT · AI · AUTOMATION
             </div>
             <h1>
-                <span class="glitch" data-text="Антон Галямов">Антон Галямов</span>
+                <span class="glitch-auto" data-text="Антон Галямов" id="glitchName">Антон Галямов</span>
                 <br>
                 <span class="outline">Product Director</span>
                 <br>
@@ -1628,13 +1653,19 @@ footer{
     </div>
 </section>
 
-<!-- ===== CASES ===== -->
+<!-- ===== CASES (с раскрывашками) ===== -->
 <section id="cases" style="background:#0b0c0e">
     <div class="container">
         <div class="section-label reveal">04 — Кейсы</div>
         <h2 class="section-title reveal">Проекты и <span>результаты</span></h2>
+        <p style="color:#888;font-size:13px;margin-top:8px;opacity:.7">
+            <i class="fas fa-hand-pointer" style="color:var(--accent)"></i> Нажми на кейс, чтобы увидеть детали
+        </p>
+
         <div class="project-list">
-            <div class="project reveal">
+
+            <!-- Кейс 1 -->
+            <div class="project reveal" onclick="toggleCase(this)">
                 <div class="project-num">01</div>
                 <div>
                     <div class="project-name">ИИ-ассистент для отдела продаж + CRM</div>
@@ -1645,10 +1676,48 @@ footer{
                             Конверсия +42% · Экономия 25 ч/нед · ROI 320%
                         </span>
                     </div>
+                    <div class="case-details">
+                        <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px;font-size:14px;color:#ccc">
+                            <div>
+                                <h4 style="color:var(--accent);font-size:13px;margin-bottom:6px">🧩 Задача</h4>
+                                <p style="color:#888;font-size:13px;line-height:1.6">Компания тратила 30+ часов в неделю на ручную обработку лидов. Менеджеры заполняли карточки в CRM вручную, не было прогнозов.</p>
+                            </div>
+                            <div>
+                                <h4 style="color:var(--accent);font-size:13px;margin-bottom:6px">⚙️ Решение</h4>
+                                <p style="color:#888;font-size:13px;line-height:1.6">Разработал <strong style="color:white">AI-агента на базе LLM</strong>, который автоматически анализирует диалоги с клиентами, классифицирует лидов, заполняет CRM и выдаёт прогноз.</p>
+                            </div>
+                            <div style="grid-column:1/-1">
+                                <h4 style="color:var(--accent);font-size:13px;margin-bottom:6px">🏆 Результаты</h4>
+                                <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(130px,1fr));gap:10px">
+                                    <div style="background:var(--card);padding:14px 16px;border-radius:12px;text-align:center">
+                                        <div style="font-size:24px;font-weight:800;color:var(--accent)">+42%</div>
+                                        <div style="font-size:11px;color:#888">конверсия</div>
+                                    </div>
+                                    <div style="background:var(--card);padding:14px 16px;border-radius:12px;text-align:center">
+                                        <div style="font-size:24px;font-weight:800;color:var(--accent)">25ч</div>
+                                        <div style="font-size:11px;color:#888">экономия в неделю</div>
+                                    </div>
+                                    <div style="background:var(--card);padding:14px 16px;border-radius:12px;text-align:center">
+                                        <div style="font-size:24px;font-weight:800;color:var(--accent)">89%</div>
+                                        <div style="font-size:11px;color:#888">точность прогнозов</div>
+                                    </div>
+                                    <div style="background:var(--card);padding:14px 16px;border-radius:12px;text-align:center">
+                                        <div style="font-size:24px;font-weight:800;color:var(--accent)">320%</div>
+                                        <div style="font-size:11px;color:#888">ROI за 6 мес</div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div style="grid-column:1/-1;font-size:12px;color:#666;border-top:1px solid var(--line);padding-top:12px">
+                                <strong style="color:#aaa">Стек:</strong> Python, LLM, Bitrix24 REST, Vue 3
+                            </div>
+                        </div>
+                    </div>
                 </div>
-                <div class="project-arrow">↗</div>
+                <div class="project-arrow" id="arrow1">↗</div>
             </div>
-            <div class="project reveal">
+
+            <!-- Кейс 2 -->
+            <div class="project reveal" onclick="toggleCase(this)">
                 <div class="project-num">02</div>
                 <div>
                     <div class="project-name">Цифровая трансформация холдинга</div>
@@ -1659,10 +1728,44 @@ footer{
                             Согласование -60% · Выручка +35%
                         </span>
                     </div>
+                    <div class="case-details">
+                        <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px;font-size:14px;color:#ccc">
+                            <div>
+                                <h4 style="color:var(--accent);font-size:13px;margin-bottom:6px">🧩 Задача</h4>
+                                <p style="color:#888;font-size:13px;line-height:1.6">Холдинг из 5 юрлиц с разрозненными CRM. Согласование документов — до 4 месяцев.</p>
+                            </div>
+                            <div>
+                                <h4 style="color:var(--accent);font-size:13px;margin-bottom:6px">⚙️ Решение</h4>
+                                <p style="color:#888;font-size:13px;line-height:1.6">Единый корпоративный портал, сквозные бизнес-процессы, КЭДО, автоматическая отчётность.</p>
+                            </div>
+                            <div style="grid-column:1/-1">
+                                <h4 style="color:var(--accent);font-size:13px;margin-bottom:6px">🏆 Результаты</h4>
+                                <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(130px,1fr));gap:10px">
+                                    <div style="background:var(--card);padding:14px 16px;border-radius:12px;text-align:center">
+                                        <div style="font-size:24px;font-weight:800;color:var(--accent)">-60%</div>
+                                        <div style="font-size:11px;color:#888">время согласования</div>
+                                    </div>
+                                    <div style="background:var(--card);padding:14px 16px;border-radius:12px;text-align:center">
+                                        <div style="font-size:24px;font-weight:800;color:var(--accent)">+35%</div>
+                                        <div style="font-size:11px;color:#888">выручка за полгода</div>
+                                    </div>
+                                    <div style="background:var(--card);padding:14px 16px;border-radius:12px;text-align:center">
+                                        <div style="font-size:24px;font-weight:800;color:var(--accent)">5</div>
+                                        <div style="font-size:11px;color:#888">компаний в едином контуре</div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div style="grid-column:1/-1;font-size:12px;color:#666;border-top:1px solid var(--line);padding-top:12px">
+                                <strong style="color:#aaa">Стек:</strong> Битрикс24, КЭДО, REST API
+                            </div>
+                        </div>
+                    </div>
                 </div>
-                <div class="project-arrow">↗</div>
+                <div class="project-arrow" id="arrow2">↗</div>
             </div>
-            <div class="project reveal">
+
+            <!-- Кейс 3 -->
+            <div class="project reveal" onclick="toggleCase(this)">
                 <div class="project-num">03</div>
                 <div>
                     <div class="project-name">Ребрендинг холдинга + HR-маркетинг</div>
@@ -1672,9 +1775,42 @@ footer{
                             Узнаваемость ↑2x · Откликов +200%
                         </span>
                     </div>
+                    <div class="case-details">
+                        <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px;font-size:14px;color:#ccc">
+                            <div>
+                                <h4 style="color:var(--accent);font-size:13px;margin-bottom:6px">🧩 Задача</h4>
+                                <p style="color:#888;font-size:13px;line-height:1.6">Размытый бренд после слияния, подбор персонала до 2 месяцев на позицию.</p>
+                            </div>
+                            <div>
+                                <h4 style="color:var(--accent);font-size:13px;margin-bottom:6px">⚙️ Решение</h4>
+                                <p style="color:#888;font-size:13px;line-height:1.6">Бренд-стратегия, HR-бренд, сквозная воронка подбора в CRM, курсы адаптации.</p>
+                            </div>
+                            <div style="grid-column:1/-1">
+                                <h4 style="color:var(--accent);font-size:13px;margin-bottom:6px">🏆 Результаты</h4>
+                                <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(130px,1fr));gap:10px">
+                                    <div style="background:var(--card);padding:14px 16px;border-radius:12px;text-align:center">
+                                        <div style="font-size:24px;font-weight:800;color:var(--accent)">↑2x</div>
+                                        <div style="font-size:11px;color:#888">узнаваемость бренда</div>
+                                    </div>
+                                    <div style="background:var(--card);padding:14px 16px;border-radius:12px;text-align:center">
+                                        <div style="font-size:24px;font-weight:800;color:var(--accent)">+200%</div>
+                                        <div style="font-size:11px;color:#888">откликов</div>
+                                    </div>
+                                    <div style="background:var(--card);padding:14px 16px;border-radius:12px;text-align:center">
+                                        <div style="font-size:24px;font-weight:800;color:var(--accent)">-40%</div>
+                                        <div style="font-size:11px;color:#888">срок закрытия вакансий</div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div style="grid-column:1/-1;font-size:12px;color:#666;border-top:1px solid var(--line);padding-top:12px">
+                                <strong style="color:#aaa">Стек:</strong> Брендинг, HR-маркетинг, CRM-автоматизация
+                            </div>
+                        </div>
+                    </div>
                 </div>
-                <div class="project-arrow">↗</div>
+                <div class="project-arrow" id="arrow3">↗</div>
             </div>
+
         </div>
     </div>
 </section>
@@ -2007,6 +2143,32 @@ document.querySelectorAll(".service").forEach(card => {
     });
 });
 
+/* ===== АВТОМАТИЧЕСКИЙ ГЛИТЧ КАЖДЫЕ 3 СЕКУНДЫ ===== */
+const glitchEl = document.getElementById('glitchName');
+
+function triggerGlitch() {
+    // Убираем старый класс
+    glitchEl.classList.remove('active');
+    
+    // Принудительный reflow для перезапуска анимации
+    void glitchEl.offsetWidth;
+    
+    // Добавляем класс
+    glitchEl.classList.add('active');
+    
+    // Убираем через 400 мс (длительность анимации)
+    setTimeout(() => {
+        glitchEl.classList.remove('active');
+    }, 400);
+}
+
+// Запускаем через 1 секунду после загрузки
+setTimeout(() => {
+    triggerGlitch();
+    // Запускаем интервал каждые 3 секунды
+    setInterval(triggerGlitch, 3000);
+}, 1000);
+
 /* ===== КАЛЬКУЛЯТОР ===== */
 const roleCheckboxes = document.querySelectorAll('[data-role]');
 const hoursRadios = document.querySelectorAll('input[name="hours"]');
@@ -2041,6 +2203,44 @@ function updateSavings() {
 roleCheckboxes.forEach(cb => cb.addEventListener('change', updateSavings));
 hoursRadios.forEach(r => r.addEventListener('change', updateSavings));
 durationRadios.forEach(r => r.addEventListener('change', updateSavings));
+
+/* ===== РАСКРЫВАЮЩИЕСЯ КЕЙСЫ ===== */
+function toggleCase(element) {
+    const details = element.querySelector('.case-details');
+    const arrow = element.querySelector('.project-arrow');
+    
+    if (details.style.display === 'none' || details.style.display === '') {
+        details.style.display = 'block';
+        setTimeout(() => {
+            details.style.opacity = '1';
+        }, 10);
+        arrow.style.transform = 'rotate(45deg)';
+        arrow.style.background = 'var(--accent)';
+        arrow.style.color = '#111';
+        arrow.style.borderColor = 'var(--accent)';
+    } else {
+        details.style.opacity = '0';
+        setTimeout(() => {
+            details.style.display = 'none';
+        }, 300);
+        arrow.style.transform = 'rotate(0deg)';
+        arrow.style.background = 'transparent';
+        arrow.style.color = 'inherit';
+        arrow.style.borderColor = 'var(--line)';
+    }
+}
+
+/* Анимация подсказки "нажми чтобы раскрыть" — через 2 секунды после загрузки */
+setTimeout(() => {
+    document.querySelectorAll('.project-arrow').forEach((arrow, index) => {
+        setTimeout(() => {
+            arrow.classList.add('project-pulse');
+            setTimeout(() => {
+                arrow.classList.remove('project-pulse');
+            }, 7500);
+        }, index * 400);
+    });
+}, 2000);
 
 /* CALCULATOR HOVER */
 document.querySelectorAll('.calc-option').forEach(el => {
