@@ -440,66 +440,58 @@ nav.scrolled .nav-inner{
     transform:translateX(4px);
 }
 
-/* ===== HERO ФОТО — КРУГЛЫЙ АВАТАР ===== */
+/* ===== HERO PORTRAIT — EDITORIAL CUTOUT ===== */
 .hero-photo-wrap{
-    position:relative;
-    height:650px;
-    display:flex;
-    align-items:center;
-    justify-content:center;
-    animation:photoReveal 1.2s .25s both;
+    position:relative;height:680px;display:flex;align-items:center;justify-content:center;
+    animation:photoReveal 1.2s .25s both;isolation:isolate;
 }
-@keyframes photoReveal{
-    from{opacity:0;transform:translateY(50px) scale(.92)}
-    to{opacity:1;transform:none}
+.hero-photo-wrap:before{
+    content:"";position:absolute;width:560px;height:560px;border-radius:50%;
+    background:radial-gradient(circle,rgba(184,255,99,.12) 0%,rgba(184,255,99,.035) 34%,transparent 70%);
+    filter:blur(8px);z-index:-3;animation:heroOrb 8s ease-in-out infinite alternate;
 }
+.hero-photo-wrap:after{
+    content:"";position:absolute;width:390px;height:570px;border:1px solid rgba(255,255,255,.055);
+    border-radius:32px;transform:translate(18px,10px) rotate(2.5deg);z-index:-2;opacity:.75;
+}
+@keyframes photoReveal{from{opacity:0;transform:translateY(50px) scale(.94)}to{opacity:1;transform:none}}
+@keyframes heroOrb{from{transform:translate3d(0,8px,0) scale(.9)}to{transform:translate3d(-18px,-12px,0) scale(1.12)}}
 .photo-aura{
-    position:absolute;
-    width:500px;
-    height:500px;
-    border-radius:50%;
-    background:radial-gradient(circle,rgba(184,255,99,.15),transparent 67%);
-    animation:aura 5s ease-in-out infinite alternate;
-}
-@keyframes aura{
-    from{transform:scale(.9) rotate(0)}
-    to{transform:scale(1.15) rotate(20deg)}
+    position:absolute;width:430px;height:570px;border-radius:45% 55% 50% 50%;
+    background:linear-gradient(180deg,rgba(184,255,99,.08),transparent 58%);filter:blur(24px);z-index:-1;opacity:.8;
 }
 .photo-frame{
-    width:min(340px,65vw);
-    height:340px;
-    border-radius:50%;
-    overflow:hidden;
-    position:relative;
-    background:#18191c;
-    border:2px solid rgba(255,255,255,.13);
-    box-shadow:0 30px 80px rgba(0,0,0,.5),0 0 0 1px rgba(255,255,255,.03);
-    transition:transform .6s var(--ease);
-    flex-shrink:0;
+    width:min(390px,42vw);height:570px;position:relative;display:flex;align-items:flex-end;justify-content:center;
+    overflow:visible;flex-shrink:0;transition:transform .7s var(--ease),filter .7s var(--ease);
+    filter:drop-shadow(0 35px 55px rgba(0,0,0,.52));
 }
-.photo-frame:hover{
-    transform:scale(1.025);
+.photo-frame:before{
+    content:"";position:absolute;inset:8% -8% 0;background:radial-gradient(ellipse at 50% 80%,rgba(0,0,0,.72),transparent 62%);
+    filter:blur(18px);z-index:-1;
 }
 .photo-frame:after{
-    content:"";
-    position:absolute;
-    inset:0;
-    background:linear-gradient(180deg,transparent 45%,rgba(0,0,0,.4));
-    pointer-events:none;
-    border-radius:50%;
+    content:"";position:absolute;left:12%;right:12%;bottom:-5px;height:1px;
+    background:linear-gradient(90deg,transparent,rgba(184,255,99,.65),transparent);box-shadow:0 0 24px rgba(184,255,99,.22);
 }
 .photo-frame img{
-    width:100%;
-    height:100%;
-    object-fit:cover;
-    object-position:50% 20%;
-    display:block;
-    filter:saturate(.92) contrast(1.04);
-    transition:transform 1s var(--ease);
+    width:100%;height:100%;object-fit:contain;object-position:center bottom;display:block;
+    filter:saturate(.82) contrast(1.05) brightness(.96);transition:transform 1s var(--ease),filter .7s ease;
+    transform-origin:center bottom;position:relative;z-index:1;
 }
-.photo-frame:hover img{
-    transform:scale(1.06);
+.photo-frame:hover{transform:translateY(-7px) scale(1.012);filter:drop-shadow(0 45px 75px rgba(0,0,0,.58))}
+.photo-frame:hover img{transform:scale(1.025);filter:saturate(.95) contrast(1.06) brightness(1.01)}
+.hero-photo-grid{
+    position:absolute;width:420px;height:540px;border-radius:28px;opacity:.32;
+    background-image:linear-gradient(rgba(255,255,255,.045) 1px,transparent 1px),linear-gradient(90deg,rgba(255,255,255,.045) 1px,transparent 1px);
+    background-size:42px 42px;mask-image:linear-gradient(180deg,transparent 0%,#000 18%,#000 72%,transparent 100%);
+    -webkit-mask-image:linear-gradient(180deg,transparent 0%,#000 18%,#000 72%,transparent 100%);transform:translate(38px,8px);z-index:-2;
 }
+.hero-photo-index{
+    position:absolute;right:-2px;top:9%;color:#55565b;font:600 10px/1 Manrope,sans-serif;letter-spacing:.18em;
+    writing-mode:vertical-rl;text-transform:uppercase;
+}
+.hero-photo-line{position:absolute;left:-30px;top:18%;width:72px;height:1px;background:linear-gradient(90deg,transparent,var(--accent));opacity:.7}
+
 .floating-tag{
     position:absolute;
     z-index:3;
@@ -1295,8 +1287,11 @@ footer{
     .hero{padding-top:120px;padding-bottom:70px}
     .hero-grid{grid-template-columns:1fr;gap:45px}
     .hero h1{font-size:clamp(48px,12vw,72px)}
-    .hero-photo-wrap{height:500px}
-    .photo-frame{width:min(260px,60vw);height:260px}
+    .hero-photo-wrap{height:560px}
+    .photo-frame{width:min(340px,72vw);height:500px}
+    .hero-photo-grid{width:350px;height:470px;transform:translate(24px,4px)}
+    .hero-photo-index{right:0;top:7%}
+    .hero-photo-line{left:0}
     .tag-one{left:2%}
     .tag-two{right:2%}
     .about-grid{grid-template-columns:1fr;gap:40px}
@@ -1312,8 +1307,11 @@ footer{
 @media(max-width:600px){
     .hero-actions{flex-direction:column}
     .btn{width:100%}
-    .hero-photo-wrap{height:400px}
-    .photo-frame{width:min(200px,60vw);height:200px}
+    .hero-photo-wrap{height:470px}
+    .photo-frame{width:min(285px,76vw);height:430px}
+    .hero-photo-grid{width:290px;height:400px;transform:translate(18px,0)}
+    .hero-photo-index{font-size:8px;right:-2px}
+    .hero-photo-line{display:none}
     .floating-tag{font-size:10px;padding:10px 12px}
     .tag-number{font-size:17px}
     .stats{grid-template-columns:1fr}
@@ -1421,16 +1419,13 @@ footer{
         </div>
         <div class="hero-photo-wrap">
             <div class="photo-aura"></div>
-            <div class="floating-tag tag-one">
-                <span class="tag-number">7+</span>
-                лет в разработке
-            </div>
-            <div class="floating-tag tag-two">
-                <span class="tag-number">∞</span>
-                AI-решений
-            </div>
+            <div class="hero-photo-grid"></div>
+            <div class="hero-photo-line"></div>
+            <div class="hero-photo-index">01 / AG · AI ARCHITECT</div>
+            <div class="floating-tag tag-one"><span class="tag-number">7+</span>лет в разработке</div>
+            <div class="floating-tag tag-two"><span class="tag-number">∞</span>AI-решений</div>
             <div class="photo-frame" id="photoFrame">
-                <img src="https://sun9-51.vkuserphoto.ru/s/v1/ig2/0_mslYqMdLWe1qc5L2WhvKmIX5O9y0BJPk08vnUVs1jd3oqErslQhRgb2wm_0qv011Uyy4UAtiB0lanbmWCPfRzs.jpg?quality=95&as=32x48,48x72,72x108,108x162,160x240,240x360,360x540,480x720,540x810,640x960,720x1080,1080x1620,1280x1920,1440x2160,1707x2560&from=bu&u=vzGfQ7ztqcIj3D-vGhX27uTmCGwLBWu0iKIUDjDyvnE&cs=1707x0" alt="Антон Галямов — Product Director & AI Architect" loading="eager">
+                <img src="https://iili.io/CgBmUqQ.png" alt="Антон Галямов — Product Director & AI Architect" loading="eager">
             </div>
         </div>
     </div>
