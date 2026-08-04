@@ -96,6 +96,51 @@ button{
     margin:auto;
 }
 
+/* ===== АНИМИРОВАННЫЕ ЧАСТИЦЫ ===== */
+.particles-container{
+    position:fixed;
+    inset:0;
+    z-index:-1;
+    pointer-events:none;
+    overflow:hidden;
+}
+.particle{
+    position:absolute;
+    width:3px;
+    height:3px;
+    background:var(--accent);
+    border-radius:50%;
+    opacity:0;
+    animation:particleFloat var(--duration, 15s) linear infinite;
+    box-shadow:0 0 6px var(--accent);
+}
+.particle:nth-child(1){--duration:18s; left:10%; top:20%; width:2px; height:2px; animation-delay:0s}
+.particle:nth-child(2){--duration:22s; left:25%; top:60%; width:4px; height:4px; animation-delay:2s}
+.particle:nth-child(3){--duration:16s; left:40%; top:10%; width:2px; height:2px; animation-delay:4s}
+.particle:nth-child(4){--duration:20s; left:55%; top:75%; width:3px; height:3px; animation-delay:1s}
+.particle:nth-child(5){--duration:25s; left:70%; top:30%; width:2px; height:2px; animation-delay:3s}
+.particle:nth-child(6){--duration:19s; left:85%; top:55%; width:4px; height:4px; animation-delay:5s}
+.particle:nth-child(7){--duration:23s; left:15%; top:85%; width:2px; height:2px; animation-delay:2.5s}
+.particle:nth-child(8){--duration:17s; left:50%; top:45%; width:3px; height:3px; animation-delay:3.5s}
+.particle:nth-child(9){--duration:21s; left:75%; top:90%; width:2px; height:2px; animation-delay:1.5s}
+.particle:nth-child(10){--duration:24s; left:90%; top:15%; width:3px; height:3px; animation-delay:4.5s}
+.particle:nth-child(11){--duration:20s; left:5%; top:40%; width:2px; height:2px; animation-delay:0.5s}
+.particle:nth-child(12){--duration:26s; left:35%; top:95%; width:4px; height:4px; animation-delay:3s}
+.particle:nth-child(13){--duration:18s; left:65%; top:5%; width:2px; height:2px; animation-delay:5.5s}
+.particle:nth-child(14){--duration:22s; left:80%; top:70%; width:3px; height:3px; animation-delay:2s}
+.particle:nth-child(15){--duration:16s; left:45%; top:80%; width:2px; height:2px; animation-delay:4s}
+.particle:nth-child(16){--duration:19s; left:20%; top:50%; width:4px; height:4px; animation-delay:1s}
+.particle:nth-child(17){--duration:24s; left:60%; top:40%; width:2px; height:2px; animation-delay:3.5s}
+.particle:nth-child(18){--duration:21s; left:95%; top:85%; width:3px; height:3px; animation-delay:2.5s}
+.particle:nth-child(19){--duration:17s; left:30%; top:25%; width:2px; height:2px; animation-delay:4.5s}
+.particle:nth-child(20){--duration:23s; left:75%; top:50%; width:4px; height:4px; animation-delay:0.8s}
+@keyframes particleFloat{
+    0%{opacity:0;transform:translateY(0) translateX(0) scale(0)}
+    10%{opacity:1;transform:translateY(-20px) translateX(10px) scale(1)}
+    90%{opacity:1}
+    100%{opacity:0;transform:translateY(-120vh) translateX(-30px) scale(0)}
+}
+
 /* ===== CURSOR ===== */
 .cursor{
     position:fixed;
@@ -123,7 +168,7 @@ button{
     width:700px;
     height:700px;
     border-radius:50%;
-    background:radial-gradient(circle,rgba(184,255,99,.12),transparent 68%);
+    background:radial-gradient(circle,rgba(184,255,99,.08),transparent 68%);
     top:-280px;
     right:-180px;
     pointer-events:none;
@@ -135,7 +180,7 @@ button{
     height:500px;
     left:-250px;
     top:45%;
-    background:radial-gradient(circle,rgba(124,255,196,.08),transparent 68%);
+    background:radial-gradient(circle,rgba(124,255,196,.06),transparent 68%);
     animation-delay:-5s;
 }
 @keyframes glowMove{
@@ -794,10 +839,31 @@ section{
     background:var(--card-hover);
     transform:translateY(-4px);
 }
+.ai-service .icon-wrap{
+    display:inline-flex;
+    align-items:center;
+    justify-content:center;
+    width:40px;
+    height:40px;
+    border-radius:12px;
+    background:rgba(184,255,99,.08);
+    border:1px solid rgba(184,255,99,.15);
+    margin-bottom:10px;
+}
+.ai-service .icon-wrap svg{
+    width:22px;
+    height:22px;
+    stroke:var(--accent);
+    fill:none;
+    stroke-width:1.8;
+}
 .ai-service h4{
     font-family:Manrope;
     font-size:18px;
     margin-bottom:6px;
+    display:flex;
+    align-items:center;
+    gap:10px;
 }
 .ai-service p{
     color:#888;
@@ -943,6 +1009,64 @@ section{
 .process-item p{
     color:#777;
     font-size:13px;
+}
+
+/* ===== CALCULATOR ===== */
+.calculator-wrap{
+    margin-top:40px;
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    gap:30px;
+}
+.calc-option{
+    display:flex;
+    align-items:center;
+    gap:14px;
+    padding:16px 20px;
+    background:var(--card);
+    border:1px solid var(--line);
+    border-radius:16px;
+    cursor:pointer;
+    transition:.3s;
+}
+.calc-option:hover{
+    background:var(--card-hover);
+    border-color:rgba(184,255,99,.2);
+}
+.calc-option .calc-checkbox{
+    width:20px;
+    height:20px;
+    accent-color:var(--accent);
+    cursor:pointer;
+    flex-shrink:0;
+}
+.hours-label,
+.duration-label{
+    display:flex;
+    align-items:center;
+    gap:8px;
+    padding:10px 20px;
+    background:var(--card);
+    border:1px solid var(--line);
+    border-radius:12px;
+    cursor:pointer;
+    transition:.3s;
+}
+.hours-label:hover,
+.duration-label:hover{
+    background:var(--card-hover);
+    border-color:rgba(184,255,99,.2);
+}
+.hours-label input,
+.duration-label input{
+    accent-color:var(--accent);
+    cursor:pointer;
+}
+@media(max-width:900px){
+    .calculator-wrap{
+        grid-template-columns:1fr;
+        gap:24px;
+    }
 }
 
 /* ===== FAQ ===== */
@@ -1172,11 +1296,23 @@ footer{
     .footer-inner{flex-direction:column;gap:18px}
     .price-grid{grid-template-columns:1fr}
     .ai-services-grid{grid-template-columns:1fr}
+    .calculator-wrap{grid-template-columns:1fr}
 }
 </style>
 </head>
 
 <body>
+
+<!-- ===== АНИМИРОВАННЫЕ ЧАСТИЦЫ ===== -->
+<div class="particles-container">
+    <span class="particle"></span><span class="particle"></span><span class="particle"></span>
+    <span class="particle"></span><span class="particle"></span><span class="particle"></span>
+    <span class="particle"></span><span class="particle"></span><span class="particle"></span>
+    <span class="particle"></span><span class="particle"></span><span class="particle"></span>
+    <span class="particle"></span><span class="particle"></span><span class="particle"></span>
+    <span class="particle"></span><span class="particle"></span><span class="particle"></span>
+    <span class="particle"></span><span class="particle"></span>
+</div>
 
 <div class="loader">
     <div class="loader-inner">
@@ -1203,6 +1339,7 @@ footer{
             <a href="#ai-services">AI-услуги</a>
             <a href="#cases">Кейсы</a>
             <a href="#process">Подход</a>
+            <a href="#calculator">Экономия</a>
             <a href="#faq">FAQ</a>
         </div>
         <a href="#contact" class="nav-contact magnetic">
@@ -1213,7 +1350,7 @@ footer{
 
 <main>
 
-<!-- ===== HERO с глитч-эффектом ===== -->
+<!-- ===== HERO ===== -->
 <section class="hero">
     <div class="container hero-grid">
         <div class="hero-copy">
@@ -1221,7 +1358,6 @@ footer{
                 <span></span>
                 PRODUCT · AI · AUTOMATION
             </div>
-
             <h1>
                 <span class="glitch" data-text="Антон Галямов">Антон Галямов</span>
                 <br>
@@ -1229,13 +1365,11 @@ footer{
                 <br>
                 <span class="green">&amp; AI Architect</span>
             </h1>
-
             <p class="hero-description">
                 7+ лет в разработке, <strong style="color:white">ИИ</strong> и управлении продуктами.
                 Строю цифровые экосистемы, <strong style="color:white">дообучаю LLM</strong> под бизнес,
                 масштабирую компании.
             </p>
-
             <div class="hero-tags">
                 <span class="hero-tag green"><i class="fas fa-brain" style="margin-right:4px"></i> Дообучение LLM</span>
                 <span class="hero-tag"><i class="fas fa-database" style="margin-right:4px"></i> RAG</span>
@@ -1243,7 +1377,6 @@ footer{
                 <span class="hero-tag"><i class="fas fa-cogs" style="margin-right:4px"></i> CRM-автоматизация</span>
                 <span class="hero-tag"><i class="fas fa-chart-line" style="margin-right:4px"></i> BI-дашборды</span>
             </div>
-
             <div class="hero-actions">
                 <a href="#ai-services" class="btn primary magnetic">
                     AI-услуги
@@ -1257,7 +1390,6 @@ footer{
                 </a>
             </div>
         </div>
-
         <div class="hero-photo-wrap">
             <div class="photo-aura"></div>
             <div class="floating-tag tag-one">
@@ -1282,30 +1414,8 @@ footer{
 <!-- ===== MARQUEE ===== -->
 <div class="marquee">
     <div class="marquee-track">
-        <div class="marquee-item">
-            PRODUCT <b>✦</b>
-            AI <b>✦</b>
-            AUTOMATION <b>✦</b>
-            LLM <b>✦</b>
-            RAG <b>✦</b>
-            CRM <b>✦</b>
-            PYTHON <b>✦</b>
-            PHP <b>✦</b>
-            REACT <b>✦</b>
-            VUE <b>✦</b>
-        </div>
-        <div class="marquee-item">
-            PRODUCT <b>✦</b>
-            AI <b>✦</b>
-            AUTOMATION <b>✦</b>
-            LLM <b>✦</b>
-            RAG <b>✦</b>
-            CRM <b>✦</b>
-            PYTHON <b>✦</b>
-            PHP <b>✦</b>
-            REACT <b>✦</b>
-            VUE <b>✦</b>
-        </div>
+        <div class="marquee-item">PRODUCT <b>✦</b> AI <b>✦</b> AUTOMATION <b>✦</b> LLM <b>✦</b> RAG <b>✦</b> CRM <b>✦</b> PYTHON <b>✦</b> PHP <b>✦</b> REACT <b>✦</b> VUE <b>✦</b></div>
+        <div class="marquee-item">PRODUCT <b>✦</b> AI <b>✦</b> AUTOMATION <b>✦</b> LLM <b>✦</b> RAG <b>✦</b> CRM <b>✦</b> PYTHON <b>✦</b> PHP <b>✦</b> REACT <b>✦</b> VUE <b>✦</b></div>
     </div>
 </div>
 
@@ -1331,18 +1441,9 @@ footer{
                     Не люблю делать «как у всех» — гораздо интереснее найти собственное решение.
                 </p>
                 <div class="stats">
-                    <div class="stat reveal">
-                        <strong>35+</strong>
-                        <span>CRM/автоматизация</span>
-                    </div>
-                    <div class="stat reveal delay-1">
-                        <strong>8+</strong>
-                        <span>AI-решений</span>
-                    </div>
-                    <div class="stat reveal delay-2">
-                        <strong>120%</strong>
-                        <span>рост конверсии</span>
-                    </div>
+                    <div class="stat reveal"><strong>35+</strong><span>CRM/автоматизация</span></div>
+                    <div class="stat reveal delay-1"><strong>8+</strong><span>AI-решений</span></div>
+                    <div class="stat reveal delay-2"><strong>120%</strong><span>рост конверсии</span></div>
                 </div>
             </div>
         </div>
@@ -1356,7 +1457,6 @@ footer{
         <h2 class="section-title reveal">
             Экосистема <span>компетенций</span>
         </h2>
-
         <div class="services-grid" style="margin-top:50px">
             <article class="service reveal">
                 <div class="service-icon">&lt;/&gt;</div>
@@ -1401,20 +1501,18 @@ footer{
                 </div>
             </article>
         </div>
-
-        <!-- Стек технологий -->
         <div style="margin-top:50px;display:flex;flex-wrap:wrap;gap:10px;justify-content:center">
-            <span style="padding:6px 18px;border:1px solid var(--line);border-radius:100px;font-size:13px;color:#aaa"><i class="fab fa-python" style="margin-right:4px"></i> Python</span>
-            <span style="padding:6px 18px;border:1px solid var(--line);border-radius:100px;font-size:13px;color:#aaa"><i class="fab fa-php" style="margin-right:4px"></i> PHP</span>
-            <span style="padding:6px 18px;border:1px solid var(--line);border-radius:100px;font-size:13px;color:#aaa"><i class="fab fa-node-js" style="margin-right:4px"></i> Node.js</span>
-            <span style="padding:6px 18px;border:1px solid var(--line);border-radius:100px;font-size:13px;color:#aaa"><i class="fab fa-react" style="margin-right:4px"></i> React</span>
-            <span style="padding:6px 18px;border:1px solid var(--line);border-radius:100px;font-size:13px;color:#aaa"><i class="fab fa-vuejs" style="margin-right:4px"></i> Vue 3</span>
-            <span style="padding:6px 18px;border:1px solid var(--line);border-radius:100px;font-size:13px;color:#aaa"><i class="fab fa-bitbucket" style="margin-right:4px"></i> Bitrix24</span>
-            <span style="padding:6px 18px;border:1px solid var(--line);border-radius:100px;font-size:13px;color:#aaa"><i class="fas fa-brain" style="margin-right:4px"></i> LLM / OpenAI</span>
-            <span style="padding:6px 18px;border:1px solid var(--line);border-radius:100px;font-size:13px;color:#aaa"><i class="fas fa-robot" style="margin-right:4px"></i> Mistral / Qwen</span>
-            <span style="padding:6px 18px;border:1px solid var(--line);border-radius:100px;font-size:13px;color:#aaa"><i class="fas fa-database" style="margin-right:4px"></i> REST API</span>
-            <span style="padding:6px 18px;border:1px solid var(--line);border-radius:100px;font-size:13px;color:#aaa"><i class="fas fa-robot" style="margin-right:4px"></i> n8n</span>
-            <span style="padding:6px 18px;border:1px solid var(--line);border-radius:100px;font-size:13px;color:#aaa"><i class="fab fa-figma" style="margin-right:4px"></i> Figma</span>
+            <span style="padding:6px 18px;border:1px solid var(--line);border-radius:100px;font-size:13px;color:#aaa"><i class="fab fa-python"></i> Python</span>
+            <span style="padding:6px 18px;border:1px solid var(--line);border-radius:100px;font-size:13px;color:#aaa"><i class="fab fa-php"></i> PHP</span>
+            <span style="padding:6px 18px;border:1px solid var(--line);border-radius:100px;font-size:13px;color:#aaa"><i class="fab fa-node-js"></i> Node.js</span>
+            <span style="padding:6px 18px;border:1px solid var(--line);border-radius:100px;font-size:13px;color:#aaa"><i class="fab fa-react"></i> React</span>
+            <span style="padding:6px 18px;border:1px solid var(--line);border-radius:100px;font-size:13px;color:#aaa"><i class="fab fa-vuejs"></i> Vue 3</span>
+            <span style="padding:6px 18px;border:1px solid var(--line);border-radius:100px;font-size:13px;color:#aaa"><i class="fab fa-bitbucket"></i> Bitrix24</span>
+            <span style="padding:6px 18px;border:1px solid var(--line);border-radius:100px;font-size:13px;color:#aaa"><i class="fas fa-brain"></i> LLM</span>
+            <span style="padding:6px 18px;border:1px solid var(--line);border-radius:100px;font-size:13px;color:#aaa"><i class="fas fa-robot"></i> Mistral / Qwen</span>
+            <span style="padding:6px 18px;border:1px solid var(--line);border-radius:100px;font-size:13px;color:#aaa"><i class="fas fa-database"></i> REST API</span>
+            <span style="padding:6px 18px;border:1px solid var(--line);border-radius:100px;font-size:13px;color:#aaa"><i class="fas fa-robot"></i> n8n</span>
+            <span style="padding:6px 18px;border:1px solid var(--line);border-radius:100px;font-size:13px;color:#aaa"><i class="fab fa-figma"></i> Figma</span>
         </div>
     </div>
 </section>
@@ -1422,53 +1520,70 @@ footer{
 <!-- ===== AI SERVICES ===== -->
 <section id="ai-services">
     <div class="container">
-        <div class="section-label reveal">
-            <span style="color:var(--accent)">⚡</span> 03 — AI-услуги
-        </div>
-        <h2 class="section-title reveal">
-            Готовые <span>AI-решения</span>
-        </h2>
+        <div class="section-label reveal"><span style="color:var(--accent)">⚡</span> 03 — AI-услуги</div>
+        <h2 class="section-title reveal">Готовые <span>AI-решения</span></h2>
         <p class="section-sub reveal">Модели до 32 млрд параметров — под задачи малого и среднего бизнеса. Точность 95%+.</p>
 
         <div class="ai-services-grid">
             <div class="ai-service reveal">
-                <h4>🧠 Ассистент техподдержки по базе знаний</h4>
+                <div class="icon-wrap">
+                    <svg viewBox="0 0 24 24"><path d="M12 2a10 10 0 1010 10 10 10 0 00-10-10z"/><path d="M12 6v6l4 2"/></svg>
+                </div>
+                <h4>Ассистент техподдержки по базе знаний</h4>
                 <p><strong>RAG</strong> + тонкая настройка. Отвечает по FAQ/регламентам, не галлюцинирует.</p>
                 <div class="badge">PDF / Notion / Confluence</div>
                 <div class="price">80 000–250 000 ₽</div>
             </div>
             <div class="ai-service reveal delay-1">
-                <h4>📄 Извлечение данных из документов</h4>
+                <div class="icon-wrap">
+                    <svg viewBox="0 0 24 24"><rect x="2" y="2" width="20" height="20" rx="2"/><path d="M8 2v20M16 2v20M2 8h20M2 16h20"/></svg>
+                </div>
+                <h4>Извлечение данных из документов</h4>
                 <p>Дообученная модель + валидация. Вытягивает поля из договоров/счетов в JSON.</p>
                 <div class="badge">50–300 примеров</div>
                 <div class="price">120 000–350 000 ₽</div>
             </div>
             <div class="ai-service reveal">
-                <h4>✉️ Генерация КП и писем в стиле бренда</h4>
+                <div class="icon-wrap">
+                    <svg viewBox="0 0 24 24"><path d="M4 4v16h16V4H4z"/><path d="M8 8h8M8 12h6M8 16h4"/></svg>
+                </div>
+                <h4>Генерация КП и писем в стиле бренда</h4>
                 <p>По коротким вводным генерирует КП, письма, презентации в тоне компании.</p>
                 <div class="badge">20–50 примеров КП</div>
                 <div class="price">60 000–180 000 ₽</div>
             </div>
             <div class="ai-service reveal delay-1">
-                <h4>🏢 Корпоративный ассистент по базам</h4>
+                <div class="icon-wrap">
+                    <svg viewBox="0 0 24 24"><rect x="2" y="2" width="20" height="20" rx="2"/><path d="M8 2v20M16 2v20M2 8h20M2 16h20"/></svg>
+                </div>
+                <h4>Корпоративный ассистент по базам</h4>
                 <p>Поиск по Confluence/Jira, суммаризация встреч, черновики отчётов.</p>
                 <div class="badge">Дампы баз</div>
                 <div class="price">150 000–450 000 ₽</div>
             </div>
             <div class="ai-service reveal">
-                <h4>💻 Ассистент разработчика</h4>
+                <div class="icon-wrap">
+                    <svg viewBox="0 0 24 24"><polyline points="16 18 22 12 16 6"/><polyline points="8 6 2 12 8 18"/></svg>
+                </div>
+                <h4>Ассистент разработчика</h4>
                 <p>Автогенерация кода/документации с учётом стека и стиля компании.</p>
                 <div class="badge">50–200 пар</div>
                 <div class="price">200 000–600 000 ₽</div>
             </div>
             <div class="ai-service reveal delay-1">
-                <h4>🏷️ Классификация и маршрутизация</h4>
+                <div class="icon-wrap">
+                    <svg viewBox="0 0 24 24"><path d="M20 6L9 17l-5-5"/></svg>
+                </div>
+                <h4>Классификация и маршрутизация</h4>
                 <p>Ставит теги, определяет приоритет, направляет в нужный отдел.</p>
                 <div class="badge">300–1000 тикетов</div>
                 <div class="price">90 000–220 000 ₽</div>
             </div>
             <div class="ai-service reveal" style="grid-column:1/-1;border-left-color:var(--accent2)">
-                <h4>🔬 «Мини-модель под нишу» — узкая специализация</h4>
+                <div class="icon-wrap">
+                    <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/></svg>
+                </div>
+                <h4>«Мини-модель под нишу» — узкая специализация</h4>
                 <p>Дообученная модель под конкретную задачу: анализ отзывов, разбор заявок, классификация дефектов.</p>
                 <div class="badge">200–500 примеров</div>
                 <div class="price">250 000–800 000 ₽</div>
@@ -1484,47 +1599,30 @@ footer{
                 <div class="price-card reveal">
                     <div class="name">Старт</div>
                     <div class="amount">80 000 <span>₽</span></div>
-                    <ul>
-                        <li>RAG по 1 базе</li>
-                        <li>50 вопросов/день</li>
-                        <li>5 дней</li>
-                    </ul>
+                    <ul><li>RAG по 1 базе</li><li>50 вопросов/день</li><li>5 дней</li></ul>
                     <a href="#contact" class="btn secondary">Заказать</a>
                 </div>
                 <div class="price-card featured reveal delay-1">
                     <div class="name">Стандарт</div>
                     <div class="amount">180 000–<span>250 000 ₽</span></div>
-                    <ul>
-                        <li>Дообучение на 1 задаче</li>
-                        <li>200 примеров</li>
-                        <li>10–14 дней</li>
-                    </ul>
+                    <ul><li>Дообучение на 1 задаче</li><li>200 примеров</li><li>10–14 дней</li></ul>
                     <a href="#contact" class="btn primary">Заказать</a>
                 </div>
                 <div class="price-card reveal delay-2">
                     <div class="name">Профи</div>
                     <div class="amount">350 000–<span>600 000 ₽</span></div>
-                    <ul>
-                        <li>+ интеграция с CRM/Jira</li>
-                        <li>500+ примеров</li>
-                        <li>SLA, мониторинг</li>
-                    </ul>
+                    <ul><li>+ интеграция с CRM/Jira</li><li>500+ примеров</li><li>SLA, мониторинг</li></ul>
                     <a href="#contact" class="btn secondary">Заказать</a>
                 </div>
                 <div class="price-card reveal delay-3">
                     <div class="name">On‑prem</div>
                     <div class="amount">от <span>800 000 ₽</span></div>
-                    <ul>
-                        <li>Закрытый контур</li>
-                        <li>Локальный деплой</li>
-                        <li>Аудит безопасности</li>
-                    </ul>
+                    <ul><li>Закрытый контур</li><li>Локальный деплой</li><li>Аудит безопасности</li></ul>
                     <a href="#contact" class="btn secondary">Заказать</a>
                 </div>
             </div>
             <div style="text-align:center;margin-top:16px;font-size:12px;color:#666">
-                <i class="fas fa-shield-alt" style="margin-right:4px"></i>
-                Все пакеты включают документацию и 30 дней поддержки.
+                <i class="fas fa-shield-alt"></i> Все пакеты включают документацию и 30 дней поддержки.
             </div>
         </div>
     </div>
@@ -1534,10 +1632,7 @@ footer{
 <section id="cases" style="background:#0b0c0e">
     <div class="container">
         <div class="section-label reveal">04 — Кейсы</div>
-        <h2 class="section-title reveal">
-            Проекты и <span>результаты</span>
-        </h2>
-
+        <h2 class="section-title reveal">Проекты и <span>результаты</span></h2>
         <div class="project-list">
             <div class="project reveal">
                 <div class="project-num">01</div>
@@ -1553,7 +1648,6 @@ footer{
                 </div>
                 <div class="project-arrow">↗</div>
             </div>
-
             <div class="project reveal">
                 <div class="project-num">02</div>
                 <div>
@@ -1568,7 +1662,6 @@ footer{
                 </div>
                 <div class="project-arrow">↗</div>
             </div>
-
             <div class="project reveal">
                 <div class="project-num">03</div>
                 <div>
@@ -1590,10 +1683,7 @@ footer{
 <section>
     <div class="container">
         <div class="section-label reveal">Отзывы</div>
-        <h2 class="section-title reveal">
-            Говорят <span>клиенты</span>
-        </h2>
-
+        <h2 class="section-title reveal">Говорят <span>клиенты</span></h2>
         <div class="testimonial-grid">
             <div class="testimonial reveal">
                 <p class="quote">«Антон за 3 недели собрал CRM-экосистему, которая заменила работу двух менеджеров. Прогнозы сделок теперь точные».</p>
@@ -1616,39 +1706,116 @@ footer{
     <div class="container process-grid">
         <div>
             <div class="section-label reveal">05 — Подход</div>
-            <h2 class="section-title reveal">
-                Как я <span>работаю</span>
-            </h2>
+            <h2 class="section-title reveal">Как я <span>работаю</span></h2>
         </div>
         <div class="process-list">
             <div class="process-item reveal">
                 <div class="num">01</div>
-                <div>
-                    <h3>Аудит и ТЗ</h3>
-                    <p>Созвон, анализ процессов, фиксация задач и метрик успеха.</p>
-                </div>
+                <div><h3>Аудит и ТЗ</h3><p>Созвон, анализ процессов, фиксация задач и метрик успеха.</p></div>
             </div>
             <div class="process-item reveal">
                 <div class="num">02</div>
-                <div>
-                    <h3>Архитектура</h3>
-                    <p>Схема решения, выбор стека, дизайн-концепция.</p>
-                </div>
+                <div><h3>Архитектура</h3><p>Схема решения, выбор стека, дизайн-концепция.</p></div>
             </div>
             <div class="process-item reveal">
                 <div class="num">03</div>
-                <div>
-                    <h3>Разработка</h3>
-                    <p>Код, интеграции, ИИ-роботы, внутреннее QA.</p>
-                </div>
+                <div><h3>Разработка</h3><p>Код, интеграции, ИИ-роботы, внутреннее QA.</p></div>
             </div>
             <div class="process-item reveal">
                 <div class="num">04</div>
-                <div>
-                    <h3>Запуск + поддержка</h3>
-                    <p>Обучение команды, документация, 30 дней гарантии.</p>
+                <div><h3>Запуск + поддержка</h3><p>Обучение команды, документация, 30 дней гарантии.</p></div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- ===== CALCULATOR ===== -->
+<section id="calculator" style="background:#0b0c0e">
+    <div class="container">
+        <div class="section-label reveal">Калькулятор</div>
+        <h2 class="section-title reveal">Сколько вы <span>экономите</span>?</h2>
+        <p class="section-sub reveal" style="max-width:550px">
+            Один исполнитель вместо команды. Экономия на коммуникациях, налогах и простоях.
+        </p>
+
+        <div class="calculator-wrap">
+            <div class="calc-roles">
+                <h3 style="font-family:Manrope;font-size:22px;margin-bottom:18px;display:flex;align-items:center;gap:10px">
+                    <span style="color:var(--accent)">●</span> Отметьте, кого пришлось бы нанимать:
+                </h3>
+                <div style="display:flex;flex-direction:column;gap:10px">
+                    <label class="calc-option">
+                        <input type="checkbox" data-role="designer" data-rate="2000" class="calc-checkbox">
+                        <span style="font-size:15px"><i class="fas fa-palette" style="color:var(--accent);margin-right:8px"></i> Веб-дизайнер / UI/UX</span>
+                        <span style="margin-left:auto;color:#888;font-size:13px">~2 000 ₽/час</span>
+                    </label>
+                    <label class="calc-option">
+                        <input type="checkbox" data-role="dev" data-rate="2500" class="calc-checkbox">
+                        <span style="font-size:15px"><i class="fas fa-code" style="color:var(--accent);margin-right:8px"></i> Full-Stack разработчик</span>
+                        <span style="margin-left:auto;color:#888;font-size:13px">~2 500 ₽/час</span>
+                    </label>
+                    <label class="calc-option">
+                        <input type="checkbox" data-role="analyst" data-rate="2000" class="calc-checkbox">
+                        <span style="font-size:15px"><i class="fas fa-chart-line" style="color:var(--accent);margin-right:8px"></i> Бизнес-аналитик</span>
+                        <span style="margin-left:auto;color:#888;font-size:13px">~2 000 ₽/час</span>
+                    </label>
+                    <label class="calc-option">
+                        <input type="checkbox" data-role="pm" data-rate="1800" class="calc-checkbox">
+                        <span style="font-size:15px"><i class="fas fa-tasks" style="color:var(--accent);margin-right:8px"></i> Проект-менеджер</span>
+                        <span style="margin-left:auto;color:#888;font-size:13px">~1 800 ₽/час</span>
+                    </label>
+                    <label class="calc-option">
+                        <input type="checkbox" data-role="qa" data-rate="1500" class="calc-checkbox">
+                        <span style="font-size:15px"><i class="fas fa-bug" style="color:var(--accent);margin-right:8px"></i> Тестировщик / QA</span>
+                        <span style="margin-left:auto;color:#888;font-size:13px">~1 500 ₽/час</span>
+                    </label>
+                    <label class="calc-option">
+                        <input type="checkbox" data-role="ai" data-rate="3000" class="calc-checkbox">
+                        <span style="font-size:15px"><i class="fas fa-brain" style="color:var(--accent);margin-right:8px"></i> AI-инженер</span>
+                        <span style="margin-left:auto;color:#888;font-size:13px">~3 000 ₽/час</span>
+                    </label>
                 </div>
             </div>
+
+            <div>
+                <div style="display:flex;flex-direction:column;gap:24px">
+                    <div>
+                        <h3 style="font-family:Manrope;font-size:18px;margin-bottom:12px;display:flex;align-items:center;gap:10px">
+                            <span style="color:var(--accent)">●</span> Часов в неделю:
+                        </h3>
+                        <div style="display:flex;gap:12px;flex-wrap:wrap">
+                            <label class="hours-label"><input type="radio" name="hours" value="10" class="hours-radio"> 10</label>
+                            <label class="hours-label"><input type="radio" name="hours" value="20" class="hours-radio"> 20</label>
+                            <label class="hours-label"><input type="radio" name="hours" value="40" class="hours-radio"> 40+</label>
+                        </div>
+                    </div>
+
+                    <div>
+                        <h3 style="font-family:Manrope;font-size:18px;margin-bottom:12px;display:flex;align-items:center;gap:10px">
+                            <span style="color:var(--accent)">●</span> Длительность:
+                        </h3>
+                        <div style="display:flex;gap:12px;flex-wrap:wrap">
+                            <label class="duration-label"><input type="radio" name="duration" value="1" class="duration-radio"> 1 месяц</label>
+                            <label class="duration-label"><input type="radio" name="duration" value="3" class="duration-radio"> 3 месяца</label>
+                            <label class="duration-label"><input type="radio" name="duration" value="6" class="duration-radio"> 6+ месяцев</label>
+                        </div>
+                    </div>
+
+                    <div style="margin-top:10px;padding:28px 32px;background:radial-gradient(circle at 50% 0,rgba(184,255,99,.1),transparent 55%),var(--card);border:1px solid rgba(184,255,99,.2);border-radius:24px;text-align:center">
+                        <p style="color:#888;font-size:13px;margin-bottom:6px">Примерная экономия при замене команды на одного меня:</p>
+                        <div id="savingAmount" style="font-family:Manrope;font-size:48px;font-weight:800;color:var(--accent);letter-spacing:-.04em">0 ₽</div>
+                        <p style="color:#666;font-size:11px;margin-top:8px">*Расчёт основан на средних рыночных ставках</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div style="display:flex;gap:14px;flex-wrap:wrap;justify-content:center;margin-top:30px">
+            <a href="#contact" class="btn primary magnetic"><i class="fab fa-telegram"></i> Обсудить проект</a>
+            <a href="#process" class="btn secondary magnetic"><i class="fas fa-play-circle"></i> Как работаю →</a>
+        </div>
+        <div style="text-align:center;margin-top:16px;font-size:12px;color:#666;border-top:1px solid var(--line);padding-top:16px">
+            <i class="fas fa-info-circle"></i> Работаю как самозанятый: чеки, ГПХ, прозрачно. Точную стоимость назову после бесплатного аудита.
         </div>
     </div>
 </section>
@@ -1657,46 +1824,25 @@ footer{
 <section id="faq">
     <div class="container">
         <div class="section-label reveal">06 — Вопросы</div>
-        <h2 class="section-title reveal">
-            Часто <span>спрашивают</span>
-        </h2>
-
+        <h2 class="section-title reveal">Часто <span>спрашивают</span></h2>
         <div class="faq-grid">
             <div class="faq-item reveal">
-                <details>
-                    <summary>Как начинается работа?</summary>
-                    <p>Бесплатный 30-минутный созвон → краткий аудит → оценка часов → старт.</p>
-                </details>
+                <details><summary>Как начинается работа?</summary><p>Бесплатный 30-минутный созвон → краткий аудит → оценка часов → старт.</p></details>
             </div>
             <div class="faq-item reveal delay-1">
-                <details>
-                    <summary>Что если задача изменится в процессе?</summary>
-                    <p>Фиксируем изменения, корректируем оценку, согласовываем перед реализацией.</p>
-                </details>
+                <details><summary>Что если задача изменится в процессе?</summary><p>Фиксируем изменения, корректируем оценку, согласовываем перед реализацией.</p></details>
             </div>
             <div class="faq-item reveal">
-                <details>
-                    <summary>Какие модели ИИ используете для дообучения?</summary>
-                    <p>Mistral, Command R, Gemma 2, Qwen 2.5 и другие модели до 32 млрд параметров.</p>
-                </details>
+                <details><summary>Какие модели ИИ используете для дообучения?</summary><p>Mistral, Command R, Gemma 2, Qwen 2.5 и другие модели до 32 млрд параметров.</p></details>
             </div>
             <div class="faq-item reveal delay-1">
-                <details>
-                    <summary>Какая точность у дообученных моделей?</summary>
-                    <p>Для извлечения сущностей — 92–98%, для генераций — контролируем через шаблоны.</p>
-                </details>
+                <details><summary>Какая точность у дообученных моделей?</summary><p>Для извлечения сущностей — 92–98%, для генераций — контролируем через шаблоны.</p></details>
             </div>
             <div class="faq-item reveal">
-                <details>
-                    <summary>Что если у меня нет данных для обучения?</summary>
-                    <p>Поможем собрать и разметить данные (+30–50% к сроку и бюджету).</p>
-                </details>
+                <details><summary>Что если у меня нет данных для обучения?</summary><p>Поможем собрать и разметить данные (+30–50% к сроку и бюджету).</p></details>
             </div>
             <div class="faq-item reveal delay-1">
-                <details>
-                    <summary>Можно ли развернуть модель локально (on-prem)?</summary>
-                    <p>Да, для закрытого контура предлагаем отдельный тариф с локальным деплоем.</p>
-                </details>
+                <details><summary>Можно ли развернуть модель локально (on-prem)?</summary><p>Да, для закрытого контура предлагаем отдельный тариф с локальным деплоем.</p></details>
             </div>
         </div>
     </div>
@@ -1708,18 +1854,10 @@ footer{
         <div class="cta-box reveal">
             <div class="cta-content">
                 <div class="section-label">07 — Контакт</div>
-                <h2>
-                    Давайте создавать<br>
-                    <span>продукт вместе</span>
-                </h2>
-                <p>
-                    Бесплатная консультация, аудит или ТЗ — напишите.
-                    Отвечаю в Telegram в течение 2 часов.
-                </p>
+                <h2>Давайте создавать<br><span>продукт вместе</span></h2>
+                <p>Бесплатная консультация, аудит или ТЗ — напишите. Отвечаю в Telegram в течение 2 часов.</p>
                 <div class="contacts-row">
-                    <a href="mailto:innet.24@internet.ru">
-                        <i class="fas fa-envelope"></i> innet.24@internet.ru
-                    </a>
+                    <a href="mailto:innet.24@internet.ru"><i class="fas fa-envelope"></i> innet.24@internet.ru</a>
                     <a href="https://t.me/+79529024254" target="_blank" style="border-color:rgba(184,255,99,.3);background:rgba(184,255,99,.06)">
                         <i class="fab fa-telegram" style="color:var(--accent)"></i> Telegram — Написать
                     </a>
@@ -1803,7 +1941,7 @@ function animateCursor(){
 }
 animateCursor();
 
-document.querySelectorAll("a,button,.service,.project,.photo-frame").forEach(el => {
+document.querySelectorAll("a,button,.service,.project,.photo-frame,.calc-option,.hours-label,.duration-label").forEach(el => {
     el.addEventListener("mouseenter", () => cursor.classList.add("active"));
     el.addEventListener("mouseleave", () => cursor.classList.remove("active"));
 });
@@ -1866,6 +2004,60 @@ document.querySelectorAll(".service").forEach(card => {
     });
     card.addEventListener("mouseleave", () => {
         card.style.transform = "";
+    });
+});
+
+/* ===== КАЛЬКУЛЯТОР ===== */
+const roleCheckboxes = document.querySelectorAll('[data-role]');
+const hoursRadios = document.querySelectorAll('input[name="hours"]');
+const durationRadios = document.querySelectorAll('input[name="duration"]');
+const savingSpan = document.getElementById('savingAmount');
+
+function updateSavings() {
+    let totalRate = 0;
+    roleCheckboxes.forEach(cb => { if (cb.checked) totalRate += parseInt(cb.dataset.rate); });
+    let hours = 0;
+    hoursRadios.forEach(r => { if (r.checked) hours = parseInt(r.value); });
+    let duration = 0;
+    durationRadios.forEach(r => { if (r.checked) duration = parseInt(r.value); });
+
+    if (totalRate === 0 || hours === 0 || duration === 0) {
+        savingSpan.innerText = '0 ₽';
+        return;
+    }
+
+    const weeksInMonth = 4.3;
+    let totalHours = 0;
+    if (duration === 1) totalHours = hours * weeksInMonth;
+    else if (duration === 3) totalHours = hours * weeksInMonth * 3;
+    else totalHours = hours * weeksInMonth * 6;
+
+    const teamCostRub = totalRate * totalHours;
+    const myCostRub = 1100 * totalHours;
+    const savingRub = teamCostRub - myCostRub;
+    savingSpan.innerText = savingRub.toLocaleString('ru-RU') + ' ₽';
+}
+
+roleCheckboxes.forEach(cb => cb.addEventListener('change', updateSavings));
+hoursRadios.forEach(r => r.addEventListener('change', updateSavings));
+durationRadios.forEach(r => r.addEventListener('change', updateSavings));
+
+/* CALCULATOR HOVER */
+document.querySelectorAll('.calc-option').forEach(el => {
+    el.addEventListener('mouseenter', () => {
+        el.style.borderColor = 'rgba(184,255,99,.3)';
+    });
+    el.addEventListener('mouseleave', () => {
+        el.style.borderColor = 'var(--line)';
+    });
+});
+
+document.querySelectorAll('.hours-label, .duration-label').forEach(el => {
+    el.addEventListener('mouseenter', () => {
+        el.style.borderColor = 'rgba(184,255,99,.3)';
+    });
+    el.addEventListener('mouseleave', () => {
+        el.style.borderColor = 'var(--line)';
     });
 });
 </script>
