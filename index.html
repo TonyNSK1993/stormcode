@@ -439,6 +439,8 @@ nav.scrolled .nav-inner{
 .btn:hover .btn-arrow{
     transform:translateX(4px);
 }
+
+/* ===== HERO ФОТО — КРУГЛЫЙ АВАТАР ===== */
 .hero-photo-wrap{
     position:relative;
     height:650px;
@@ -453,10 +455,10 @@ nav.scrolled .nav-inner{
 }
 .photo-aura{
     position:absolute;
-    width:440px;
-    height:440px;
+    width:500px;
+    height:500px;
     border-radius:50%;
-    background:radial-gradient(circle,rgba(184,255,99,.16),transparent 67%);
+    background:radial-gradient(circle,rgba(184,255,99,.15),transparent 67%);
     animation:aura 5s ease-in-out infinite alternate;
 }
 @keyframes aura{
@@ -464,43 +466,44 @@ nav.scrolled .nav-inner{
     to{transform:scale(1.15) rotate(20deg)}
 }
 .photo-frame{
-    width:min(430px,80vw);
-    height:540px;
-    border-radius:220px 220px 30px 30px;
+    width:min(340px,65vw);
+    height:340px;
+    border-radius:50%;
     overflow:hidden;
     position:relative;
     background:#18191c;
-    border:1px solid rgba(255,255,255,.13);
-    box-shadow:0 40px 100px rgba(0,0,0,.5),0 0 0 1px rgba(255,255,255,.03);
-    transform:rotate(2deg);
+    border:2px solid rgba(255,255,255,.13);
+    box-shadow:0 30px 80px rgba(0,0,0,.5),0 0 0 1px rgba(255,255,255,.03);
     transition:transform .6s var(--ease);
+    flex-shrink:0;
 }
 .photo-frame:hover{
-    transform:rotate(0deg) scale(1.025);
+    transform:scale(1.025);
 }
 .photo-frame:after{
     content:"";
     position:absolute;
     inset:0;
-    background:linear-gradient(180deg,transparent 45%,rgba(0,0,0,.55)),linear-gradient(120deg,rgba(184,255,99,.08),transparent 40%);
+    background:linear-gradient(180deg,transparent 45%,rgba(0,0,0,.4));
     pointer-events:none;
+    border-radius:50%;
 }
 .photo-frame img{
     width:100%;
     height:100%;
     object-fit:cover;
+    object-position:50% 20%;
     display:block;
     filter:saturate(.92) contrast(1.04);
-    transform:scale(1.02);
     transition:transform 1s var(--ease);
 }
 .photo-frame:hover img{
-    transform:scale(1.07);
+    transform:scale(1.06);
 }
 .floating-tag{
     position:absolute;
     z-index:3;
-    padding:13px 17px;
+    padding:12px 16px;
     background:rgba(15,15,17,.75);
     border:1px solid var(--line);
     backdrop-filter:blur(18px);
@@ -510,13 +513,13 @@ nav.scrolled .nav-inner{
     box-shadow:0 15px 40px rgba(0,0,0,.3);
 }
 .tag-one{
-    left:3%;
-    top:22%;
+    left:-5%;
+    top:12%;
     animation:float 4s ease-in-out infinite;
 }
 .tag-two{
-    right:0;
-    bottom:22%;
+    right:-5%;
+    bottom:12%;
     animation:float 4.5s .7s ease-in-out infinite;
 }
 .tag-number{
@@ -531,6 +534,7 @@ nav.scrolled .nav-inner{
     0%,100%{transform:translateY(0)}
     50%{transform:translateY(-13px)}
 }
+
 .scroll-indicator{
     position:absolute;
     left:50%;
@@ -1292,7 +1296,7 @@ footer{
     .hero-grid{grid-template-columns:1fr;gap:45px}
     .hero h1{font-size:clamp(48px,12vw,72px)}
     .hero-photo-wrap{height:500px}
-    .photo-frame{height:440px;width:min(340px,80vw)}
+    .photo-frame{width:min(260px,60vw);height:260px}
     .tag-one{left:2%}
     .tag-two{right:2%}
     .about-grid{grid-template-columns:1fr;gap:40px}
@@ -1309,7 +1313,7 @@ footer{
     .hero-actions{flex-direction:column}
     .btn{width:100%}
     .hero-photo-wrap{height:400px}
-    .photo-frame{height:360px}
+    .photo-frame{width:min(200px,60vw);height:200px}
     .floating-tag{font-size:10px;padding:10px 12px}
     .tag-number{font-size:17px}
     .stats{grid-template-columns:1fr}
@@ -1653,7 +1657,7 @@ footer{
     </div>
 </section>
 
-<!-- ===== CASES (с раскрывашками) ===== -->
+<!-- ===== CASES ===== -->
 <section id="cases" style="background:#0b0c0e">
     <div class="container">
         <div class="section-label reveal">04 — Кейсы</div>
@@ -2088,7 +2092,7 @@ document.addEventListener("mousemove", e => {
     if(window.innerWidth < 900) return;
     const x = (e.clientX / window.innerWidth - .5);
     const y = (e.clientY / window.innerHeight - .5);
-    photo.style.transform = `rotate(${2 + x * 4}deg) translate(${x * 12}px,${y * 12}px)`;
+    photo.style.transform = `translate(${x * 12}px,${y * 12}px)`;
 });
 
 /* MAGNETIC BUTTONS */
